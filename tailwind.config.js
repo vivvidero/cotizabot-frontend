@@ -5,7 +5,21 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'outfit': ['Outfit', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif']
+      },
+      colors: {
+        'vivvi': '#264B44',
+        'jet': '#323232',
+        'anti-flash': '#F4F5F6',
+        'platinum': '#D6DADC',
+        'sunset': '#F4CE9B',
+        'dorado': '#EBC991'
+        
+      }
+    },
   },
   plugins: [],
 }

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import {Header} from '../../components/'
+import { Header } from '../../components/'
 
 
 interface Props {
@@ -8,10 +8,11 @@ interface Props {
 
 export const MainLayout: FC<Props> = ({ children }) => {
     return (
-        <main className='h-screen w-full'>
+        <main className='w-full'>
             <Header />
-            {/* <Outlet /> */}
-            {children}
+            <div className='p-10' >
+                {children}
+            </div>
         </main>
     )
 }

@@ -1,28 +1,22 @@
-import homeimage from '../../assets/images/inspiracion.png'
-import { HomeCard } from '../../components'
+import { MainLayout } from '../../Layout'
+import homeImage1 from '../../assets/images/Rectangle 205.png'
+import homeImage2 from '../../assets/images/Rectangle 206.png'
+import { Documentos, HomeImageCard, MisCotizaciones } from '../../components'
 
 export const Home = () => {
     return (
-        <div className='p-0 h-full grid grid-rows-2 gap-5'>
-            <div className="gap-5 flex">
-                <div className='w-7/12 relative'>
-                    <HomeCard cardImage={homeimage} linkText={'Inspiración'} />
+        <MainLayout>
+            <div className='grid gap-10'>
+                <div className='grid grid-cols-2 gap-5'>
+                    <HomeImageCard cardImage={homeImage1} linkText='Descubre tu estilo' />
+                    <HomeImageCard cardImage={homeImage2} linkText='Casos de éxito' />
                 </div>
-                <div className='w-5/12 relative'>
-                    <HomeCard cardImage={homeimage} linkText={'Casos de éxito'} />
-                </div>
-            </div>
-            <div className="grid grid-cols-3 gap-5">
-                <div className='relative'>
-                    <HomeCard cardImage={homeimage} linkText={'Crear cotización'} />
-                </div>
-                <div className='relative'>
-                    <HomeCard cardImage={homeimage} linkText={'Mis cotización'} />
-                </div>
-                <div className='relative'>
-                    <HomeCard cardImage={homeimage} linkText={'Mis documentos'} />
+                <div className='grid grid-cols-2 gap-5 h-fit'>
+                    <MisCotizaciones />
+                    <Documentos />
                 </div>
             </div>
-        </div>
+        </MainLayout>
+
     )
 }
