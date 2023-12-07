@@ -50,7 +50,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             setError(error.response?.data || 'Error desconocido')
             setIsAuthenticated(false)
         }
-    }
+    } 
 
     return (
         <AuthContext.Provider value={{ user, setUser, error, isAuthenticated, signIn, token }}>
