@@ -7,12 +7,13 @@ interface Props {
 }
 
 export const MainLayout: FC<Props> = ({ children }) => {
+
     return (
         <main className='w-full'>
             <Header />
-            
-                {children}
-           
+
+            {children}
+
         </main>
     )
 }

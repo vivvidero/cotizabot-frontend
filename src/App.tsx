@@ -3,13 +3,15 @@ import { DashboardPage, Home, Login, ProjectFeatures, PropertyType, Register, St
 import { AuthProvider } from './context/AuthContext'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoutes } from './ProtectedRoutes'
-import { QuotationProvider } from './context/QuotationContext'
+import { QuotationContext, QuotationProvider } from './context/QuotationContext'
+import { useContext } from 'react'
 
 
 
 function App() {
 
-
+  
+  
   return (
     <AuthProvider>
       <QuotationProvider>
@@ -28,7 +30,6 @@ function App() {
         </BrowserRouter>
       </QuotationProvider>
     </AuthProvider>
-
 
   )
 }

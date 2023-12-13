@@ -38,7 +38,7 @@ export const CardEspacioDashboard: FC<Props> = ({ espacio, espacioUrl }) => {
 
             </div>
             <div className="col-span-3 flex justify-end items-center">
-              <LinkButton link="/dashboard" bg={'golden'} >
+              <LinkButton link="/dashboard/1  " bg={'golden'} >
                 <p>Editar todo</p>
               </LinkButton>
             </div>

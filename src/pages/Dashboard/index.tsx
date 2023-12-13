@@ -9,14 +9,18 @@ import chango from '../../assets/images/chango.png'
 import meet from '../../assets/icons/logos_google-meet.png'
 
 import { CardEspacioDashboard, DashboardNuevoEspacio, LinkButton } from "../../components"
+import { useContext } from "react"
+import { QuotationContext } from "../../context/QuotationContext"
 
 
 export const DashboardPage = () => {
+
+    const { quotation } = useContext(QuotationContext)
+
     return (
         <MainLayout>
             <div className="flex flex-col gap-11 px-10 py-14">
                 <div className="flex gap-3 items-center">
-                    {/* <img src={avatar} alt="avatar" /> */}
                     <h2 className="font-outfit text-vivvi text-5xl">Bienvenida al vivvi dashboard</h2>
                 </div>
                 <section className="grid grid-cols-2 gap-6 bg-white p-6 rounded-2xl">
@@ -26,7 +30,7 @@ export const DashboardPage = () => {
                     <article className="flex flex-col gap-3 font-roboto w-full">
                         <div className="p-6 border border-platinum rounded ">
                             <h4 className="text-lg">Nombre del proyecto</h4>
-                            <h3 className="text-4xl font-semibold">Mi casita 01</h3>
+                            <h3 className="text-4xl font-semibold"> {quotation?.quoteName} </h3>
                         </div>
                         <div>
                             <div className="p-4  border border-platinum rounded grid grid-cols-3">
@@ -35,7 +39,7 @@ export const DashboardPage = () => {
                                 <p>Área</p>
                             </div>
                             <div className="p-4 grid grid-cols-3 text-2xl font-normal">
-                                <p>Minimal Black</p>
+                                <p> {quotation?.styleCatalog} </p>
                                 <p>Veramonte</p>
                                 <p>64 mts</p>
                             </div>
@@ -48,7 +52,7 @@ export const DashboardPage = () => {
                             </div>
                             <div className="p-4 grid grid-cols-3 text-2xl font-normal">
                                 <p>2A</p>
-                                <p>$5.500.000</p>
+                                <p>${quotation?.price} </p>
                                 <p>12/12/23</p>
                             </div>
                         </div>
@@ -71,7 +75,7 @@ export const DashboardPage = () => {
                     </div>
                 </div>
                 <section className="flex flex-col gap-x-5 gap-y-10">
-                    <h2 className="text-4xl font-outfit text-vivvi text-center">Así va tu cotización        </h2>
+                    <h2 className="text-4xl font-outfit text-vivvi text-center">Así va tu cotización</h2>
                     <CardEspacioDashboard espacioUrl={cocina} espacio="Cocina" />
                     <CardEspacioDashboard espacioUrl={baño} espacio="Baño" />
                     <CardEspacioDashboard espacioUrl={habitacion} espacio="Habitación" />

@@ -1,16 +1,29 @@
 import { Link } from "react-router-dom"
 import { MainLayout } from "../../Layout"
 import './ProjectFeatures.css'
-
+import { useContext } from "react"
+import { QuotationContext } from "../../context/QuotationContext"
+ 
 export const ProjectFeatures = () => {
+
+  const { setQuotation } = useContext(QuotationContext)
+
+
+    const handleSelectChange = (value: string) => {
+        setQuotation((prevQuotation) => ({
+            ...prevQuotation,
+            projectName: value === prevQuotation.projectName ? '' : value,
+        }));
+    };
+
+
   return (
     <MainLayout>
       <form className="px-96 py-16 flex flex-col gap-11">
         <article>
           <h2 className="font-outfit font-semibold text-3xl text-vivvi mb-11">Conoces el nombre de tu proyecto?</h2>
-          
             <div className="flex items-center gap-2 p-6 border border-platinum rounded bg-white ">
-              <select className="select-css">
+              <select onChange={(e) => handleSelectChange(e.target.value)}>
                 <option defaultValue={''}>  </option>
                 <option value="volvo">Volvo</option>
                 <option value="saab">Saab</option>

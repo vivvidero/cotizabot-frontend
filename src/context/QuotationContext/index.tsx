@@ -1,6 +1,6 @@
-import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from "react";
+import { Dispatch, FC, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
 
-interface Quotation {
+export interface Quotation {
     sellerName: string,
     quoteName: string,
     apartmentType: string,
@@ -35,6 +35,14 @@ export const QuotationProvider: FC<Props> = ({ children }) => {
         price: 0
     })
 
+    useEffect(() => {
+        const storedQuotation = localStorage.getItem('quotation');
+        console.log(storedQuotation);
+        
+        if (storedQuotation) {
+            setQuotation(JSON.parse(storedQuotation));
+        }
+    }, [])
 
 
     return (

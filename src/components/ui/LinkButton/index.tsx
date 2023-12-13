@@ -13,7 +13,7 @@ export const LinkButton: FC<Props> = ({ children, link, bg }) => {
     
 
     return (
-        <Link to={link} target={link === 'https://mymind.com/' ? '_blank' : '_top'} className={`flex gap-2 px-5 py-2 w-fit rounded-full text-lg hover:scale-95 duration-200 border ${backgroundColor}`}  >
+        <Link to={link} className={`flex gap-2 px-5 py-2 w-fit rounded-full text-lg hover:scale-95 duration-200 border ${backgroundColor}`}  >
             {children}
         </Link>
     )
