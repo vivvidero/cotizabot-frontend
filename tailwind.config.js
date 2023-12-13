@@ -12,11 +12,14 @@ export default {
       },
       colors: {
         'vivvi': '#264B44',
+        'caribbean': '#306762',
         'jet': '#323232',
         'anti-flash': '#F4F5F6',
         'platinum': '#D6DADC',
         'sunset': '#F4CE9B',
-        'dorado': '#EBC991'
+        'dorado': '#EBC991',
+        'honeydew': '#DFEFDC',
+        'light-blue': '#BDD9DF'
         
       }
     },

@@ -1,6 +1,6 @@
 import arrow from '../../assets/icons/Arrow---Up.png'
 import { FC } from 'react'
-import { BotonVerde } from '../ui'
+import { LinkButton } from '../ui'
 
 
 interface Props {
@@ -15,10 +15,10 @@ export const HomeImageCard: FC<Props> = ({ cardImage, linkText }) => {
                 <img src={cardImage} alt={'image'} className='object-contain  w-full' />
             </div>
             <div className='bg-anti-flash grid place-content-center p-6 drop-shadow-lg'>
-                <BotonVerde link={'https://mymind.com/'}>
+                <LinkButton link={'https://mymind.com/'} bg='green' >
                     <p>{linkText} </p>
                     <img src={arrow} alt='arrow' />
-                </BotonVerde>
+                </LinkButton>
 
             </div>
         </div>

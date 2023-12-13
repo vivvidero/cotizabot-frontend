@@ -1,5 +1,5 @@
 import whiteArrow from '../../assets/icons/Arrow---Up.png'
-import { BotonVerde } from "../ui"
+import { LinkButton } from "../ui"
 import { Cotizacion } from '.'
 
 export const MisCotizaciones = () => {
@@ -11,10 +11,10 @@ export const MisCotizaciones = () => {
             <Cotizacion />
             <Cotizacion />
             <div className='grid place-content-center pt-16 pb-5'>
-                <BotonVerde link={'/dashboard/1'}>
+                <LinkButton link={'/style-selector'} bg={'golden'} >
                     <p>Crear cotización</p>
                     <img src={whiteArrow} alt='arrow' />
-                </BotonVerde>
+                </LinkButton>
             </div>
 
         </div>

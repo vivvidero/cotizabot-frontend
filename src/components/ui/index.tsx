@@ -1,2 +1,2 @@
-export * from './BotonVerde';
+export * from './LinkButton';
 export * from './Header'

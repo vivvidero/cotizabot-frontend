@@ -1,36 +1,28 @@
-import download from '../../assets/icons/download.png'
-import document from '../../assets/icons/Document.png'
+import download from '../../assets/icons/Botón descargar.png'
 
 export const Documentos = () => {
     return (
-        <div className='shadow-lg'>
-            <div className='px-9 py-6  bg-anti-flash font-outfit text-2xl font-medium'>
-                <h3>Documentos</h3>
+        <div className='grid grid-cols-2 gap-x-5 gap-y-6 h-fit  '>
+            <div className='h-20 rounded-xl p-5 border border-platinum bg-white flex items-center justify-between'>
+                <h3 className='font-roboto text-xl text-vivvi font-medium'>Catálogo
+                    de materiales</h3>
+                <button className='w-8'>
+                    <img src={download} alt='download' className='w-full' />
+                </button>
             </div>
-            <div className='px-9 py-6 font-outfit text-lg font-medium'>
-                <div className='flex items-center justify-between'>
-                    <div className='flex gap-2'>
-                        <img src={document} alt='document' />
-                        <h3>Presentación de diseño</h3>
-                    </div>
-                    <div>
-                        <img src={download} alt='arrow' />
-                    </div>
-                </div>
+            <div className='h-20 rounded-xl p-5 border border-platinum bg-white flex items-center justify-between'>
+                <h3 className='font-roboto text-xl text-vivvi font-medium'>Paso a paso con Vivvidero</h3>
+                <button className='w-8'>
+                    <img src={download} alt='download' className='w-full' />
+                </button>
             </div>
-            <hr />
-            <div className='px-9 py-6 font-outfit text-lg font-medium'>
-                <div className='flex items-center justify-between'>
-                    <div className='flex gap-2'>
-                        <img src={document} alt='document' />
-                        <h3>Contrato</h3>
-                    </div>
-                    <div>
-                        <img src={download} alt='arrow' />
-                    </div>
-                </div>
+            <div className='h-20 rounded-xl p-5 border border-platinum bg-white flex items-center justify-between'>
+                <h3 className='font-roboto text-xl text-vivvi font-medium'>Información
+                    de pago</h3>
+                <button className='w-8'>
+                    <img src={download} alt='download' className='w-full' />
+                </button>
             </div>
-            <hr />
         </div>
     )
 }
