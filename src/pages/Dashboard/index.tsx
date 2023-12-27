@@ -8,14 +8,18 @@ import habitacion from '../../assets/images/habitacion.png'
 import chango from '../../assets/images/chango.png'
 import meet from '../../assets/icons/logos_google-meet.png'
 
-import { CardEspacioDashboard, DashboardNuevoEspacio, LinkButton } from "../../components"
+import { CanvasItems, CardEspacioDashboard, DashboardNuevoEspacio, LinkButton } from "../../components"
 import { useContext } from "react"
 import { QuotationContext } from "../../context/QuotationContext"
+import { CartCanvasContext } from "../../context"
 
 
 export const DashboardPage = () => {
 
     const { quotation } = useContext(QuotationContext)
+    const { isOffCanvasOpen, toggleOffCanvas } = useContext(CartCanvasContext)
+
+
 
     return (
         <MainLayout>
@@ -103,6 +107,8 @@ export const DashboardPage = () => {
                     </LinkButton>
                 </div>
             </div>
+            {isOffCanvasOpen && <CanvasItems isOpen={isOffCanvasOpen} onClose={toggleOffCanvas} />  }
+
         </MainLayout>
     )
 }

@@ -5,4 +5,6 @@ export * from './Dashboard'
 export * from './ProjectFeatures'
 export * from './PropertyType'
 export * from './StyleSelector'
+export * from './Admin'
+
 

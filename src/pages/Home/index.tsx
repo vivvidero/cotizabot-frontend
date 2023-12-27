@@ -2,6 +2,9 @@ import { MainLayout } from '../../Layout'
 import { Documentos, HeroHome, StartQuotation } from '../../components'
 
 export const Home = () => {
+
+
+    
     return (
         <MainLayout>
             <div className='grid gap-10'>

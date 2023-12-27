@@ -37,9 +37,12 @@ export const QuotationProvider: FC<Props> = ({ children }) => {
 
     useEffect(() => {
         const storedQuotation = localStorage.getItem('quotation');
-        console.log(storedQuotation);
         
         if (storedQuotation) {
+            console.log(quotation);
+            
+            console.log(storedQuotation);
+            
             setQuotation(JSON.parse(storedQuotation));
         }
     }, [])

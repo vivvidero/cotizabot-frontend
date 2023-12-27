@@ -3,18 +3,19 @@ import { MainLayout } from "../../Layout"
 import './ProjectFeatures.css'
 import { useContext } from "react"
 import { QuotationContext } from "../../context/QuotationContext"
- 
+
 export const ProjectFeatures = () => {
 
-  const { setQuotation } = useContext(QuotationContext)
+  const { quotation, setQuotation } = useContext(QuotationContext)
 
 
-    const handleSelectChange = (value: string) => {
-        setQuotation((prevQuotation) => ({
-            ...prevQuotation,
-            projectName: value === prevQuotation.projectName ? '' : value,
-        }));
-    };
+  const handleSelectChange = (value: string) => {
+    setQuotation((prevQuotation) => ({
+      ...prevQuotation,
+      projectName: value === prevQuotation.projectName ? '' : value,
+    }));
+    localStorage.setItem('quotation', JSON.stringify({ ...quotation, projectName: value === quotation.projectName ? '' : value }))
+  };
 
 
   return (
@@ -22,16 +23,16 @@ export const ProjectFeatures = () => {
       <form className="px-96 py-16 flex flex-col gap-11">
         <article>
           <h2 className="font-outfit font-semibold text-3xl text-vivvi mb-11">Conoces el nombre de tu proyecto?</h2>
-            <div className="flex items-center gap-2 p-6 border border-platinum rounded bg-white ">
-              <select onChange={(e) => handleSelectChange(e.target.value)}>
-                <option defaultValue={''}>  </option>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
-              </select>
-              <label className="font-roboto text-xl">Selecciona tu proyecto</label>
-            </div>  
+          <div className="flex items-center gap-2 p-6 border border-platinum rounded bg-white ">
+            <select onChange={(e) => handleSelectChange(e.target.value)}>
+              <option defaultValue={quotation.projectName}> {quotation.projectName} </option>
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="opel">Opel</option>
+              <option value="audi">Audi</option>
+            </select>
+            <label className="font-roboto text-xl">Selecciona tu proyecto</label>
+          </div>
         </article>
         <article>
           <h2 className="font-outfit font-semibold text-3xl text-vivvi mb-11">Qué tipo de proyecto tienes?</h2>

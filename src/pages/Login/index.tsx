@@ -3,7 +3,7 @@ import logo from '../../assets/images/Logo-verde.png'
 import './login.css'
 import { AuthContext, AuthContextProps } from '../../context/AuthContext';
 import { LoginLayout } from '../../Layout';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 
 export const Login: FC = () => {
@@ -57,9 +57,7 @@ export const Login: FC = () => {
                     {error && (<div className='p-4 bg-dorado'>
                         <p className='text-white'> {error} </p>
                     </div>)}
-
-
-                    <a className='underline cursor-pointer'>Ingresar como administrador</a>
+                    <Link to={'/admin'} className='underline cursor-pointer'>Ingresar como administrador</Link>
                 </div>
             </div>
         </LoginLayout>

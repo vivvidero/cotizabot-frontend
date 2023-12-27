@@ -1,5 +1,6 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import edit from '../../assets/icons/Edit.png'
+import { CartCanvasContext } from '../../context';
 
 interface Props {
   fixture: string,
@@ -7,6 +8,9 @@ interface Props {
 }
 
 export const RowCardDashboardEspacio: FC<Props> = ({ fixture, price }) => {
+
+  const { toggleOffCanvas } = useContext(CartCanvasContext)
+
   return (
     <div className='flex flex-col'>
       <div className="grid grid-cols-6 font-roboto text-xl place-content-center py-4">
@@ -16,11 +20,13 @@ export const RowCardDashboardEspacio: FC<Props> = ({ fixture, price }) => {
         <div className='col-span-2'>
           <p>{price} $</p>
         </div>
-        <div className='flex justify-end cursor-pointer'>
+        <button className='flex justify-end cursor-pointer' onClick={toggleOffCanvas}>
           <img src={edit} alt="editar" />
-        </div>
+        </button>
       </div>
       <hr />
+
+
     </div>
 
   )

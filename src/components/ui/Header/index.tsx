@@ -7,7 +7,6 @@ export const Header = () => {
 
     const { pathname } = useLocation()
     const showHouse = pathname === '/login' || pathname === '/project' ? false : true
-    console.log(showHouse);
 
 
     return (

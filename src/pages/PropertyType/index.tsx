@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { MainLayout } from "../../Layout"
 import { LinkButton } from "../../components"
 import { QuotationContext } from "../../context/QuotationContext";
@@ -12,11 +12,10 @@ export const PropertyType = () => {
             ...prevQuotation,
             apartmentType: value === prevQuotation.apartmentType ? '' : value,
         }));
+        localStorage.setItem('quotation', JSON.stringify({...quotation, apartmentType: value === quotation.apartmentType ? '' : value}));
     };
 
-    useEffect(() => {
-        localStorage.setItem('quotation', JSON.stringify(quotation));
-    }, [quotation]);
+
 
     return (
         <MainLayout>

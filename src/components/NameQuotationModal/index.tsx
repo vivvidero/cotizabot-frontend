@@ -11,7 +11,7 @@ interface Props {
 export const NameQuotationModal: FC<Props> = ({ isOpen, onClose }) => {
 
   const modalRef = useRef<HTMLDivElement>(null);
-  const { setQuotation } = useContext(QuotationContext)
+  const { quotation, setQuotation } = useContext(QuotationContext)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,6 +34,7 @@ export const NameQuotationModal: FC<Props> = ({ isOpen, onClose }) => {
       ...prevState,
       quoteName: e.target.value
     }))
+    localStorage.setItem('quotation', JSON.stringify({ ...quotation, quoteName: e.target.value }))
   }
 
   const closeModal = () => {

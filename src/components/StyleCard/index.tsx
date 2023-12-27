@@ -18,12 +18,11 @@ export const StyleCard: FC<Props> = ({ style, image, openModal }) => {
             ...quotation,
             styleCatalog: style
         })
-
+        localStorage.setItem('quotation', JSON.stringify({ ...quotation, styleCatalog: style }))
         openModal()
     }
 
-    console.log(quotation);
-    
+
 
     return (
         <div className='rounded bg-white p-2.5 flex flex-col gap-3 drop-shadow'>
@@ -38,7 +37,6 @@ export const StyleCard: FC<Props> = ({ style, image, openModal }) => {
                     Elegir  😍
                 </button>
             </div>
-
         </div>
     )
 }
