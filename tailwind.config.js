@@ -19,7 +19,9 @@ export default {
         'sunset': '#F4CE9B',
         'dorado': '#EBC991',
         'honeydew': '#DFEFDC',
-        'light-blue': '#BDD9DF'
+        'light-blue': '#BDD9DF',
+        'snow': '#F8F1F2',
+        "timberwolf": "#D0D3D4"
         
       }
     },
