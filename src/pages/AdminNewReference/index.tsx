@@ -1,6 +1,6 @@
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { AdminModalApuCard, FinalCreationModal, LinkButton, SearchBar, Spinner } from "../../components"
-import { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { SearchApuModal } from "../../components/ui/SearchApuModal";
 import close from '../../assets/icons/close.png'
 import check from '../../assets/icons/check.png'
@@ -12,7 +12,7 @@ export const AdminNewReference = () => {
     const [isSaveReferenceModalOpen, setIsSaveReferenceModalOpen] = useState(false);
     const { loading, setLoading } = useContext(LoadingContext)
 
-    const handleSaveReference = (e) => {
+    const handleSaveReference = (e: FormEvent) => {
         e.preventDefault()
         setIsSaveReferenceModalOpen(true)
         setLoading(true)

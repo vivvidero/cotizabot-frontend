@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { LoginLayout } from '../../Layout'
 import { AuthContext } from '../../context'
 import api from '../../api'
@@ -12,7 +12,7 @@ export const Register = () => {
         password: ''
     })
 
-    const handleRegister = async (e) => {
+    const handleRegister = async (e: FormEvent) => {
         e.preventDefault()
         if (userRegister.email === '' || userRegister.password === '') {
             console.log('TOdos los campos obligatorios');
@@ -48,7 +48,7 @@ export const Register = () => {
                     <input onChange={handleInputChange} name='password' type='password' placeholder='Ingresa tu contraseña' className='w-2/3 xxl:w-full flex p-2 xxl:py-7 px-5 items-center rounded-full bg-gray-100 text-base xxl:text-2xl' />
                     <button className='w-2/3 xll:w-full flex py-3 xxl:py-7 px-5 items-center justify-center rounded-full bg-vivvi text-base xxl:text-2xl text-white my-4' >Registrate!</button>
                 </form>
-
+            {error && error}
             </div>
 
 

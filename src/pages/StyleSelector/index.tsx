@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { MainLayout } from '../../Layout'
 import arrow from '../../assets/icons/Arrow-Up-green.png'
 import { NameQuotationModal, StyleCard } from '../../components'

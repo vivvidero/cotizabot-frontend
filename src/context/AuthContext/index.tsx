@@ -45,7 +45,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             console.log(response);
             setToken(response.data  )
             setIsAuthenticated(true)
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             setError(error.response?.data || 'Error desconocido')
             setIsAuthenticated(false)

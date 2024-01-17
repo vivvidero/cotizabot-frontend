@@ -1,5 +1,4 @@
 export * from './ui'
-export * from './ErrorPage'
 export * from './HomeImageCard'
 export * from './MisCotizaciones'
 export * from './Documentos'

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, NewProjectModal } from '../../components'
 import { NewProjectContext } from '../../context'
@@ -17,7 +17,7 @@ export const AdminSpaceInfo = () => {
   const bedRoomQuantity = Array.from({ length: newProject.spaces.bedRoom.quantity }, (_, index) => index + 1)
   const studyQuantity = Array.from({ length: newProject.spaces.study.quantity }, (_, index) => index + 1)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setIsModalOpen(true)
     localStorage.setItem('newProject', JSON.stringify({ ...newProject, spaces: newProject.spaces }));
@@ -34,13 +34,13 @@ export const AdminSpaceInfo = () => {
           {newProject.spaces.kitchen.isCheck && <AdminSpaceKitchen />}
           {newProject.spaces.clothes.isCheck && <AdminSpaceClothes />}
           {newProject.spaces.bathRoom.isCheck &&
-            bathRoomQuantity.map((bath, index) => <AdminSpaceBathRoom key={index} bathNumber={index + 1} />)
+            bathRoomQuantity.map((_, index) => <AdminSpaceBathRoom key={index} bathNumber={index + 1} />)
           }
           {newProject.spaces.bedRoom.isCheck &&
-            bedRoomQuantity.map((bed, index) => <AdminSpaceBedRoom key={index} bedNumber={index + 1} />)
+            bedRoomQuantity.map((_, index) => <AdminSpaceBedRoom key={index} bedNumber={index + 1} />)
           }
           {newProject.spaces.study.isCheck &&
-            studyQuantity.map((study, index) => <AdminSpaceStudy key={index} studyNumber={index + 1} />)
+            studyQuantity.map((_, index) => <AdminSpaceStudy key={index} studyNumber={index + 1} />)
           }
           {newProject.spaces.terrace.isCheck && <AdminSpaceTerrace />}
           <div className=" flex gap-5">

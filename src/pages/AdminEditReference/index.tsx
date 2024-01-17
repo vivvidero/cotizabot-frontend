@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { MainLayout, MiddleLayout } from "../../Layout";
 import { LoadingContext } from "../../context/LoadingContext";
 import { AdminModalApuCard, FinalCreationModal, LinkButton, SearchBar, Spinner } from "../../components";
@@ -11,7 +11,7 @@ export const AdminEditReference = () => {
     const [isSaveReferenceModalOpen, setIsSaveReferenceModalOpen] = useState(false);
     const { loading, setLoading } = useContext(LoadingContext)
 
-    const handleSaveReference = (e) => {
+    const handleSaveReference = (e: FormEvent) => {
         e.preventDefault()
         setIsSaveReferenceModalOpen(true)
         setLoading(true)
@@ -77,7 +77,7 @@ export const AdminEditReference = () => {
                     <div className="absolute border border-black top-5 right-5 w-8 h-8 grid place-content-center rounded-full cursor-pointer" onClick={() => setIsSearchApuModalOpen(false)}>
                         <img src={close} alt="close" />
                     </div>
-                    <SearchBar />
+                    <SearchBar lookingFor="APU" />
                     <div className="w-full">
                         <h4 className="font-roboto font-medium text-xl text-vivvi">Pisos</h4>
                     </div>

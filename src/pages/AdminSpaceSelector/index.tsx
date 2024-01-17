@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from "react"
+import { ChangeEvent, FormEvent, useContext } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { AdminProgressBar, LinkButton } from "../../components"
 import { NewProjectContext } from "../../context"
@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom"
 
 export const AdminSpaceSelector = () => {
 
-    const { newProject, setNewProject } = useContext(NewProjectContext)
-    const navigate = useNavigate()
+    const { newProject, setNewProject } = useContext(NewProjectContext);
+    const navigate = useNavigate();
 
     const handleSpaces = (e: ChangeEvent<HTMLInputElement>) => {
-        const space = e.target.name
+        const space = e.target.name;
 
         setNewProject((prevState) => {
             return {
@@ -23,21 +23,24 @@ export const AdminSpaceSelector = () => {
                         quantity: 1
                     }
                 }
-            }
-        })
+            };
+        });
+
         localStorage.setItem('newProject', JSON.stringify({
-            ...newProject, spaces: {
-                ...newProject.spaces, [space]: {
+            ...newProject,
+            spaces: {
+                ...newProject.spaces,
+                [space]: {
                     ...newProject.spaces[space],
                     isCheck: e.target.checked,
                     quantity: 1
                 }
             }
         }));
-    }
+    };
 
     const handleSpaceQuantity = (e: ChangeEvent<HTMLSelectElement>) => {
-        const space = e.target.name
+        const space = e.target.name;
 
         setNewProject((prevState) => {
             return {
@@ -46,27 +49,30 @@ export const AdminSpaceSelector = () => {
                     ...prevState.spaces,
                     [space]: {
                         ...prevState.spaces[space],
-                        quantity: parseInt(e.target.value)
+                        quantity: parseInt(e.target.value, 10)
                     }
                 }
-            }
-        })
+            };
+        });
+
         localStorage.setItem('newProject', JSON.stringify({
-            ...newProject, spaces: {
-                ...newProject.spaces, [space]: {
+            ...newProject,
+            spaces: {
+                ...newProject.spaces,
+                [space]: {
                     ...newProject.spaces[space],
-                    quantity: parseInt(e.target.value)
+                    quantity: parseInt(e.target.value, 10)
                 }
             }
         }));
-    }
+    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
 
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, spaces: newProject.spaces }));
-        navigate('space-info')
-    }
+        navigate('space-info');
+    };
 
 
     return (

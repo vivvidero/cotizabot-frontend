@@ -26,7 +26,7 @@ const initialValue: NewProject = {
         tipologyType: '',
         tipologyPrivateArea: '',
         tipologyConstructedArea: '',
-        tipologyImage: File | null
+        tipologyImage: null
     },
     spaces: {
         kitchen: {

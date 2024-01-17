@@ -1,11 +1,5 @@
 export interface Spaces {
-    kitchen: Space,
-    clothes: Space,
-    bathRoom: Space,
-    shower: Space,
-    bedRoom: Space,
-    study: Space,
-    terrace: Space
+    [key: string]: Space;
 }
 
 interface Space {

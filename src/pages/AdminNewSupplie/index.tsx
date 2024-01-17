@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { LoadingContext } from "../../context/LoadingContext";
 import { FinalCreationModal, LinkButton, Spinner } from "../../components";
@@ -9,7 +9,7 @@ export const AdminNewSupplie = () => {
     const [isSaveSupplieModalOpen, setIsSaveSupplieModalOpen] = useState(false);
     const { loading, setLoading } = useContext(LoadingContext)
 
-    const handleSaveSupplie = (e) => {
+    const handleSaveSupplie = (e: FormEvent) => {
         e.preventDefault()
         setIsSaveSupplieModalOpen(true)
         setLoading(true)
