@@ -53,6 +53,8 @@ export const AdminNewTipology = () => {
 
     const handleSaveTipology = () => {
         setIsModalOpen(true)
+        console.log(newTipology);
+        // Aca hacer POST de Tipology en el futuro
         setTimeout(() => {
             navigate('/new-project/tipology');
         }, 5000);

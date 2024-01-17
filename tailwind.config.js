@@ -21,8 +21,10 @@ export default {
         'honeydew': '#DFEFDC',
         'light-blue': '#BDD9DF',
         'snow': '#F8F1F2',
-        "timberwolf": "#D0D3D4"
-        
+        "timberwolf": "#D0D3D4",
+        "cadet-gray": "#9F9F9F",
+        "silver": "#ADADAD"
+
       }
     },
   },

@@ -8,7 +8,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 export const Login: FC = () => {
 
-    const { user, setUser, signIn, error, token, isAuthenticated } = useContext<AuthContextProps>(AuthContext)
+    const { user, setUser, signIn, error, token } = useContext<AuthContextProps>(AuthContext)
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -57,7 +57,7 @@ export const Login: FC = () => {
                     {error && (<div className='p-4 bg-dorado'>
                         <p className='text-white'> {error} </p>
                     </div>)}
-                    <Link to={'/admin'} className='underline cursor-pointer'>Ingresar como administrador</Link>
+                    <Link to={'/admin/projects'} className='underline cursor-pointer'>Ingresar como administrador</Link>
                 </div>
             </div>
         </LoginLayout>
