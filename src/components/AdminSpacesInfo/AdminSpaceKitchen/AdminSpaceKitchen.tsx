@@ -1,32 +1,47 @@
 import { ChangeEvent, FC, useContext } from 'react'
 import add from '../../../assets/icons/add-tipology.png'
 import { NewProjectContext } from '../../../context'
+import { Spaces } from '../../../types/Spaces'
 
+interface Props {
+    space: Spaces
+}
 
-export const AdminSpaceKitchen: FC = () => {
+export const AdminSpaceKitchen: FC<Props> = ({ space }) => {
 
-    const { setNewProject } = useContext(NewProjectContext)
+    const { setNewProject, newProject } = useContext(NewProjectContext)
+
+    console.log(space);
+
+    console.log(newProject);
+
 
     const handleKitchen = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
+        const updatedSpaces = newProject.spaces.map(spa => spa.name === space.name && spa.number === space.number ? { ...spa, [e.target.name]: e.target.value } : spa)
         setNewProject((prevState) => {
             return {
                 ...prevState,
-                spaces: {
-                    ...prevState.spaces,
-                    kitchen: {
-                        ...prevState.spaces.kitchen,
-                        features: {
-                            ...prevState.spaces.kitchen.features,
-                            [e.target.name]: e.target.value
-                        }
-                    }
-                }
+                spaces: updatedSpaces
+            }
+        })
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, spaces: updatedSpaces }));
+    }
+
+    const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const updatedSpaces = newProject.spaces.map(spa => spa.name === space.name && spa.number === space.number ? { ...spa, [e.target.name]: formData } : spa)
+        setNewProject((prevState) => {
+            return {
+                ...prevState,
+                spaces: updatedSpaces
             }
         })
     }
-
-
 
     return (
         <>
@@ -37,19 +52,19 @@ export const AdminSpaceKitchen: FC = () => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' onChange={handleKitchen} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleKitchen} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlLowCabinet"} className="w-full" placeholder='ML Mueble bajo' onChange={handleKitchen} />
+                <input type="text" name={"mlLowCabinet"} className="w-full" placeholder='ML Mueble bajo' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlLowCabinet} onChange={handleKitchen} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlHighCabinet"} className="w-full" placeholder='ML Mueble alto' onChange={handleKitchen} />
+                <input type="text" name={"mlHighCabinet"} className="w-full" placeholder='ML Mueble alto' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlHighCabinet} onChange={handleKitchen} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlIslandFurniture"} className="w-full" placeholder='ML Mueble isla' onChange={handleKitchen} />
+                <input type="text" name={"mlIslandFurniture"} className="w-full" placeholder='ML Mueble isla' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlIslandFurniture} onChange={handleKitchen} />
             </label>
             <label className=" p-4 bg-white border border-platinum flex items-center" >
-                <select name='tipology' onChange={handleKitchen}>
+                <select name='tipology' onChange={handleKitchen} defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.tipology}>
                     <option>
                         1
                     </option>
@@ -66,7 +81,7 @@ export const AdminSpaceKitchen: FC = () => {
                 <div>
                     <img src={add} alt='upload' className='w-10' />
                 </div>
-                <input type="file" name={"tipologyImage"} className="" placeholder='Cargar imagen de la tipología' onChange={handleKitchen} />
+                <input type="file" name={"tipologyImage"} className="" placeholder='Cargar imagen de la tipología' onChange={handleImage} />
                 Cargar imagen de la tipología
             </label>
         </>

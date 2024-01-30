@@ -9,9 +9,6 @@ interface Props {
 
 export const AdminTipologyCard: FC<Props> = ({ tipology }) => {
 
-    console.log(tipology);
-    
-
     const navigate = useNavigate()
     const { setNewProject, newProject } = useContext(NewProjectContext)
 

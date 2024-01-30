@@ -3,10 +3,10 @@ import { Tipology } from "../../types/Tipology";
 import { Spaces } from "../../types/Spaces";
 
 export interface NewProject {
-    name: string,
+    projectName: string,
     constructionName: string,
     tipology: Tipology,
-    spaces: Spaces
+    spaces: Spaces[]
 }
 
 interface NewProjectContextProps {
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const initialValue: NewProject = {
-    name: '',
+    projectName: '',
     constructionName: '',
     tipology: {
         tipologyName: '',
@@ -28,57 +28,7 @@ const initialValue: NewProject = {
         tipologyConstructedArea: '',
         tipologyImage: null
     },
-    spaces: {
-        kitchen: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        clothes: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        bathRoom: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        shower: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        bedRoom: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        study: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        },
-        terrace: {
-            isCheck: false,
-            quantity: 0,
-            features: {
-
-            }
-        }
-    }
+    spaces: []
 
 }
 

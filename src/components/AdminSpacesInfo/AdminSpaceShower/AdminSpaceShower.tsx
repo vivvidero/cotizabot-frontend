@@ -5,7 +5,7 @@ import { Spaces } from "../../../types/Spaces"
 interface Props {
     space: Spaces
 }
-export const AdminSpaceClothes: FC<Props> = ({ space }) => {
+export const AdminSpaceShower: FC<Props> = ({ space }) => {
     const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleClothes = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -38,7 +38,7 @@ export const AdminSpaceClothes: FC<Props> = ({ space }) => {
     return (
         <>
             <div className='flex justify-between'>
-                <h3 className='font-roboto text-xl text-vivvi font-semibold'> Ropas </h3>
+                <h3 className='font-roboto text-xl text-vivvi font-semibold'> Ducha {space.number} </h3>
                 <button className='border border-vivvi text-vivvi text-sm rounded-2xl p-1'>
                     Añadir otra tipología
                 </button>

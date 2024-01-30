@@ -1,27 +1,24 @@
 import { ChangeEvent, FC, useContext } from 'react'
 import { NewProjectContext } from '../../../context'
+import { Spaces } from '../../../types/Spaces'
 
+interface Props {
+    space: Spaces
+}
 
-export const AdminSpaceTerrace: FC = () => {
-    const { setNewProject } = useContext(NewProjectContext)
+export const AdminSpaceTerrace: FC<Props> = ({ space }) => {
+    const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleTerrace = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
+        const updatedSpaces = newProject.spaces.map(spa => spa.name === space.name && spa.number === space.number ? { ...spa, [e.target.name]: e.target.value } : spa)
         setNewProject((prevState) => {
             return {
                 ...prevState,
-                spaces: {
-                    ...prevState.spaces,
-                    terrace: {
-                        ...prevState.spaces.terrace,
-                        features: {
-                            ...prevState.spaces.terrace.features,
-                            [e.target.name]: e.target.value
-                        }
-                    }
-                }
+                spaces: updatedSpaces
             }
         })
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, spaces: updatedSpaces }));
     }
 
     return (
@@ -33,9 +30,9 @@ export const AdminSpaceTerrace: FC = () => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' onChange={handleTerrace} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleTerrace} />
             </label>
-            
+
         </>
     )
 }
