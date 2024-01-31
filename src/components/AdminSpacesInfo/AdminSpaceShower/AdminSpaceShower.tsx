@@ -45,7 +45,7 @@ export const AdminSpaceShower: FC<Props> = ({ space }) => {
             </div>
 
             <label className=" p-4 bg-white border border-platinum flex items-center" >
-                <select name='tipology' onChange={handleClothes} defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.tipology}>
+                <select name='tipology' onChange={handleClothes} defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.tipology}>
                     <option>
                         1
                     </option>

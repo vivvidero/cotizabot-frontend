@@ -29,10 +29,10 @@ export const AdminSpaceBedRoom: FC<Props> = ({ space }) => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleBedRoom} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.area} onChange={handleBedRoom} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlCloset"} className="w-full" placeholder='ML Closet' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlCloset} onChange={handleBedRoom} />
+                <input type="text" name={"mlCloset"} className="w-full" placeholder='ML Closet' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlCloset} onChange={handleBedRoom} />
             </label>
         </>
     )

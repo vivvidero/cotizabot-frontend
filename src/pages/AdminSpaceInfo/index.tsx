@@ -18,24 +18,30 @@ export const AdminSpaceInfo = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    api.post('/proyectos', newProject)
-      .then((data) => console.log(data.data))
-      .then(() => setIsModalOpen(true))
+    try {
+      api.post('/proyectos', newProject)
+        .then((data) => console.log(data.data))
+        .then(() => setIsModalOpen(true))
 
-    localStorage.removeItem('newProject')
-    setNewProject({
-      projectName: '',
-      constructionName: '',
-      tipology: {
-        tipologyName: '',
-        tipologyType: '',
-        tipologyPrivateArea: '',
-        tipologyConstructedArea: '',
-        tipologyImage: null
-      },
-      spaces: []
+      localStorage.removeItem('newProject')
+      setNewProject({
+        projectName: '',
+        constructionName: '',
+        tipology: {
+          tipologyName: '',
+          tipologyType: '',
+          tipologyPrivateArea: '',
+          tipologyConstructedArea: '',
+          tipologyImage: null
+        },
+        spaces: []
 
-    })
+      })
+    } catch (error) {
+      console.log(error);
+
+    }
+
   }
 
   return (

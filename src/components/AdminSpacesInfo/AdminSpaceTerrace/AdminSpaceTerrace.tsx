@@ -30,7 +30,7 @@ export const AdminSpaceTerrace: FC<Props> = ({ space }) => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleTerrace} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.area} onChange={handleTerrace} />
             </label>
 
         </>

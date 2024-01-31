@@ -48,16 +48,16 @@ export const AdminSpaceBathRoom: FC<Props> = ({ space }) => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleBathRoom} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.area} onChange={handleBathRoom} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlShower"} className="w-full" placeholder='ML Ducha' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlShower} onChange={handleBathRoom} />
+                <input type="text" name={"mlShower"} className="w-full" placeholder='ML Ducha' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlShower} onChange={handleBathRoom} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlBathRoomFurniture"} className="w-full" placeholder='ML Mueble baño' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlBathRoomFurniture} onChange={handleBathRoom} />
+                <input type="text" name={"mlBathRoomFurniture"} className="w-full" placeholder='ML Mueble baño' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlBathRoomFurniture} onChange={handleBathRoom} />
             </label>
             <label className=" p-4 bg-white border border-platinum flex items-center" >
-                <select name='tipology' onChange={handleBathRoom} defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.tipology}>
+                <select name='tipology' onChange={handleBathRoom} defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.tipology}>
                     <option>
                         1
                     </option>

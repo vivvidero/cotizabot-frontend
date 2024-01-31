@@ -29,13 +29,13 @@ export const AdminSpaceStudy: FC<Props> = ({ space }) => {
                 </button>
             </div>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.area} onChange={handleStudy} />
+                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.area} onChange={handleStudy} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlDesktop"} className="w-full" placeholder='ML Escritorio' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlDesktop} onChange={handleStudy} />
+                <input type="text" name={"mlDesktop"} className="w-full" placeholder='ML Escritorio' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlDesktop} onChange={handleStudy} />
             </label>
             <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlFurniture"} className="w-full" placeholder='ML - mueble (tv o biblioteca)' defaultValue={newProject.spaces.filter(spa => spa.name === space.name)[0]?.mlFurniture} onChange={handleStudy} />
+                <input type="text" name={"mlFurniture"} className="w-full" placeholder='ML - mueble (tv o biblioteca)' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlFurniture} onChange={handleStudy} />
             </label>
         </>
     )
