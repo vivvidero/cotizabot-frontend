@@ -8,11 +8,13 @@ export const AdminProjects = () => {
 
     useEffect(() => {
         api.get('/proyectos')
-            .then((data) => setProjects(data.data))
+            .then((data) => {
+                setProjects(data.data)
+
+            })
     }, [])
 
 
-    console.log(projects);
 
 
 
@@ -40,7 +42,7 @@ export const AdminProjects = () => {
                     <div className='col-span-1'></div>
                 </div>
                 {projects.map((project) => <AdminProyectItem key={project.projectid} project={project} />)}
-            
+
 
             </section>
         </>

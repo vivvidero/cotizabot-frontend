@@ -1,5 +1,5 @@
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, AdminTipologyCard, LinkButton } from '../../components'
+import { AdminProgressBar, AdminTipologyCard } from '../../components'
 
 export const AdminTipology = () => {
 

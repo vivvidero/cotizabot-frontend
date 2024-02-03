@@ -1,6 +1,3 @@
-/* export interface Spaces {
-    [key: string]: Space;
-} */
 export interface Spaces {
     name: string,
     number: number,

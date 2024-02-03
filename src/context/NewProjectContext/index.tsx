@@ -3,8 +3,8 @@ import { Tipology } from "../../types/Tipology";
 import { Spaces } from "../../types/Spaces";
 
 export interface NewProject {
-    projectName: string,
-    constructionName: string,
+    projectname: string,
+    constructorname: string,
     tipology: Tipology,
     spaces: Spaces[]
 }
@@ -19,8 +19,8 @@ interface Props {
 }
 
 const initialValue: NewProject = {
-    projectName: '',
-    constructionName: '',
+    projectname: '',
+    constructorname: '',
     tipology: {
         tipologyName: '',
         tipologyType: '',

@@ -90,22 +90,22 @@ export const AdminSpaceSelector = () => {
             <AdminProgressBar progress={2} />
             <MiddleLayout>
                 <h2 className="font-outfit text-2xl text-vivvi">Selecciona los espacios del proyecto</h2>
-                <p> {newProject.projectName} {" > "} {newProject.tipology.tipologyName} </p>
+                <p> {newProject.projectname} {" > "} {newProject.tipology.tipologyName} </p>
 
                 <form className="flex flex-col gap-6 w-6/12 my-6">
                     <label className="p-4 bg-white">
-                        <input type="checkbox" onChange={handleSpaces} name={"kitchen"} checked={newProject.spaces.some(space => space.name === 'kitchen')} className="mr-2" /> Cocina
+                        <input type="checkbox" onChange={handleSpaces} name={"kitchen"} checked={newProject?.spaces?.some(space => space.name === 'kitchen') || false} className="mr-2" /> Cocina
                     </label>
 
                     <label className="p-4 bg-white">
-                        <input type="checkbox" onChange={handleSpaces} name={"clothes"} checked={newProject.spaces.some(space => space.name === 'clothes')} className="mr-2" /> Ropas
+                        <input type="checkbox" onChange={handleSpaces} name={"clothes"} checked={newProject?.spaces?.some(space => space.name === 'clothes') || false} className="mr-2" /> Ropas
                     </label>
 
                     <label className="p-4 bg-white flex justify-between">
                         <div>
-                            <input type="checkbox" onChange={handleSpaces} name={"bathRoom"} checked={newProject.spaces.some(space => space.name === 'bathRoom')} className="mr-2" /> Baño
+                            <input type="checkbox" onChange={handleSpaces} name={"bathRoom"} checked={newProject?.spaces?.some(space => space.name === 'bathRoom') || false} className="mr-2" /> Baño
                         </div>
-                        {newProject.spaces.some(space => space.name === "bathRoom") && <select onChange={handleSpaceQuantity} name="bathRoom" defaultValue={newProject.spaces.filter(space => space.name === "bathRoom").length}>
+                        {newProject?.spaces?.some(space => space.name === "bathRoom") && <select onChange={handleSpaceQuantity} name="bathRoom" defaultValue={newProject.spaces.filter(space => space.name === "bathRoom").length}>
                             <option>1</option>
                             <option>2</option>
                         </select>}
@@ -113,9 +113,9 @@ export const AdminSpaceSelector = () => {
                     </label>
                     <label className="p-4 bg-white flex justify-between">
                         <div>
-                            <input type="checkbox" onChange={handleSpaces} name={"shower"} checked={newProject.spaces.some(space => space.name === 'shower')} className="mr-2" /> Ducha
+                            <input type="checkbox" onChange={handleSpaces} name={"shower"} checked={newProject?.spaces?.some(space => space.name === 'shower') || false} className="mr-2" /> Ducha
                         </div>
-                        {newProject.spaces.some(space => space.name === "shower") && <select onChange={handleSpaceQuantity} name="shower" defaultValue={newProject.spaces.filter(space => space.name === "shower").length}>
+                        {newProject?.spaces?.some(space => space.name === "shower") && <select onChange={handleSpaceQuantity} name="shower" defaultValue={newProject.spaces.filter(space => space.name === "shower").length}>
                             <option>1</option>
                             <option>2</option>
                         </select>}
@@ -123,9 +123,9 @@ export const AdminSpaceSelector = () => {
                     </label>
                     <label className="p-4 bg-white flex justify-between">
                         <div>
-                            <input type="checkbox" onChange={handleSpaces} name={"bedRoom"} checked={newProject.spaces.some(space => space.name === 'bedRoom')} className="mr-2" /> Habitación
+                            <input type="checkbox" onChange={handleSpaces} name={"bedRoom"} checked={newProject?.spaces?.some(space => space.name === 'bedRoom') || false} className="mr-2" /> Habitación
                         </div>
-                        {newProject.spaces.some(space => space.name === "bedRoom") && <select onChange={handleSpaceQuantity} name="bedRoom" defaultValue={newProject.spaces.filter(space => space.name === "bedRoom").length}>
+                        {newProject?.spaces?.some(space => space.name === "bedRoom") && <select onChange={handleSpaceQuantity} name="bedRoom" defaultValue={newProject.spaces.filter(space => space.name === "bedRoom").length}>
                             <option>1</option>
                             <option>2</option>
                         </select>}
@@ -133,9 +133,9 @@ export const AdminSpaceSelector = () => {
                     </label>
                     <label className="p-4 bg-white flex justify-between">
                         <div>
-                            <input type="checkbox" onChange={handleSpaces} name={"study"} checked={newProject.spaces.some(space => space.name === 'study')} className="mr-2" /> Estudio
+                            <input type="checkbox" onChange={handleSpaces} name={"study"} checked={newProject?.spaces?.some(space => space.name === 'study') || false} className="mr-2" /> Estudio
                         </div>
-                        {newProject.spaces.some(space => space.name === "study") && <select onChange={handleSpaceQuantity} name="study" defaultValue={newProject.spaces.filter(space => space.name === "study").length}>
+                        {newProject?.spaces?.some(space => space.name === "study") && <select onChange={handleSpaceQuantity} name="study" defaultValue={newProject.spaces.filter(space => space.name === "study").length}>
                             <option>1</option>
                             <option>2</option>
                         </select>
@@ -144,9 +144,9 @@ export const AdminSpaceSelector = () => {
                     </label>
                     <label className="p-4 bg-white flex justify-between">
                         <div>
-                            <input type="checkbox" onChange={handleSpaces} name={"terrace"} checked={newProject.spaces.some(space => space.name === 'terrace')} className="mr-2" /> Terraza
+                            <input type="checkbox" onChange={handleSpaces} name={"terrace"} checked={newProject?.spaces?.some(space => space.name === 'terrace') || false} className="mr-2" /> Terraza
                         </div>
-                        {newProject.spaces.some(space => space.name === "terrace") && <select onChange={handleSpaceQuantity} name="terrace" defaultValue={newProject.spaces.filter(space => space.name === "terrace").length}>
+                        {newProject?.spaces?.some(space => space.name === "terrace") && <select onChange={handleSpaceQuantity} name="terrace" defaultValue={newProject.spaces.filter(space => space.name === "terrace").length}>
                             <option>1</option>
                             <option>2</option>
                         </select>}
