@@ -1,10 +1,12 @@
 import { MainLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, NewTipologyModal } from '../../components'
 import addTipology from '../../assets/icons/add-tipology.png'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Tipology } from '../../types/Tipology'
+import api from '../../api'
+import { NewProjectContext } from '../../context'
 
 
 
@@ -19,7 +21,7 @@ export const AdminNewTipology = () => {
     })
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const { newProject, setNewProject } = useContext(NewProjectContext)
     const navigate = useNavigate();
 
     const handleNewTipology = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,12 +55,25 @@ export const AdminNewTipology = () => {
 
     const handleSaveTipology = () => {
         setIsModalOpen(true)
-        console.log(newTipology);
         // Aca hacer POST de Tipology en el futuro
+        /* api.post('/proyectos', { projectName: newProject.projectName, constructionName: newProject.constructionName, tipology: newTipology }) */
+
+        setNewProject((prevState) => {
+            return {
+                ...prevState,
+                tipologies: [
+                    ...prevState.tipologies,
+                    newTipology
+                ]
+            }
+        })
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: [...newProject.tipologies, newTipology] }));
         setTimeout(() => {
             navigate('/new-project/tipology');
         }, 5000);
     }
+
+
 
     return (
         <MainLayout>
@@ -69,14 +84,8 @@ export const AdminNewTipology = () => {
                     <form className='w-full flex flex-col gap-7 flex-1'>
                         <input name='tipologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
                         <input name='tipologyType' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
-                        <label>
-                            <input name='tipologyPrivateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
-                            M2
-                        </label>
-                        <label>
-                            <input name='tipologyConstructedArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
-                            M2
-                        </label>
+                        <input name='tipologyPrivateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
+                        <input name='tipologyConstructedArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
@@ -85,7 +94,8 @@ export const AdminNewTipology = () => {
                         <div className='flex justify-center items-center overflow-hidden'>
                             <img src={imagePreview ? imagePreview : addTipology} alt={'Tipologia elegida'} className='w-full object-contain' />
                         </div>
-                        <label>Cargar imagen de la tipología</label>
+                        {!imagePreview && <label>Cargar imagen de la tipología</label>}
+
                         <input type='file' name='tipologyImage' onChange={handleTipologyImage} />
 
                     </div>

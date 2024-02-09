@@ -1,37 +1,21 @@
 export interface Spaces {
     name: string,
-    number: number,
+    roomNumber: number,
+    tipologies: Tipology[]
+}
+
+interface Tipology {
+    id: number
     area?: string,
-    mlLowCabinet?: string,
-    mlHighCabinet?: string,
+    lowCabinet?: string,
+    highCabinet?: string,
     mlIslandFurniture?: string,
     tipology?: string,
     tipologyImage?: File
-    mlShower?: string,
-    mlBathRoomFurniture?: string,
-    mlCloset?: string,
-    mlDesktop?: string,
-    mlFurniture?: string
-}
-
-
-interface Space {
-    isCheck: boolean,
-    quantity: number,
-    features: Features
-}
-
-interface Features {
-    area?: string,
-    mlLowCabinet?: string,
-    mlHighCabinet?: string,
-    mlIslandFurniture?: string,
-    tipology?: string,
-    tipologyImage?: File
-    mlShower?: string,
-    mlBathRoomFurniture?: string,
-    mlCloset?: string,
-    mlDesktop?: string,
-    mlFurniture?: string
+    shower?: string,
+    bathroomFurniture?: string,
+    closet?: string,
+    desktop?: string,
+    furniture?: string
 }
 

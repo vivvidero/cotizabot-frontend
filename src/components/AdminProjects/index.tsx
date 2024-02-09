@@ -16,6 +16,8 @@ export const AdminProjects = () => {
 
 
 
+    console.log(projects);
+    
 
 
     return (
@@ -33,12 +35,9 @@ export const AdminProjects = () => {
 
             <section className='flex flex-col gap-4'>
                 <div className='grid grid-cols-12 px-5 py-7'>
-                    <div className='col-span-4'></div>
-                    <div><p>Número</p></div>
-                    <div><p>Tipo</p></div>
+                    <div className='col-span-5'></div>
                     <div className='col-span-2'><p>Constructora</p></div>
-                    <div><p>Vivienda</p></div>
-                    <div className='col-span-2'><p>Área Construida</p></div>
+                    <div className='col-span-4'><p>Ciudad</p></div>
                     <div className='col-span-1'></div>
                 </div>
                 {projects.map((project) => <AdminProyectItem key={project.projectid} project={project} />)}

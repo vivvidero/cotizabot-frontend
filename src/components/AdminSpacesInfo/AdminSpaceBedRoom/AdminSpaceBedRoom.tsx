@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useContext } from 'react'
+import { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
 import { NewProjectContext } from '../../../context'
 import { Spaces } from '../../../types/Spaces'
 
@@ -7,10 +7,21 @@ interface Props {
 }
 export const AdminSpaceBedRoom: FC<Props> = ({ space }) => {
     const { setNewProject, newProject } = useContext(NewProjectContext)
+    const [tipologies, setTipologies] = useState<number[]>([])
 
+    useEffect(() => {
+        const tipologiesStorage = localStorage.getItem(`${space.name}${space.roomNumber}Tipologies`);
+
+        if (tipologiesStorage) {
+            setTipologies(JSON.parse(tipologiesStorage));
+        } else {
+            setTipologies([1])
+        }
+    }, [])
     const handleBedRoom = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const newTipologies = space.tipologies.map((typo) => typo.id.toString() === e.target.id ? { ...typo, [e.target.name]: e.target.value } : typo)
 
-        const updatedSpaces = newProject.spaces.map(spa => spa.name === space.name && spa.number === space.number ? { ...spa, [e.target.name]: e.target.value } : spa)
+        const updatedSpaces = newProject.spaces.map(spa => spa.name === space.name && spa.roomNumber === space.roomNumber ? { ...spa, newTipologies } : spa)
         setNewProject((prevState) => {
             return {
                 ...prevState,
@@ -22,18 +33,22 @@ export const AdminSpaceBedRoom: FC<Props> = ({ space }) => {
 
     return (
         <>
-            <div className='flex justify-between'>
-                <h3 className='font-roboto text-xl text-vivvi font-semibold'> Habitación {space.number} </h3>
-                <button className='border border-vivvi text-vivvi text-sm rounded-2xl p-1'>
-                    Añadir otra tipología
-                </button>
-            </div>
-            <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"area"} className="w-full" placeholder='Área' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.area} onChange={handleBedRoom} />
-            </label>
-            <label className=" p-4 bg-white border border-platinum">
-                <input type="text" name={"mlCloset"} className="w-full" placeholder='ML Closet' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.number === space.number)[0]?.mlCloset} onChange={handleBedRoom} />
-            </label>
+            <h3 className='font-roboto text-xl text-vivvi font-semibold'> Habitación {space.roomNumber === 1 ? '' : space.roomNumber} </h3>
+            {tipologies.map((tipology) => {
+                return (
+                    <div key={tipology} className='flex flex-col gap-2'>
+                        <div className='flex justify-between'>
+                            <p className='font-medium'>Información tipología existente (obligatorio)</p>
+                        </div>
+                        <label className=" p-4 bg-white border border-platinum">
+                            <input type="text" name={"area"} className="w-full" placeholder='Área (m2)' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.roomNumber === space.roomNumber)[0]?.tipologies.filter((typo) => typo.id === tipology)[0]?.area} onChange={handleBedRoom} />
+                        </label>
+                        <label className=" p-4 bg-white border border-platinum">
+                            <input type="text" name={"closet"} className="w-full" placeholder='ML Closet' defaultValue={newProject.spaces.filter(spa => spa.name === space.name && spa.roomNumber === space.roomNumber)[0]?.tipologies.filter((typo) => typo.id === tipology)[0]?.closet} onChange={handleBedRoom} />
+                        </label>
+                    </div>
+                )
+            })}
         </>
     )
 }

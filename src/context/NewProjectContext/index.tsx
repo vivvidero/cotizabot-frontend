@@ -3,10 +3,12 @@ import { Tipology } from "../../types/Tipology";
 import { Spaces } from "../../types/Spaces";
 
 export interface NewProject {
-    projectname: string,
-    constructorname: string,
-    tipology: Tipology,
+    projectName: string,
+    constructionName: string,
+    city: string
+    tipologies: Tipology[],
     spaces: Spaces[]
+    projectId?: number
 }
 
 interface NewProjectContextProps {
@@ -19,17 +21,12 @@ interface Props {
 }
 
 const initialValue: NewProject = {
-    projectname: '',
-    constructorname: '',
-    tipology: {
-        tipologyName: '',
-        tipologyType: '',
-        tipologyPrivateArea: '',
-        tipologyConstructedArea: '',
-        tipologyImage: null
-    },
+    projectName: '',
+    constructionName: '',
+    city: '',
+    tipologies: [],
     spaces: []
-
+    
 }
 
 
@@ -44,15 +41,12 @@ export const NewProjectProvider: FC<Props> = ({ children }) => {
         const storedQuotation = localStorage.getItem('newProject');
 
         if (storedQuotation) {
-            console.log(newProject);
 
             setNewProject(JSON.parse(storedQuotation));
         }
     }, [])
 
-
-    console.log(newProject);
-
+    
     return (
         <NewProjectContext.Provider value={{ newProject, setNewProject }}>
             {children}

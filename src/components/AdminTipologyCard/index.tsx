@@ -1,18 +1,16 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import tipologyPlaceholder from '../../assets/images/Rectangle 804.png'
-import { NewProjectContext } from '../../context/NewProjectContext'
-import { useNavigate } from 'react-router-dom'
+import copy from '../../assets/icons/copy.png'
+import del from '../../assets/icons/delete.png'
+import { Tipology } from '../../types/Tipology'
 
 interface Props {
-    tipology: number
+    tipology: Tipology
 }
 
 export const AdminTipologyCard: FC<Props> = ({ tipology }) => {
 
-    const navigate = useNavigate()
-    const { setNewProject, newProject } = useContext(NewProjectContext)
-
-    const selectTipology = () => {
+    /* const selectTipology = () => {
         setNewProject((prevState) => {
             return {
                 ...prevState,
@@ -35,19 +33,32 @@ export const AdminTipologyCard: FC<Props> = ({ tipology }) => {
             }
         }));
         navigate('/new-project/space-selector')
-    }
+    } */
+
 
     return (
-        <div className='rounded-3xl bg-white py-2 px-1 flex flex-col items-center   '>
+        <div className='rounded-3xl bg-white p-2 flex flex-col items-center max-h-80   '>
             <div className='rounded-3xl overflow-hidden'>
-                <img src={tipologyPlaceholder} alt='' />
+                <img src={tipologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-cover' />
             </div>
-            <h4 className='text-center font-outfit text-lg'>
-                Nombre
-            </h4>
-            <button className='border border-vivvi py-2 px-6 rounded-full w-3/4 my-3' onClick={selectTipology}>
-                Seleccionar
-            </button>
+            <div className='text-center font-outfit text-base font-normal'>
+                <h4 className='text-lg'>
+                    {tipology.tipologyName}
+                </h4>
+                <p> Área: {tipology.tipologyPrivateArea} </p>
+                <p> Tipo: {tipology.tipologyType} </p>
+            </div>
+            <div className='flex gap-2 my-3'>
+                <button className='border border-vivvi  px-6 rounded-full h-8'>
+                    Editar
+                </button>
+                <button className='border border-vivvi rounded-full w-8 h-8 p-2'>
+                    <img src={copy} className='w-full' />
+                </button>
+                <button className='border border-vivvi rounded-full w-8 h-8 p-2'>
+                    <img src={del} className='w-full' />
+                </button>
+            </div>
         </div>
     )
 }
