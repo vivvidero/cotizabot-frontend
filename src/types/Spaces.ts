@@ -1,7 +1,6 @@
 export interface Spaces {
     name: string,
     roomNumber: number,
-    tipologies: Tipology[]
 }
 
 interface Tipology {

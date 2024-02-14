@@ -1,7 +1,10 @@
 export interface Tipology {
-    tipologyName: string,
-    tipologyType: string,
-    tipologyPrivateArea: string,
-    tipologyConstructedArea: string,
-    tipologyImage: File | null
+    name: string,
+    type: string,
+    privateArea: string,
+    constructedArea: string,
+    blueprints: File | null,
+    revitModel: File | null,
+    video: File | null,
+    image: File | null
 }

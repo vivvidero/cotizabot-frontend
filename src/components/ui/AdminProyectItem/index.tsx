@@ -1,12 +1,17 @@
-import { useContext, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import pointMenu from '../../../assets/icons/points.png'
 import axios from 'axios'
 import api from '../../../api'
 import { NewProjectContext } from '../../../context'
 import { useNavigate } from 'react-router-dom'
+import { Projects } from '../../../types/Projects'
+
+interface Props {
+    project: Projects
+}
 
 
-export const AdminProyectItem = ({ project }) => {
+export const AdminProyectItem: FC<Props> = ({ project }) => {
 
     const [dropDown, setDropDown] = useState(false)
     const { setNewProject } = useContext(NewProjectContext)
@@ -27,11 +32,13 @@ export const AdminProyectItem = ({ project }) => {
 
     return (
         <div className='grid grid-cols-12 shadow-lg px-5 py-7 rounded-xl font-roboto text-lg bg-white'>
-            <div className='col-span-5'> {project.projectname} </div>
+            <div className='col-span-3'> {project.projectname} </div>
 
             <div className='col-span-2'><p>{project.constructorname} </p></div>
 
-            <div className='col-span-4'><p> {project.city} </p></div>
+            <div className='col-span-2'><p> {project.city} </p></div>
+            <div className='col-span-2'><p> {project.neighborhood} </p></div>
+            <div className='col-span-2'><p> {project.address} </p></div>
             <div className='col-span-1 flex flex-col items-center justify-end relative' >
                 <button onClick={() => setDropDown(!dropDown)} className='w-1/4 flex items-center justify-center' >
                     <img src={pointMenu} alt='menu' />

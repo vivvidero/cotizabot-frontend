@@ -1,11 +1,13 @@
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, LinkButton, NewTipologyModal } from '../../components'
+import { AdminProgressBar, InputFile, LinkButton, NewTipologyModal, SubmitButton } from '../../components'
 import addTipology from '../../assets/icons/add-tipology.png'
+import delOrange from '../../assets/icons/Delete-orange.png'
 import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Tipology } from '../../types/Tipology'
 import api from '../../api'
+import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
 
 
@@ -13,15 +15,19 @@ import { NewProjectContext } from '../../context'
 export const AdminNewTipology = () => {
 
     const [newTipology, setNewTipology] = useState<Tipology>({
-        tipologyName: '',
-        tipologyType: '',
-        tipologyPrivateArea: '',
-        tipologyConstructedArea: '',
-        tipologyImage: null
+        name: '',
+        type: '',
+        privateArea: '',
+        constructedArea: '',
+        blueprints: null,
+        revitModel: null,
+        video: null,
+        image: null
     })
+    const { loading, setLoading } = useContext(LoadingContext)
+    const { newProject } = useContext(NewProjectContext)
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { newProject, setNewProject } = useContext(NewProjectContext)
     const navigate = useNavigate();
 
     const handleNewTipology = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +45,7 @@ export const AdminNewTipology = () => {
         setNewTipology((prevState) => {
             return {
                 ...prevState,
-                tipologyImage: file
+                image: file
             }
         }
         )
@@ -54,25 +60,29 @@ export const AdminNewTipology = () => {
     }
 
     const handleSaveTipology = () => {
-        setIsModalOpen(true)
-        // Aca hacer POST de Tipology en el futuro
-        /* api.post('/proyectos', { projectName: newProject.projectName, constructionName: newProject.constructionName, tipology: newTipology }) */
+        setLoading(true)
 
-        setNewProject((prevState) => {
-            return {
-                ...prevState,
-                tipologies: [
-                    ...prevState.tipologies,
-                    newTipology
-                ]
-            }
-        })
-        localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: [...newProject.tipologies, newTipology] }));
-        setTimeout(() => {
-            navigate('/new-project/tipology');
-        }, 5000);
+        // Aca hacer POST de Tipology en el futuro
+        api.post(`${newProject.projectId}/new-tipology`, newTipology)
+            .then(() => {
+                setIsModalOpen(true)
+                setLoading(false)
+                setTimeout(() => {
+                    navigate('/new-project/space-selector');
+                }, 3000);
+            })
     }
 
+    const deleteImagePreview = () => {
+        setNewTipology((prevState) => {
+            return {
+                ...prevState,
+                image: null
+            }
+        })
+        setImagePreview('')
+    }
+    console.log(newTipology);
 
 
     return (
@@ -80,29 +90,42 @@ export const AdminNewTipology = () => {
             <AdminProgressBar progress={2} />
             <article className='w-full h-full pt-5 flex' >
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
-                    <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Nueva Tipologías</h3>
+                    <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Nueva Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input name='tipologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
-                        <input name='tipologyType' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
-                        <input name='tipologyPrivateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
-                        <input name='tipologyConstructedArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
+                        <input name='name' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
+                        <input name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
+                        <input name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
+                        <input name='constructedArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
+                        <InputFile setNewTipology={setNewTipology} name={'blueprints'} label={'Cargar planos .pdf'} file={newTipology.blueprints?.name} />
+                        <InputFile setNewTipology={setNewTipology} name={'revitModel'} label={'Cargar modelo Revit'} file={newTipology.revitModel?.name} />
+                        <InputFile setNewTipology={setNewTipology} name={'video'} label={'Cargar video de la vivienda'} file={newTipology.video?.name} />
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
-                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden'>
+                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative' >
+                        {
+                            !imagePreview ?
+                                <div className='py-2 px-5 flex flex-col items-center'>
+                                    <label htmlFor='image' className='mt-4 flex flex-col items-center cursor-pointer'>
+                                        <img src={addTipology} alt={'Tipologia elegida'} className='w-28 object-contain' />
+                                        Cargar imagen de la tipología
+                                    </label>
+                                </div>
 
-                        <div className='flex justify-center items-center overflow-hidden'>
-                            <img src={imagePreview ? imagePreview : addTipology} alt={'Tipologia elegida'} className='w-full object-contain' />
-                        </div>
-                        {!imagePreview && <label>Cargar imagen de la tipología</label>}
-
-                        <input type='file' name='tipologyImage' onChange={handleTipologyImage} />
-
+                                :
+                                <>
+                                    <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain' />
+                                    <div className='absolute bottom-5 right-5 cursor-pointer' onClick={deleteImagePreview}>
+                                        <img src={delOrange} className='z-20 w-12 ' alt='' />
+                                    </div>
+                                </>
+                        }
+                        <input type='file' id='image' name='image' onChange={handleTipologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
-                        <button className='bg-dorado flex items-center justify-center gap-2 px-5 py-2 w-52 rounded-full text-lg hover:scale-95 duration-200 border border-vivvi' onClick={handleSaveTipology}>
+                        <SubmitButton bg={'golden'} loading={loading} handle={handleSaveTipology}>
                             Guardar y continuar
-                        </button>
+                        </SubmitButton>
                         <LinkButton link={"/"} bg=''>
                             Cancelar
                         </LinkButton>

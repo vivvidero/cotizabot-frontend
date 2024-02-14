@@ -1,23 +1,36 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { MainLayout, MiddleLayout } from '../../Layout'
-import { AdminProgressBar, LinkButton } from '../../components'
-import { ChangeEvent, useContext } from 'react'
+import { AdminCheckbox, AdminInput, AdminProgressBar, LinkButton, Spinner, SubmitButton } from '../../components'
+import { useContext } from 'react'
 import { NewProjectContext } from '../../context/NewProjectContext'
+import api from '../../api'
+import { LoadingContext } from '../../context/LoadingContext'
 
 export const AdminNewProject = () => {
 
+  const navigate = useNavigate()
+  const { newProject, setNewProject } = useContext(NewProjectContext)
+  const { setLoading, loading } = useContext(LoadingContext)
 
-  const { setNewProject, newProject } = useContext(NewProjectContext)
+  const handleSubmit = () => {
+    setLoading(true)
+    /* api.post('/new-project', newProject)
+      .then((data) => {
+        setNewProject((prevState) => {
+          return {
+            ...prevState,
+            projectId: data.data
+          }
+        })
+      })
+      .then(() => {
+        setLoading(false)
+        navigate('/new-project/tipology')
+      }) */
 
-  const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
-
-    setNewProject((prevState) => {
-      return {
-        ...prevState,
-        [e.target.name]: e.target.value
-      }
-    })
-    localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value }));
+    // BORRAR LUEGO DE INTEGRAR BACKEND
+    setLoading(false)
+    navigate('/new-project/tipology')
   }
 
   console.log(newProject);
@@ -29,16 +42,30 @@ export const AdminNewProject = () => {
       <MiddleLayout>
         <h2 className='mb-16 text-3xl text-vivvi font-outfit'>Nuevo Proyecto</h2>
         <form className='flex flex-col gap-6 w-1/3'>
-          <input className='py-6 px-5 border' placeholder='Nombre del proyecto' name='projectName' value={newProject.projectName} onChange={handleProject} />
-          <input className='py-6 px-5 border' placeholder='Constructora' name='constructionName' value={newProject.constructionName} onChange={handleProject} />
-          <input className='py-6 px-5 border' placeholder='Ciudad' name='city' value={newProject.city} onChange={handleProject} />
-          <div className='flex gap-4'>
-            <LinkButton link={'/new-project/tipology'} bg={'golden'}>
-              Continuar
-            </LinkButton >
-            <Link to={"/admin"} className='grid place-content-center px-5 border border-vivvi rounded-full'>
+          <AdminInput placeholder={'Nombre del proyecto'} name={'projectname'} value={newProject.projectname} />
+          <AdminInput placeholder={'Constructora'} name={'constructorname'} value={newProject.constructorname} />
+          <AdminInput placeholder={'Ciudad'} name={'city'} value={newProject.city} />
+          <AdminInput placeholder={'Barrio'} name={'neighborhood'} value={newProject.neighborhood} />
+          <AdminInput placeholder={'Dirección'} name={'address'} value={newProject.address} />
+          <div className='flex gap-8'>
+            <AdminCheckbox label={'VIS'} name={'type'} value={'VIS'} />
+            <AdminCheckbox label={'Usado'} name={'type'} value={'Usado'} />
+          </div>
+          <div className='flex gap-4 justify-center'>
+            <SubmitButton bg={'golden'} handle={handleSubmit} loading={loading} >
+              {loading
+                ?
+                <Spinner />
+                :
+                <p>Continuar</p>
+              }
+            </SubmitButton>
+            <LinkButton link='/admin' bg=''>
               Cancelar
-            </Link >
+            </LinkButton>
+            {/* <Link to={"/admin"} className='flex items-center justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border border-vivvi'>
+
+            </Link > */}
           </div>
         </form>
       </MiddleLayout>
