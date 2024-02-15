@@ -1,42 +1,40 @@
 import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import plus from '../../../assets/icons/Plus.png'
-import { NewProjectContext } from '../../../context'
-import { Spaces } from '../../../types/Spaces'
+import { SingleSpace, Spaces } from '../../../types/Spaces'
+import { LoadingContext } from '../../../context/LoadingContext'
 
-interface Props{
-    tipologies: number[],
-    setTipologies: Dispatch<SetStateAction<number[]>>,
-    space: Spaces
+interface Props {
+    setSpace: Dispatch<SetStateAction<SingleSpace>>
+    singleSpace: Spaces
 }
 
-export const AddTipologyButton: FC<Props> = ({tipologies, setTipologies, space}) => {
+export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace }) => {
 
-    const {newProject, setNewProject} = useContext(NewProjectContext)
-
-    const addTipologies = () => {
+    const { loading, setLoading } = useContext(LoadingContext)
 
 
-        const lastTipology = tipologies[tipologies.length - 1]
-        setTipologies((prevState) => [...prevState, lastTipology + 1])
-        localStorage.setItem(`${space.name}${space.roomNumber}Tipologies`, JSON.stringify([...tipologies, lastTipology + 1]))
-        const updatedTipologies = newProject.spaces.map(spa => spa.name === space.name && spa.roomNumber === space.roomNumber ? { ...spa, tipologies: [...spa.tipologies, { id: lastTipology + 1 }] } : spa)
-        setNewProject((prevState) => {
-            return {
-                ...prevState,
-                spaces: updatedTipologies
-            }
+    const saveAndAddTipology = () => {
+        setLoading(true)
+
+        // POST TIPOLOGIA
+
+        setSpace({
+            space: singleSpace.name
         })
+
+        setLoading(false)
     }
 
+
     return (
-        <div className='font-medium   '>
+        <div className='font-medium my-4'>
             <h3 className='mb-4'>Información tipologías posibles (opcional)</h3>
-            <div className='bg-white p-2 flex gap-4 items-center cursor-pointer  hover:bg-slate-100 transition-all' onClick={addTipologies}>
+            <button className='bg-white p-2 flex gap-4 items-center cursor-pointer  hover:bg-slate-100 transition-all w-full' onClick={saveAndAddTipology}>
                 <div className='bg-platinum py-2 px-4 rounded-md'>
                     <img src={plus} alt='plus' />
                 </div>
-                <p> Agregar nueva tipología</p>
-            </div>
+                <p>Guardar y Agregar nueva tipología</p>
+            </button>
         </div>
     )
 }

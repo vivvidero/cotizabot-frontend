@@ -11,53 +11,18 @@ interface Props {
 
 export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spaces, setSpaces }) => {
 
-    console.log(spaces);
-
-
     const handleSpaces = (e: ChangeEvent<HTMLInputElement>) => {
 
         if (!e.target.checked) {
             setSpaces(spaces.filter(space => space.name !== name))
-            /* setNewProject((prevState) => {
-                return {
-                    ...prevState,
-                    spaces: savedSpaces.filter(s => s.name !== space)
-                }
-            })
-            localStorage.setItem('newProject', JSON.stringify({
-                ...newProject,
-                spaces: savedSpaces.filter(s => s.name !== space)
-            })); */
+
+            localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.filter(space => space.name !== name)))
         } else {
 
             setSpaces(spaces.concat({ name: name, roomNumber: 1 }))
-            /* setNewProject((prevState) => {
-                return {
-                    ...prevState,
-                    spaces: [
-                        ...prevState.spaces,
-                        {
-                            name: space,
-                            roomNumber: 1,
-                            tipologies: [{id: 1}]
-                        }
-                    ]
-                }
-            })
-            localStorage.setItem('newProject', JSON.stringify({
-                ...newProject,
-                spaces: [
-                    ...newProject.spaces,
-                    {
-                        name: space,
-                        roomNumber: 1,
-                        tipologies: [{id: 1}]
-                    }
-                ]
-            })); */
+            localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.concat({ name: name, roomNumber: 1 })))
         }
     };
-
 
     const handleSpaceQuantity = (e: ChangeEvent<HTMLSelectElement>) => {
 
@@ -69,10 +34,7 @@ export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spac
         }
         setSpaces(updateNewProjectSpaces.concat(arrayRepetidos));
 
-        /* localStorage.setItem('newProject', JSON.stringify({
-            ...newProject,
-            spaces: updateNewProjectSpaces.concat(arrayRepetidos)
-        })); */
+        localStorage.setItem('newProjectSpaces', JSON.stringify(updateNewProjectSpaces.concat(arrayRepetidos)));
     };
 
     return (

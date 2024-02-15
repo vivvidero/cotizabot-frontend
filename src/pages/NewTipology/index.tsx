@@ -1,5 +1,5 @@
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, InputFile, LinkButton, NewTipologyModal, SubmitButton } from '../../components'
+import { AdminProgressBar, InputFile, LinkButton, NewTipologyModal, Spinner, SubmitButton } from '../../components'
 import addTipology from '../../assets/icons/add-tipology.png'
 import delOrange from '../../assets/icons/Delete-orange.png'
 import { ChangeEvent, useContext, useState } from 'react'
@@ -24,7 +24,7 @@ export const AdminNewTipology = () => {
         video: null,
         image: null
     })
-    const { loading, setLoading } = useContext(LoadingContext)
+    const {  setLoading } = useContext(LoadingContext)
     const { newProject } = useContext(NewProjectContext)
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,14 +63,17 @@ export const AdminNewTipology = () => {
         setLoading(true)
 
         // Aca hacer POST de Tipology en el futuro
-        api.post(`${newProject.projectId}/new-tipology`, newTipology)
+        /* api.post(`${newProject.projectId}/new-tipology`, newTipology)
             .then(() => {
                 setIsModalOpen(true)
                 setLoading(false)
                 setTimeout(() => {
                     navigate('/new-project/space-selector');
                 }, 3000);
-            })
+            }) */
+        setLoading(false)
+        navigate('/new-project/space-selector')
+
     }
 
     const deleteImagePreview = () => {
@@ -111,7 +114,6 @@ export const AdminNewTipology = () => {
                                         Cargar imagen de la tipología
                                     </label>
                                 </div>
-
                                 :
                                 <>
                                     <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain' />
@@ -123,8 +125,8 @@ export const AdminNewTipology = () => {
                         <input type='file' id='image' name='image' onChange={handleTipologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
-                        <SubmitButton bg={'golden'} loading={loading} handle={handleSaveTipology}>
-                            Guardar y continuar
+                        <SubmitButton bg={'golden'} handle={handleSaveTipology}>
+                            <p>Guardar y continuar</p>
                         </SubmitButton>
                         <LinkButton link={"/"} bg=''>
                             Cancelar

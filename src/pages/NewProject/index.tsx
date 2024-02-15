@@ -52,20 +52,12 @@ export const AdminNewProject = () => {
             <AdminCheckbox label={'Usado'} name={'type'} value={'Usado'} />
           </div>
           <div className='flex gap-4 justify-center'>
-            <SubmitButton bg={'golden'} handle={handleSubmit} loading={loading} >
-              {loading
-                ?
-                <Spinner />
-                :
-                <p>Continuar</p>
-              }
+            <SubmitButton bg={'golden'} handle={handleSubmit}  >             
+                <p>Continuar</p>            
             </SubmitButton>
             <LinkButton link='/admin' bg=''>
               Cancelar
             </LinkButton>
-            {/* <Link to={"/admin"} className='flex items-center justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border border-vivvi'>
-
-            </Link > */}
           </div>
         </form>
       </MiddleLayout>

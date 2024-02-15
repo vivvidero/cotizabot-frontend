@@ -23,8 +23,8 @@ export default {
         'snow': '#F8F1F2',
         "timberwolf": "#D0D3D4",
         "cadet-gray": "#9F9F9F",
-        "silver": "#ADADAD"
-
+        "silver": "#ADADAD",
+        "battleGray": '#9C9C9C'
       }
     },
   },
