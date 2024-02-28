@@ -10,5 +10,6 @@ export * from './NewReference'
 export * from './EditReference'
 export * from './NewSupplie'
 export * from './SummaryNewProject'
+export * from './EditProject'
 
 

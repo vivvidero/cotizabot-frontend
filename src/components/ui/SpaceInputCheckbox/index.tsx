@@ -40,12 +40,12 @@ export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spac
     return (
         <label className="p-4 bg-white flex justify-between">
             <div>
-                <input type="checkbox" name={name} onChange={handleSpaces} /* checked={newProject?.spaces?.some(space => space.name === 'socialBathRoomWithoutShower') || false} */ className="mr-2" /> {singleSpace}
+                <input type="checkbox" name={name} onChange={handleSpaces} checked={spaces?.some(space => space.name === name) || false} className="mr-2" /> {singleSpace}
             </div>
             {options && spaces?.some(space => space.name === name)
                 &&
-                <select onChange={handleSpaceQuantity} name={name} /* defaultValue={newProject.spaces.filter(space => space.name === "socialBathRoomWithoutShower").length} */>
-                    {options.map(option => <option> {option} </option>)}
+                <select onChange={handleSpaceQuantity} name={name} defaultValue={spaces?.filter(space => space.name === name).length}>
+                    {options.map(option => <option key={option}> {option} </option>)}
                 </select>
             }
         </label>

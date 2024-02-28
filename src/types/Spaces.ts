@@ -1,23 +1,22 @@
 export interface Spaces {
     name: string,
     roomNumber: number,
+    spaceId?: number
 }
 
 export interface SingleSpace {
-    space: string
+    spaceType: string,
+    roomNumber: number,
+    spaceId: number | undefined,
     area?: string,
     image3D?: File | null,
     actualStatus?: File | null,
     lowCabinet?: string,
     highCabinet?: string,
-    mlIslandFurniture?: string,
     tipology?: string,
-    tipologyImage?: File | null
-    shower?: string,
     bathroomFurniture?: string,
     closet?: string,
     desktop?: string,
-    furniture?: string
     walls?: string
     demolitions?: string
     cubBoard?: string

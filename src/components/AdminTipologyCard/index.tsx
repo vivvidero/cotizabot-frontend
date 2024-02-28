@@ -2,13 +2,20 @@ import { FC } from 'react'
 import tipologyPlaceholder from '../../assets/images/Rectangle 804.png'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
-import { Tipology } from '../../types/Tipology'
+import { Typology } from '../../types/Tipology'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
-    tipology: Tipology
+    typology: Typology
 }
 
-export const AdminTipologyCard: FC<Props> = ({ tipology }) => {
+export const AdminTipologyCard: FC<Props> = ({ typology }) => {
+
+    const navigate = useNavigate()
+
+    const handleEdit = () => {
+        navigate('/new-project/space-selector')
+    }
 
     /* const selectTipology = () => {
         setNewProject((prevState) => {
@@ -43,13 +50,13 @@ export const AdminTipologyCard: FC<Props> = ({ tipology }) => {
             </div>
             <div className='text-center font-outfit text-base font-normal'>
                 <h4 className='text-lg'>
-                    {tipology.tipologyName}
+                    {typology.typologyname}
                 </h4>
-                <p> Área: {tipology.tipologyPrivateArea} </p>
-                <p> Tipo: {tipology.tipologyType} </p>
+                <p> Área: {typology.privatearea} </p>
+                <p> Tipo: {typology.type} </p>
             </div>
             <div className='flex gap-2 my-3'>
-                <button className='border border-vivvi  px-6 rounded-full h-8'>
+                <button className='border border-vivvi  px-6 rounded-full h-8' onClick={handleEdit}>
                     Editar
                 </button>
                 <button className='border border-vivvi rounded-full w-8 h-8 p-2'>

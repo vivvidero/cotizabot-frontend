@@ -2,25 +2,45 @@ import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import plus from '../../../assets/icons/Plus.png'
 import { SingleSpace, Spaces } from '../../../types/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
+import api from '../../../api'
+import { NewProjectContext } from '../../../context'
 
 interface Props {
     setSpace: Dispatch<SetStateAction<SingleSpace>>
-    singleSpace: Spaces
+    singleSpace: Spaces,
+    space: SingleSpace
 }
 
-export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace }) => {
+export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) => {
 
     const { loading, setLoading } = useContext(LoadingContext)
+    const { newProject } = useContext(NewProjectContext)
 
 
-    const saveAndAddTipology = () => {
+    const saveAndAddTipology = (e) => {
+        e.preventDefault()
+
         setLoading(true)
-
-        // POST TIPOLOGIA
-
-        setSpace({
-            space: singleSpace.name
-        })
+        // POST ESPACIO
+        try {
+            api.post('/spaces', { typologyId: newProject.activeTypologyId, ...space, })
+            .then((data) => {
+                console.log(data.data);
+                
+            })
+            .then(() => {
+                setSpace({
+                    spaceType: singleSpace?.name,
+                    roomNumber: singleSpace?.roomNumber,
+                    spaceId: singleSpace?.spaceId
+                })
+            })
+            alert('Tipologia de espacio guardado')
+        } catch (error) {
+            console.log(error);
+            
+        }
+        
 
         setLoading(false)
     }

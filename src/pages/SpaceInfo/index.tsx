@@ -1,22 +1,34 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { AdminProgressBar, AdminSpacesInfo, LinkButton, NewProjectModal } from '../../components'
 import check from '../../assets/icons/check.png'
 import api from '../../api'
 
-import { Spaces } from '../../types/Spaces'
+import { SingleSpace, Spaces } from '../../types/Spaces'
 import { useNavigate } from 'react-router-dom'
+import { NewProjectContext } from '../../context'
 
 export const AdminSpaceInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [spaces, setSpaces] = useState<Spaces[]>([])
   const [progressCounter, setProgressCounter] = useState<number>(1)
+  const [space, setSpace] = useState<SingleSpace>({
+    spaceType: spaces[progressCounter]?.name,
+    roomNumber: spaces[progressCounter]?.roomNumber,
+    spaceId: spaces[progressCounter]?.spaceId
+  })
+  const { newProject } = useContext(NewProjectContext)
   const navigate = useNavigate()
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
     // POST ESPACIO
+    api.post('/spaces', { typologyId: newProject.activeTypologyId, ...space, })
+      .then((data) => {
+        console.log(data.data);
+      })
+
 
     if (progressCounter === spaces.length) {
       navigate('/new-project/summary')
@@ -52,8 +64,6 @@ export const AdminSpaceInfo = () => {
   }, [])
 
 
-  console.log(spaces);
-
 
   return (
     <MainLayout>
@@ -64,9 +74,7 @@ export const AdminSpaceInfo = () => {
           <p> {progressCounter}/{spaces.length} </p>
         </div>
         <form className="flex flex-col gap-6 w-6/12">
-
-
-          <AdminSpacesInfo spaces={spaces} progressCounter={progressCounter - 1} />
+          <AdminSpacesInfo spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} />
           <div className=" flex gap-5">
             {
               progressCounter > 1

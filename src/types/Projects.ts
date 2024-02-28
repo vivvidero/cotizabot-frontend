@@ -1,6 +1,6 @@
 export interface Projects {
-    projectname: string,
-    constructorname: string,
+    projectName: string,
+    constructorName: string,
     city: string,
     neighborhood: string,
     address: string

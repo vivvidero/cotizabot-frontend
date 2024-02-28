@@ -4,10 +4,10 @@ import { AuthContext } from './context'
 
 export const ProtectedRoutes = () => {
 
-    const { token } = useContext(AuthContext)
+    const { token, isAuthenticated } = useContext(AuthContext)
 
-/*     if (!token) return <Navigate to={'/'} replace />
- */
+    if (!isAuthenticated) return <Navigate to={'/'} replace />
+
 
     return (
         <Outlet />

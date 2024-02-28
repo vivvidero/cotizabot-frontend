@@ -4,23 +4,29 @@ import noProjects from '../../assets/images/noprojects.png'
 import api from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
+import UseLocalStorage from "../../hooks/useLocalStorage"
+import { MenuItem, Select } from "@mui/material"
 
 export const AdminProjects = () => {
 
     const [projects, setProjects] = useState<Projects[]>([])
     const { loading, setLoading } = useContext(LoadingContext)
+    const [value, setValue, removeLocal] = UseLocalStorage('newProject')
+    const [projectsType, setProjectType] = useState<string>("VIS")
+
+
+    useEffect(() => {
+        setLoading(true)
+        api.get('/proyectos')
+            .then((data) => {
+                setProjects(data.data)
+            })
+            .then(() => setLoading(false))
+        removeLocal()
+    }, [])
+
+
     
-        useEffect(() => {
-            setLoading(true)
-            api.get('/proyectos')
-                .then((data) => {
-                    setProjects(data.data)
-                })
-                .then(() => setLoading(false))
-        }, [])
-
-    console.log(projects);
-
 
     return (
         <>
@@ -32,11 +38,11 @@ export const AdminProjects = () => {
                         <LinkButton link={"new-project"} bg="golden">
                             Nuevo Proyecto
                         </LinkButton>
-
-                        <select className='border border-blue-700 rounded-full text-blue-700'>
-                            <option>VIS</option>
-                            <option>Usado</option>
-                        </select>
+                    
+                        <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
+                            <MenuItem value={"VIS"} >VIS</MenuItem>
+                            <MenuItem value={"Usado"} >Usado</MenuItem>
+                        </Select>
                     </>
 
                 }
@@ -74,7 +80,8 @@ export const AdminProjects = () => {
                                 </LinkButton>
                             </div>
                             :
-                            projects.map((project) => <AdminProyectItem key={project.projectid} project={project} />)
+                            projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />)
+
                 }
             </section>
         </>

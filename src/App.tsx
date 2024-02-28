@@ -1,5 +1,5 @@
 import './App.css'
-import { Admin, AdminEditReference, AdminLogin, AdminNewApu, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceInfo, AdminSpaceSelector, AdminTipology, SummaryNewProject, } from './pages'
+import { Admin, AdminEditReference, AdminLogin, AdminNewApu, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceInfo, AdminSpaceSelector, AdminTipology, EditProject, SummaryNewProject, } from './pages'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { AuthProvider, NewProjectProvider } from './context'
@@ -27,6 +27,7 @@ function App() {
                   </Route>
                 </Route>
                 <Route path='/admin/projects/new-project' element={<AdminNewProject />} />
+                <Route path='/admin/projects/edit-project' element={<EditProject />} />
                 <Route path='/new-project/tipology' element={<AdminTipology />} />
                 <Route path='/new-project/tipology/new-tipology' element={<AdminNewTipology />} />
                 <Route path='/new-project/space-selector' element={<AdminSpaceSelector />} />

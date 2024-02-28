@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom'
 
 export const AdminLogin = () => {
 
-    const { user, setUser, signIn, error, token } = useContext<AuthContextProps>(AuthContext)
+    const { user, setUser, signIn, error, token, isAuthenticated } = useContext<AuthContextProps>(AuthContext)
 
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,11 +21,9 @@ export const AdminLogin = () => {
             [e.target.name]: e.target.value
         }))
     }
-
-    console.log(user);
     
-
-    if (user.password) return <Navigate to={'/admin/projects'} replace />
+    
+    if (isAuthenticated) return <Navigate to={'/admin/projects'} replace />
 
     return (
         <LoginLayout>
@@ -40,7 +38,7 @@ export const AdminLogin = () => {
                             <label htmlFor='email' />
                             <input autoComplete='current-password' onChange={handleInputChange} name='email' placeholder='Email' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100 ' />
                             <label htmlFor='password' />
-                            <input onChange={handleInputChange} name='password' type='password' placeholder='Contraseña' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100' />
+                            <input onChange={handleInputChange} name='password' type='password' autoComplete='current-password' placeholder='Contraseña' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100' />
                             <button className='w-2/3 xl:w-full flex p-2 items-center justify-center rounded-full bg-vivvi text-base  text-white my-4' >Ingresar</button>
                         </form>
                     </div>
@@ -49,7 +47,6 @@ export const AdminLogin = () => {
                     </div>)}
                 </div>
             </MiddleLayout>
-
         </LoginLayout>
     )
 }

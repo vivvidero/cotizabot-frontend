@@ -1,17 +1,18 @@
 import { Dispatch, FC, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
-import { Tipology } from "../../types/Tipology";
+import { Typology } from "../../types/Tipology";
 import { Spaces } from "../../types/Spaces";
 
 export interface NewProject {
-    projectname: string,
-    constructorname: string,
+    projectName: string,
+    constructorName: string,
     city: string,
     neighborhood: string,
     address: string
     type: string,
-    tipologies?: Tipology[],
+    tipologies?: Typology[],
     spaces?: Spaces[]
     projectId?: number
+    activeTypologyId?: number
 }
 
 interface NewProjectContextProps {
@@ -24,8 +25,8 @@ interface Props {
 }
 
 const initialValue: NewProject = {
-    projectname: '',
-    constructorname: '',
+    projectName: '',
+    constructorName: '',
     city: '',
     neighborhood: '',
     type: '',
@@ -49,7 +50,7 @@ export const NewProjectProvider: FC<Props> = ({ children }) => {
         }
     }, [])
 
-    
+
     return (
         <NewProjectContext.Provider value={{ newProject, setNewProject }}>
             {children}
