@@ -46,9 +46,9 @@ export const AdminNewProject = () => {
 
     }
 
-
-
   }
+  console.log(newProject);
+  
 
   return (
     <MainLayout>

@@ -6,11 +6,13 @@ import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
 import UseLocalStorage from "../../hooks/useLocalStorage"
 import { MenuItem, Select } from "@mui/material"
+import { NewProjectContext } from "../../context"
 
 export const AdminProjects = () => {
 
     const [projects, setProjects] = useState<Projects[]>([])
     const { loading, setLoading } = useContext(LoadingContext)
+    const { newProject, setNewProject } = useContext(NewProjectContext)
     const [value, setValue, removeLocal] = UseLocalStorage('newProject')
     const [projectsType, setProjectType] = useState<string>("VIS")
 
@@ -22,11 +24,19 @@ export const AdminProjects = () => {
                 setProjects(data.data)
             })
             .then(() => setLoading(false))
+        setNewProject({
+            projectName: '',
+            constructorName: '',
+            city: '',
+            neighborhood: '',
+            type: '',
+            address: '',
+        })
         removeLocal()
     }, [])
 
 
-    
+
 
     return (
         <>
@@ -38,7 +48,7 @@ export const AdminProjects = () => {
                         <LinkButton link={"new-project"} bg="golden">
                             Nuevo Proyecto
                         </LinkButton>
-                    
+
                         <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
                             <MenuItem value={"VIS"} >VIS</MenuItem>
                             <MenuItem value={"Usado"} >Usado</MenuItem>

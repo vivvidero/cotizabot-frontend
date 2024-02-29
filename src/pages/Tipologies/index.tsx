@@ -26,10 +26,10 @@ export const AdminTipology = () => {
                             activeTypologyId: undefined
                         }
                     })
-
+                    updateProject({ ...newProject, activeTypologyId: undefined })
+                    removeSpaces()
                 })
-                updateProject({...newProject, activeTypologyId: undefined})
-                removeSpaces()
+
                 .then(() => setLoading(false))
         } catch (error) {
             console.log(error);
@@ -38,7 +38,7 @@ export const AdminTipology = () => {
         setLoading(false)
 
     }, [])
-    
+
 
     return (
         <MainLayout>
