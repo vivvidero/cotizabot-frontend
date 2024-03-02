@@ -43,7 +43,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         try {
             const response = await api.post('/login', user)
             console.log(response);
-            /* setToken(response.data) */
+            setToken(response.data)
             setIsAuthenticated(true)
         } catch (error: any) {
             console.error(error);

@@ -89,8 +89,6 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         }
     }
 
-    console.log(space);
-
 
     return (
         <>
@@ -143,7 +141,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                         {
                             spaces[progressCounter]?.name === 'kitchen'
                                 ?
-                                <SelectInfoSpace handle={handleSpace} options={["Cocina en Barra", "Cocina en barra"]} />
+                                <SelectInfoSpace handle={handleSpace} options={[1, 2]} />
                                 :
                                 spaces[progressCounter]?.name === 'clothes'
                                     ?
@@ -207,14 +205,13 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                         {/* REPISA */}
                         {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'shelf'} label={'Repisa'} unit={'ml'} />}
 
-
                     </div>
                 </div>
                 {comment
                     &&
                     <>
                         <label className="mx-2 font-roboto font-normal text-lg text-battleGray">Comentario</label>
-                        <input name="comment" className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
+                        <input name="commentUser" className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
                     </>
                 }
                 <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />

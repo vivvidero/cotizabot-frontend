@@ -1,11 +1,12 @@
 export interface Typology {
-    projectId?: number
+    projectid?: number
     typologyName: string,
     type: string,
     privateArea: string,
     builtArea: string,
-    blueprints: FormData | null,
-    revitModel: FormData | null,
-    video: FormData | null,
+    blueprints: string,
+    revitModel: string,
+    video: string,
     image: FormData | null
+    typologyid?: number
 }

@@ -56,8 +56,8 @@ export const AdminNewProject = () => {
       <MiddleLayout>
         <h2 className='mb-16 text-3xl text-vivvi font-outfit'>Nuevo Proyecto</h2>
         <form className='flex flex-col gap-6 w-1/3'>
-          <AdminInput placeholder={'Nombre del proyecto'} name={'projectName'} value={newProject.projectName} />
-          <AdminInput placeholder={'Constructora'} name={'constructorName'} value={newProject.constructorName} />
+          <AdminInput placeholder={'Nombre del proyecto'} name={'projectname'} value={newProject.projectname} />
+          <AdminInput placeholder={'Constructora'} name={'constructorname'} value={newProject.constructorname} />
           <AdminInput placeholder={'Ciudad'} name={'city'} value={newProject.city} />
           <AdminInput placeholder={'Barrio'} name={'neighborhood'} value={newProject.neighborhood} />
           <AdminInput placeholder={'Dirección'} name={'address'} value={newProject.address} />

@@ -7,6 +7,7 @@ import { LoadingContext } from "../../context/LoadingContext"
 import UseLocalStorage from "../../hooks/useLocalStorage"
 import { MenuItem, Select } from "@mui/material"
 import { NewProjectContext } from "../../context"
+import { compararPorNumeroDeId } from "../../helpers/orderProjects"
 
 export const AdminProjects = () => {
 
@@ -21,21 +22,21 @@ export const AdminProjects = () => {
         setLoading(true)
         api.get('/proyectos')
             .then((data) => {
-                setProjects(data.data)
+                setProjects(data.data.reverse())
             })
             .then(() => setLoading(false))
         setNewProject({
-            projectName: '',
-            constructorName: '',
+            projectname: '',
+            constructorname: '',
             city: '',
             neighborhood: '',
             type: '',
             address: '',
         })
         removeLocal()
+
+        // NO AGREGAR DEPENDENCIAS PORQUE SE EJECUTA EN BUCLE
     }, [])
-
-
 
 
     return (
@@ -54,9 +55,7 @@ export const AdminProjects = () => {
                             <MenuItem value={"Usado"} >Usado</MenuItem>
                         </Select>
                     </>
-
                 }
-
             </div>
 
             <section className='flex flex-col gap-4'>
@@ -90,7 +89,7 @@ export const AdminProjects = () => {
                                 </LinkButton>
                             </div>
                             :
-                            projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />)
+                            projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />).sort(compararPorNumeroDeId)
 
                 }
             </section>

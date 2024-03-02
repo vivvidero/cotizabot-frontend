@@ -13,7 +13,7 @@ export interface SingleSpace {
     actualStatus?: File | null,
     lowCabinet?: string,
     highCabinet?: string,
-    tipology?: string,
+    spaceTypology?: string,
     bathroomFurniture?: string,
     closet?: string,
     desktop?: string,
@@ -21,7 +21,7 @@ export interface SingleSpace {
     demolitions?: string
     cubBoard?: string
     islandOrBar?: string
-    comment?: string
+    commentUser?: string
     slidingDoor?: string
     showerDivision?: string
     ceiling?: string

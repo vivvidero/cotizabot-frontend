@@ -38,9 +38,9 @@ export const SummaryTipologyCard = (typology) => {
 
             }
             {
-                typology?.typology?.lowCabinet
+                typology?.typology?.lowercabinetml
                 &&
-                <SummaryInput data='Mueble bajo' value={typology?.typology?.lowCabinet} />
+                <SummaryInput data='Mueble bajo' value={typology?.typology?.lowercabinetml} />
 
             }
             {

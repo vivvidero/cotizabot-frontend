@@ -19,9 +19,7 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
     const open = Boolean(dropdownOpen);
     const { setLoading } = useContext(LoadingContext)
 
-    const { setNewProject } = useContext(NewProjectContext)
-    const navigate = useNavigate()
-
+    
     const handleDelete = () => {
         const confDel = confirm(`Estás seguro de borrar el proyecto: ${project.projectname}`)
         if (confDel) {
@@ -79,22 +77,11 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
 
                 >
                     <EditProjectButton project={project} />
-                    {/* <MenuItem onClick={handleEdit}> Editar</MenuItem> */}
+                    
                     <MenuItem onClick={handleDelete}>Eliminar </MenuItem>
 
                 </Menu>
-                {/* <div onClick={closeDropdowns} className='w-full'>
-                    <button onClick={toggleDropdown} className='w-1/4 flex items-center justify-center'>
-                        <img src={pointMenu} alt='menu' />
-                    </button>
-                </div>
-                {
-                    dropdownOpen &&
-                    <ul className={`overflow-hidden rounded-lg bg-white absolute right-20  ${dropdownOpen ? 'block' : 'hidden'}`} onClick={(e) => e.stopPropagation()}>
-                        <li className='text-gray-800 hover:bg-indigo-500 hover:text-white px-4 py-2 cursor-pointer' onClick={handleEdit}>Editar</li>
-                        <li className='text-gray-800 hover:bg-indigo-500 hover:text-white px-4 py-2 cursor-pointer' onClick={handleDelete}>Eliminar</li>
-                    </ul>
-                } */}
+                
             </div>
         </div>
     )

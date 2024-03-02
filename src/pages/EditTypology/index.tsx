@@ -10,11 +10,11 @@ import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
 
-export const AdminNewTipology = () => {
+export const EditTypology = () => {
 
-    const { newProject, setNewProject } = useContext(NewProjectContext)
+    const { newProject } = useContext(NewProjectContext)
 
-    const [newTypology, setNewTypology] = useState<Typology>({
+    const [editTypology, setEditTypology] = useState<Typology>({
         typologyName: '',
         type: '',
         privateArea: '',
@@ -26,22 +26,34 @@ export const AdminNewTipology = () => {
     })
 
     useEffect(() => {
-        setNewTypology((prevState) => {
-            return {
-                ...prevState,
-                projectid: newProject.projectid
-            }
-        })
+        api.get(`/projects/${newProject.projectid}/typologies`)
+            .then((data) => {
+                const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
+                setEditTypology({
+                    typologyName: projectToEdit.typologyname,
+                    type: projectToEdit.type,
+                    privateArea: projectToEdit.privatearea,
+                    builtArea: projectToEdit.builtarea,
+                    blueprints: projectToEdit.linkpdf,
+                    revitModel: projectToEdit.linkdocument,
+                    video: projectToEdit.linkvideo,
+                    image: null,
+                    projectid: newProject.projectid
+                })
+            })
+    }, [newProject.activeTypologyId, newProject.projectid])
 
-    }, [newProject.projectid])
+    console.log(editTypology);
+
+
 
     const { setLoading } = useContext(LoadingContext)
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    const handleNewTipology = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTypology((prevState) => {
+    const handleEditTipology = (e: ChangeEvent<HTMLInputElement>) => {
+        setEditTypology((prevState) => {
             return {
                 ...prevState,
                 [e.target.name]: e.target.value
@@ -53,7 +65,7 @@ export const AdminNewTipology = () => {
         const file = e.target.files[0];
         const formData = new FormData()
         formData.append(e.target.name, file);
-        setNewTypology((prevState: Typology) => {
+        setEditTypology((prevState: Typology) => {
             return {
                 ...prevState,
                 [e.target.name]: formData
@@ -70,41 +82,32 @@ export const AdminNewTipology = () => {
         }
     }
 
-    const handleSaveTypology = () => {
+    const handleSaveEditedTypology = () => {
         setLoading(true)
 
-        if (!newProject.projectid) {
-            console.log("NO HAY ID DE PROYECTO");
+        if (!newProject.projectid || !newProject?.activeTypologyId) {
+            console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
             return
         }
 
         try {
-            api.post(`/typologies`, { typologyId: newProject?.activeTypologyId, newTypology})
+            api.post(`/typologies`, { typologyId: newProject?.activeTypologyId, newTypology: editTypology })
                 .then((data) => {
                     console.log(data.data);
-                    setNewProject((prevState) => {
-                        return {
-                            ...prevState,
-                            activeTypologyId: data.data.typology.typologyid
-                        }
-                    })
-                    localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: data.data.typology.typologyid }))
                     setIsModalOpen(true)
                     setLoading(false)
                     setTimeout(() => {
-                        navigate('/new-project/space-selector');
+                        navigate('/new-project/tipology');
                     }, 3000);
                 })
-
         } catch (error) {
             console.log(error);
-
         }
         setLoading(false)
     }
 
     const deleteImagePreview = () => {
-        setNewTypology((prevState) => {
+        setEditTypology((prevState) => {
             return {
                 ...prevState,
                 image: null
@@ -120,18 +123,15 @@ export const AdminNewTipology = () => {
             <AdminProgressBar progress={2} />
             <article className='w-full h-full pt-5 flex' >
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
-                    <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Nueva Tipología</h3>
+                    <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Editar Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
-                        <input name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
-                        <input name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
-                        <input name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
-                        <input name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleNewTipology} />
-                        <input name='revitModel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
-                        <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} />
-                        {/* <InputFile setNewTypology={setNewTypology} name={'blueprints'} label={'Cargar planos .pdf'} />
-                        <InputFile setNewTypology={setNewTypology} name={'revitModel'} label={'Cargar modelo Revit'} />
-                        <InputFile setNewTypology={setNewTypology} name={'video'} label={'Cargar video de la vivienda'} /> */}
+                        <input value={editTypology.typologyName} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTipology} />
+                        <input value={editTypology.type} name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleEditTipology} />
+                        <input value={editTypology.privateArea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTipology} />
+                        <input value={editTypology.builtArea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTipology} />
+                        <input value={editTypology.blueprints} name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleEditTipology} />
+                        <input value={editTypology.revitModel} name='revitModel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTipology} />
+                        <input value={editTypology.video} name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleEditTipology} />
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
@@ -155,15 +155,15 @@ export const AdminNewTipology = () => {
                         <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
-                        <SubmitButton bg={'golden'} handle={handleSaveTypology}>
-                            <p>Guardar y continuar</p>
+                        <SubmitButton bg={'golden'} handle={handleSaveEditedTypology}>
+                            <p>Actualizar Tipologia</p>
                         </SubmitButton>
                         <LinkButton link={"/"} bg=''>
                             Cancelar
                         </LinkButton>
                     </div>
                     <NewTipologyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                        <h2 className='text-3xl font-roboto mb-4'>Tipología guardada</h2>
+                        <h2 className='text-3xl font-roboto mb-4'>Tipología Editada</h2>
                         <div>
                             <img src={check} alt='check' />
                         </div>

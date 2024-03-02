@@ -16,25 +16,26 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
 
     const [open, setOpen] = useState<boolean>(false);
     const navigate = useNavigate()
-    const { setNewProject } = useContext(NewProjectContext)
+    const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleEdit = (e) => {
-
         if (e.target.value === 'Información de proyecto') {
-            console.log(e.target.value);
-            /* api.get('/proyectos/:projectid')
-                .then((data) => {
-                    setNewProject((prevState) => {
-                        return {
-                            ...prevState,
-                            ...data.data
-                        }
-                    })
-                    navigate('edit-project')
-                }) */
-                navigate('edit-project')
+            localStorage.setItem('newProject', JSON.stringify(project))
+            setNewProject((prevState) => {
+                return {
+                    ...prevState,
+                    projectid: project.projectid
+                }
+            })
+            navigate('edit-project')
         } else {
-            console.log(e.target.value);
+            setNewProject((prevState) => {
+                return {
+                    ...project,
+                    projectid: project.projectid
+                }
+            })
+            navigate('/new-project/tipology')
         }
 
     }

@@ -1,6 +1,10 @@
 import {  FC, ReactNode, createContext, useEffect, useState } from "react";
 
-
+interface NewApu{
+    name: string,
+    material: string,
+    finish: string
+}
 
 interface NewApuContextProps {
 
@@ -15,26 +19,11 @@ export const NewApuContext = createContext<NewApuContextProps>({} as NewApuConte
 export const NewApuProvider: FC<Props> = ({ children }) => {
 
     const [newApu, setNewApu] = useState({
-        sellerName: '',
-        quoteName: '',
-        apartmentType: '',
-        projectName: '',
-        typology: '',
-        styleCatalog: '',
-        date: '',
-        price: 0
+       
     })
 
     useEffect(() => {
-        const storedQuotation = localStorage.getItem('new-apu');
-
-        if (storedQuotation) {
-            console.log(newApu);
-
-            console.log(storedQuotation);
-
-            setNewApu(JSON.parse(storedQuotation));
-        }
+        
     }, [])
 
 
