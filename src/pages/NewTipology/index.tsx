@@ -29,11 +29,11 @@ export const AdminNewTipology = () => {
         setNewTypology((prevState) => {
             return {
                 ...prevState,
-                projectid: newProject.projectid
+                projectid: newProject.projectId
             }
         })
 
-    }, [newProject.projectid])
+    }, [])
 
     const { setLoading } = useContext(LoadingContext)
     const [imagePreview, setImagePreview] = useState<string>('');
