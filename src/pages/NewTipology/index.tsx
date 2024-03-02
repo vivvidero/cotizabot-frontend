@@ -69,11 +69,10 @@ export const AdminNewTipology = () => {
             reader.readAsDataURL(file);
         }
     }
-
     const handleSaveTypology = () => {
         setLoading(true)
 
-        if (!newProject.projectid) {
+        if (!newProject.projectId) {
             console.log("NO HAY ID DE PROYECTO");
             return
         }
