@@ -13,6 +13,7 @@ import { NewProjectContext } from '../../context'
 export const EditTypology = () => {
 
     const { newProject } = useContext(NewProjectContext)
+    const [formDataTypo, setFormDataTypo] = useState(new FormData())
 
     const [editTypology, setEditTypology] = useState<Typology>({
         typologyName: '',
@@ -26,9 +27,10 @@ export const EditTypology = () => {
     })
 
     useEffect(() => {
-        api.get(`/projects/${newProject.projectid}/typologies`)
+        api.get(`/projects/${newProject.projectId}/typologies`)
             .then((data) => {
                 const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
+                setImagePreview(projectToEdit.image)
                 setEditTypology({
                     typologyName: projectToEdit.typologyname,
                     type: projectToEdit.type,
@@ -37,8 +39,8 @@ export const EditTypology = () => {
                     blueprints: projectToEdit.linkpdf,
                     revitModel: projectToEdit.linkdocument,
                     video: projectToEdit.linkvideo,
-                    image: null,
-                    projectid: newProject.projectid
+                    image: projectToEdit.image,
+                    projectid: newProject.projectId
                 })
             })
     }, [newProject.activeTypologyId, newProject.projectid])
@@ -64,14 +66,8 @@ export const EditTypology = () => {
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
         const formData = new FormData()
-        formData.append(e.target.name, file);
-        setEditTypology((prevState: Typology) => {
-            return {
-                ...prevState,
-                [e.target.name]: formData
-            }
-        }
-        )
+        formData.append('imagen', file);
+        setFormDataTypo(formData)
         if (file) {
             // Leer el contenido del archivo y mostrar una vista previa de la imagen
             const reader = new FileReader();
@@ -85,13 +81,23 @@ export const EditTypology = () => {
     const handleSaveEditedTypology = () => {
         setLoading(true)
 
-        if (!newProject.projectid || !newProject?.activeTypologyId) {
+        console.log(newProject.projectId);
+        console.log(newProject?.activeTypologyId);
+
+
+        if (!newProject.projectId || !newProject?.activeTypologyId) {
             console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
             return
         }
 
+        const jsonBlob = new Blob([JSON.stringify(editTypology)], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectId, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        formDataTypo.append('datos', jsonBlob, 'datos.json')
+        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
+
+
         try {
-            api.post(`/typologies`, { typologyId: newProject?.activeTypologyId, newTypology: editTypology })
+            api.post(`/typologies`, formDataTypo)
                 .then((data) => {
                     console.log(data.data);
                     setIsModalOpen(true)

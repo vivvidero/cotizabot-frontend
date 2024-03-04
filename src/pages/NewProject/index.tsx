@@ -22,13 +22,17 @@ export const AdminNewProject = () => {
       try {
         api.post(`/projects/new/${newProject.projectId}`, newProject)
           .then((data) => {
+
+            console.log(data.data);
+            
+
             setNewProject((prevState) => {
               return {
                 ...prevState,
-                projectId: data.data.projectId
+                projectid: data.data.projectId
               }
             })
-            setProject({ ...newProject, projectId: data.data.projectId })
+            setProject({ ...newProject, projectid: data.data.projectId })
           })
           .then(() => {
             setLoading(false)

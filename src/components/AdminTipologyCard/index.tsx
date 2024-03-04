@@ -39,7 +39,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
                 localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies.push(data.data?.typology) }))
-                api.get(`/projects/${project.projectid}/typologies`)
+                api.get(`/projects/${project.projectId}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
@@ -60,7 +60,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
-                api.get(`/projects/${project.projectid}/typologies`)
+                api.get(`/projects/${project.projectId}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
@@ -81,7 +81,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
             <div className='rounded-3xl overflow-hidden'>
-                <img src={tipologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
+                <img src={typology.image} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
             </div>
             <div className='font-outfit text-base font-normal flex flex-col gap-2'>
                 <h4 className='text-xl'>

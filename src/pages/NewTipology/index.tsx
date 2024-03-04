@@ -13,6 +13,7 @@ import { NewProjectContext } from '../../context'
 export const AdminNewTipology = () => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
+    const [formDataTypo, setFormDataTypo] = useState(new FormData())
 
     const [newTypology, setNewTypology] = useState<Typology>({
         typologyName: '',
@@ -52,14 +53,8 @@ export const AdminNewTipology = () => {
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
         const formData = new FormData()
-        formData.append(e.target.name, file);
-        setNewTypology((prevState: Typology) => {
-            return {
-                ...prevState,
-                [e.target.name]: formData
-            }
-        }
-        )
+        formData.append('imagen', file);
+        setFormDataTypo(formData)
         if (file) {
             // Leer el contenido del archivo y mostrar una vista previa de la imagen
             const reader = new FileReader();
@@ -69,32 +64,42 @@ export const AdminNewTipology = () => {
             reader.readAsDataURL(file);
         }
     }
+
+    console.log(newProject);
+    
+
     const handleSaveTypology = () => {
         setLoading(true)
 
-        if (!newProject.projectId) {
+        if (!newProject.projectid) {
             console.log("NO HAY ID DE PROYECTO");
             return
         }
+        console.log(newTypology);
+        
+        const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        formDataTypo.append('datos', jsonBlob, 'datos.json')
+        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
+
 
         try {
-            api.post(`/typologies`, { typologyId: newProject?.activeTypologyId, newTypology})
+            api.post(`/typologies`, formDataTypo)
                 .then((data) => {
                     console.log(data.data);
                     setNewProject((prevState) => {
                         return {
                             ...prevState,
-                            activeTypologyId: data.data.typology.typologyid
+                            activeTypologyId: data.data.result.typologyid
                         }
                     })
-                    localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: data.data.typology.typologyid }))
+                    localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: data.data.result.typologyid }))
                     setIsModalOpen(true)
                     setLoading(false)
-                    setTimeout(() => {
+                    setTimeout(() => {  
                         navigate('/new-project/space-selector');
                     }, 3000);
                 })
-
         } catch (error) {
             console.log(error);
 
@@ -112,6 +117,7 @@ export const AdminNewTipology = () => {
         setImagePreview('')
     }
 
+console.log(newTypology);
 
 
     return (

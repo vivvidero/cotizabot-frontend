@@ -12,12 +12,18 @@ export const AdminTipology = () => {
     const [spacesSelected, updateSpacesSelected, removeSpaces] = UseLocalStorage('newProjectSpaces', newProject)
     const { loading, setLoading } = useContext(LoadingContext)
 
+    console.log(newProject);
+    
+
     useEffect(() => {
         setLoading(true)
         if (newProject.projectid) {
             try {
                 api.get(`/projects/${newProject.projectid}/typologies`)
                     .then((data) => {
+
+
+
                         setNewProject((prevState) => {
                             return {
                                 ...prevState,

@@ -23,6 +23,11 @@ export const AdminSpaceInfo = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
+    if (!newProject.activeTypologyId) {
+      console.log("NO HAY ID DE TIPOLOGIA");
+      return
+    }
+
     // POST ESPACIO
     api.post('/spaces', { typologyId: newProject.activeTypologyId, ...space, })
       .then((data) => {
@@ -63,7 +68,7 @@ export const AdminSpaceInfo = () => {
 
   }, [])
 
-console.log(space);
+  console.log(space);
 
 
   return (
