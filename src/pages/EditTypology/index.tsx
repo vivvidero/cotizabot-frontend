@@ -27,7 +27,7 @@ export const EditTypology = () => {
     })
 
     useEffect(() => {
-        api.get(`/projects/${newProject.projectId}/typologies`)
+        api.get(`/projects/${newProject.projectid}/typologies`)
             .then((data) => {
                 const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
                 setImagePreview(projectToEdit.image)
@@ -40,7 +40,7 @@ export const EditTypology = () => {
                     revitModel: projectToEdit.linkdocument,
                     video: projectToEdit.linkvideo,
                     image: projectToEdit.image,
-                    projectid: newProject.projectId
+                    projectid: newProject.projectid
                 })
             })
     }, [newProject.activeTypologyId, newProject.projectid])
@@ -81,17 +81,17 @@ export const EditTypology = () => {
     const handleSaveEditedTypology = () => {
         setLoading(true)
 
-        console.log(newProject.projectId);
+        console.log(newProject.projectid);
         console.log(newProject?.activeTypologyId);
 
 
-        if (!newProject.projectId || !newProject?.activeTypologyId) {
+        if (!newProject.projectid || !newProject?.activeTypologyId) {
             console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
             return
         }
 
         const jsonBlob = new Blob([JSON.stringify(editTypology)], { type: 'application/json' });
-        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectId, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
 

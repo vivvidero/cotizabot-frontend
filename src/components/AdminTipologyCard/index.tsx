@@ -39,7 +39,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
                 localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies.push(data.data?.typology) }))
-                api.get(`/projects/${project.projectId}/typologies`)
+                api.get(`/projects/${project.projectid}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
@@ -60,7 +60,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
-                api.get(`/projects/${project.projectId}/typologies`)
+                api.get(`/projects/${project.projectid}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
