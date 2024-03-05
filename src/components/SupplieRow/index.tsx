@@ -1,5 +1,5 @@
 import edit from "../../assets/icons/Edit.png"
-import trash from "../../assets/icons/Delete.png"
+import trash from "../../assets/icons/delete.png"
 import { FC } from "react"
 
 interface Props {
