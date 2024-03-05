@@ -39,14 +39,12 @@ export const AdminSpaceSelector = () => {
             } else {
                 console.log('El valor de localNewProjectSpaces es nulo')
             }
+            setLoading(false)
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
-        setLoading(false)
     };
-
-    console.log(spaces);
-
 
     useEffect(() => {
         localStorage.removeItem('progressCounter')

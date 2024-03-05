@@ -8,12 +8,13 @@ import { NewProjectContext } from '../../../context'
 interface Props {
     setSpace: Dispatch<SetStateAction<SingleSpace>>
     singleSpace: Spaces,
-    space: SingleSpace
+    space: SingleSpace,
+
 }
 
 export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) => {
 
-    const {  setLoading } = useContext(LoadingContext)
+    const { setLoading } = useContext(LoadingContext)
     const { newProject } = useContext(NewProjectContext)
 
 
@@ -24,23 +25,20 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) =
         // POST ESPACIO
         try {
             api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
-            .then((data) => {
-                console.log(data.data);
-                
-            })
-            .then(() => {
-                setSpace({
-                    spacetype: singleSpace?.name,
-                    roomnumber: singleSpace?.roomnumber,
-                    spaceid: singleSpace?.spaceid
+                .then((data) => {
+                    console.log(data.data);
+                    setSpace({
+                        spacetype: singleSpace?.name,
+                        roomnumber: singleSpace?.roomnumber,
+                        spaceid: singleSpace?.spaceid
+                    })
                 })
-            })
             alert('Tipologia de espacio guardado')
         } catch (error) {
             console.log(error);
-            
+
         }
-        
+
 
         setLoading(false)
     }

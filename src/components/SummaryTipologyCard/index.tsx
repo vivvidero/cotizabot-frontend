@@ -8,9 +8,6 @@ interface Props {
 }
 
 export const SummaryTipologyCard: FC<Props> = (typology) => {
-
-
-    console.log(typology);
     
 
     return (

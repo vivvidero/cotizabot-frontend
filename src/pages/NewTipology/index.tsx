@@ -68,17 +68,13 @@ export const AdminNewTipology = () => {
             reader.readAsDataURL(file);
         }
     }
-    console.log(newProject);
-
 
     const handleSaveTypology = () => {
         setLoading(true)
 
-        console.log(newProject);
-        
-
         if (!newProject.projectid) {
             console.log("NO HAY ID DE PROYECTO");
+            setLoading(false)
             return
         }
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
@@ -105,11 +101,10 @@ export const AdminNewTipology = () => {
                 })
         } catch (error) {
             console.log(error);
-
+            setLoading(false)
         }
-        setLoading(false)
-    }
 
+    }
     const deleteImagePreview = () => {
         setNewTypology((prevState) => {
             return {
@@ -119,9 +114,6 @@ export const AdminNewTipology = () => {
         })
         setImagePreview('')
     }
-
-    console.log(newTypology);
-
 
     return (
         <MainLayout>
@@ -163,9 +155,10 @@ export const AdminNewTipology = () => {
                         <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
-                        <SubmitButton bg={'golden'} handle={handleSaveTypology}>
-                            <p>Guardar y continuar</p>
-                        </SubmitButton>
+                                <SubmitButton bg={'golden'} handle={handleSaveTypology}>
+                                    <p>Guardar y continuar</p>
+                                </SubmitButton>
+                        
                         <LinkButton link={"/"} bg=''>
                             Cancelar
                         </LinkButton>
