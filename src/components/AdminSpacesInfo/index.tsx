@@ -41,6 +41,11 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             url: '',
             name: ''
         })
+        setSpace({
+            spacetype: spaces[progressCounter]?.name,
+            roomnumber: spaces[progressCounter]?.roomnumber,
+            spaceid: spaces[progressCounter]?.spaceid
+        })
     }, [progressCounter])
 
 
@@ -144,69 +149,68 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                         {
                             spaces[progressCounter]?.name === 'kitchen'
                                 ?
-                                <SelectInfoSpace handle={handleSpace} options={["1", "2"]} />
+                                <SelectInfoSpace handle={handleSpace} options={["1", "2"]} value={space?.spacetypology} />
                                 :
                                 spaces[progressCounter]?.name === 'clothes'
                                     ?
-                                    <SelectInfoSpace handle={handleSpace} options={["1", "2", "3"]} />
+                                    <SelectInfoSpace handle={handleSpace} options={["1", "2"]} value={space?.spacetypology} />
                                     :
                                     ''
                         }
 
                         {/* AREA */}
-                        <InputInfoSpace handle={handleSpace} name={'area'} label={'Área'} unit={'m2'} />
+                        <InputInfoSpace value={space.area} handle={handleSpace} name={'area'} label={'Área'} unit={'m2'} />
 
                         {/* DEMOLICIONES */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace handle={handleSpace} name={'demolitions'} label={'Demoliciones (opcional)'} unit={'m2'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace value={space?.demolitions} handle={handleSpace} name={'demolitions'} label={'Demoliciones (opcional)'} unit={'m2'} />}
 
                         {/* MUROS */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace handle={handleSpace} name={'walls'} label={'Muros (opcional)'} unit={'m2'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace value={space?.walls} handle={handleSpace} name={'walls'} label={'Muros (opcional)'} unit={'m2'} />}
 
                         {/* MUEBLE BAJO */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace handle={handleSpace} name={'lowercabinetml'} label={'Mueble bajo'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace value={space?.lowercabinetml} handle={handleSpace} name={'lowercabinetml'} label={'Mueble bajo'} unit={'ml'} />}
 
                         {/* PUERTA CORREDIZA */}
-                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace handle={handleSpace} name={'slidingdoor'} label={'Puerta Corrediza'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace value={space?.slidingdoor} handle={handleSpace} name={'slidingdoor'} label={'Puerta Corrediza'} unit={'ml'} />}
 
                         {/* ALACENA */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
-
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace value={space.cubboard} handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace value={space.cubboard} handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
 
                         {/* ISLA O BARRA */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace handle={handleSpace} name={'islandorbar'} label={'Isla o barra (opcional)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace value={space.islandorbar} handle={handleSpace} name={'islandorbar'} label={'Isla o barra (opcional)'} unit={'ml'} />}
 
                         {/* MUEBLE BAÑO */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace value={space.bathroomfurniture} handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace value={space.bathroomfurniture} handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
 
 
                         {/* DIVISION DUCHA */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace handle={handleSpace} name={'showerdivision'} label={'Division ducha'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace value={space.showerdivision} handle={handleSpace} name={'showerdivision'} label={'Division ducha'} unit={'ml'} />}
 
                         {/* CLOSET */}
-                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace handle={handleSpace} name={'closetml'} label={'Closet'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace value={space.closetml} handle={handleSpace} name={'closetml'} label={'Closet'} unit={'ml'} />}
 
 
                         {/* CIERLO RASO */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace value={space.ceilingr} handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace value={space.ceilingr} handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
 
                         {/* MURO ENCHAPADO */}
 
-                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace handle={handleSpace} name={'veneeredwall'} label={'Muro enchapado'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace value={space.veneeredwall} handle={handleSpace} name={'veneeredwall'} label={'Muro enchapado'} unit={'ml'} />}
 
 
 
                         {/* Escritorio */}
-                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace handle={handleSpace} name={'deskml'} label={'Escritorio'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace value={space.deskml} handle={handleSpace} name={'deskml'} label={'Escritorio'} unit={'ml'} />}
 
                         {/* Mueble TV o biblioteca */}
-                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'diningRoom' && <InputInfoSpace handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace value={space.furnituretvlibrary} handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'diningRoom' && <InputInfoSpace value={space.furnituretvlibrary} handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
 
                         {/* REPISA */}
-                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace handle={handleSpace} name={'shelf'} label={'Repisa'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace value={space.shelf} handle={handleSpace} name={'shelf'} label={'Repisa'} unit={'ml'} />}
 
                     </div>
                 </div>
@@ -214,10 +218,19 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                     &&
                     <>
                         <label className="mx-2 font-roboto font-normal text-lg text-battleGray">Comentario</label>
-                        <input name="commentuser" className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
+                        <input name="commentuser" value={space?.commentuser} className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
                     </>
                 }
-                <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />
+                {
+                    spaces[progressCounter]?.name === 'kitchen'
+                    &&
+                    <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />
+                }
+                {
+                    spaces[progressCounter]?.name === 'clothes'
+                    &&
+                    <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />
+                }
             </div>
         </>
     )

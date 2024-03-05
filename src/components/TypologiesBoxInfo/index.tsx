@@ -18,7 +18,7 @@ export const TypologiesBoxInfo = () => {
     
 
     return (
-        <div className='w-full p-2 rounded-lg grid grid-cols-5 grid-rows-3 gap-2 font-roboto text-xl mb-4' style={{ 'boxShadow': '0px 4px 6px 0px rgba(195, 195, 195, 0.25)' }}>
+        <div className='w-full p-2 rounded-xl grid grid-cols-5 grid-rows-3 gap-2 font-roboto text-xl mb-4' style={{ 'boxShadow': '0px 4px 6px 0px rgba(195, 195, 195, 0.25)', 'backgroundColor': 'rgba(255, 255, 255, 0.5)' }}>
             <div className='flex items-center'><p>Proyecto</p></div>
             <div className='flex items-center'><p>Constructora</p></div>
             <div className='flex items-center'><p>Barrio</p></div>

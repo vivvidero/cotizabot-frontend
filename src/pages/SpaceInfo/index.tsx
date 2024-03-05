@@ -23,7 +23,7 @@ export const AdminSpaceInfo = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
-    
+
     if (!newProject.activeTypologyId) {
       console.log("NO HAY ID DE TIPOLOGIA");
       return
@@ -33,6 +33,11 @@ export const AdminSpaceInfo = () => {
       api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
         .then((data) => {
           console.log(data.data);
+          setSpace({
+            spacetype: spaces[progressCounter]?.name,
+            roomnumber: spaces[progressCounter]?.roomnumber,
+            spaceid: spaces[progressCounter]?.spaceid
+          })
         })
 
       if (progressCounter === spaces.length) {
