@@ -40,11 +40,7 @@ function App() {
                   <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
                   <Route path='/admin/budgets/referencias/edit' element={<AdminEditReference />} />
                   <Route path='/admin/budgets/apus/new-supplie' element={<AdminNewSupplie />} />
-                  {/* <Route path='/' element={<Home />} />
-                    <Route path='/property-type' element={<PropertyType />} />
-                    <Route path='/project-feature' element={<ProjectFeatures />} />
-                    <Route path='/style-selector' element={<StyleSelector />} />
-                    <Route path='/dashboard/:id' element={<DashboardPage />} /> */}
+                  
                 </Route>
               </Routes>
             </BrowserRouter>
