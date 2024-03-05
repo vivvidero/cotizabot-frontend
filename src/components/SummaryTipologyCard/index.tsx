@@ -1,10 +1,13 @@
 import { FC } from 'react'
 import imageTipo from '../../assets/images/tipoImage.png'
 import { SummaryInput } from '..';
+import { TypologyElement } from '../../types/Summary';
 
+interface Props {
+    typology: TypologyElement
+}
 
-
-export const SummaryTipologyCard = (typology) => {
+export const SummaryTipologyCard: FC<Props> = (typology) => {
 
 
     return (
@@ -12,7 +15,7 @@ export const SummaryTipologyCard = (typology) => {
             <div className="rounded overflow-hidden">
                 <img src={imageTipo} alt="imagen tipologia" className="w-full" />
             </div>
-            <h5 className="font-semibold text-xl"> {typology?.typology?.typology} </h5>
+            <h5 className="font-semibold text-xl"> {typology?.typology?.spacetypology} </h5>
             {
                 typology?.typology?.area
                 &&
@@ -32,9 +35,9 @@ export const SummaryTipologyCard = (typology) => {
 
             }
             {
-                typology?.typology?.highCabinet
+                typology?.typology?.uppercabinetml
                 &&
-                <SummaryInput data='Mueble Alto' value={typology?.typology?.highCabinet} />
+                <SummaryInput data='Mueble Alto' value={typology?.typology?.uppercabinetml} />
 
             }
             {
@@ -59,9 +62,9 @@ export const SummaryTipologyCard = (typology) => {
                 <SummaryInput data='Puerta corrediza' value={typology?.typology?.slidingdoor} />
             }
             {
-                typology?.typology?.bathroomFurniture
+                typology?.typology?.bathroomfurniture
                 &&
-                <SummaryInput data='Mueble baño' value={typology?.typology?.bathroomFurniture} />
+                <SummaryInput data='Mueble baño' value={typology?.typology?.bathroomfurniture} />
             }
             {
                 typology?.typology?.veneeredwall
@@ -79,14 +82,14 @@ export const SummaryTipologyCard = (typology) => {
                 <SummaryInput data='Cielo raso' value={typology?.typology?.ceilingr} />
             }
             {
-                typology?.typology?.closet
+                typology?.typology?.closetml
                 &&
-                <SummaryInput data='Closet' value={typology?.typology?.closet} />
+                <SummaryInput data='mlclosetml' value={typology?.typology?.closetml} />
             }
             {
-                typology?.typology?.desktop
+                typology?.typology?.deskml
                 &&
-                <SummaryInput data='Escritorio' value={typology?.typology?.desktop} />
+                <SummaryInput data='Escritorio' value={typology?.typology?.deskml} />
             }
             {
                 typology?.typology?.furnituretvlibrary

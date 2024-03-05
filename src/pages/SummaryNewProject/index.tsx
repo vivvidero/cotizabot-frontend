@@ -3,49 +3,28 @@ import { MainLayout, MiddleLayout } from "../../Layout"
 import { NewProjectContext } from "../../context"
 import { SummarySpaceSection } from "../../components"
 import api from "../../api"
-import { Spaces } from "../../types/Spaces"
-
-
-interface Summary {
-    projectData: ProjectData
-    spaces: Spaces[]
-
-}
-
-interface ProjectData {
-    "address": string
-    "builtarea": number,
-    "city": string,
-    "constructorname": string,
-    "neighborhood": string,
-    "privatearea": number,
-    "projectname": string,
-    "projecttype": string,
-    typologyid: number,
-    typologyimage: File | null,
-    typologytype: string,
-    typologyname: string
-}
-
-
+import { Summary } from "../../types/Summary"
 
 export const SummaryNewProject = () => {
 
     const { newProject } = useContext(NewProjectContext)
-
-    
-
     const [summaryProject, setSummaryProject] = useState<Summary>()
 
     useEffect(() => {
-        api.get(`/projects/${newProject?.projectId}/typologies/${newProject.activeTypologyId}/spaces`)
+        api.get(`/projects/${newProject?.projectid}/typologies/${newProject.activeTypologyId}/spaces`)
             .then((data) => {
+
+
+                console.log(data.data);
 
                 // Objeto para almacenar la fusión
                 const mergedObjects = {};
-                
+
+
                 // Fusionar objetos con la misma spacetype y roomnumber
                 data.data.spaces.forEach(obj => {
+                    console.log(obj);
+
                     const key = obj.spacetype + '_' + obj.roomnumber;
                     if (!mergedObjects[key]) {
                         mergedObjects[key] = { spacetype: obj.spacetype, roomnumber: obj.roomnumber, typologies: [] };
@@ -67,7 +46,7 @@ export const SummaryNewProject = () => {
             })
     }, [newProject.activeTypologyId])
 
-console.log(summaryProject);
+    console.log(summaryProject);
 
 
 
@@ -76,7 +55,7 @@ console.log(summaryProject);
             <MiddleLayout>
                 <h2 className="font-outfit text-2xl text-vivvi">Resumen</h2>
                 <h3 className='font-outfit text-vivvi text-xl font-light'>Proyecto: <span className='font-medium'>{summaryProject?.projectData?.projectname + "  >  Tipologia " + summaryProject?.projectData?.typologyname}  { } </span> </h3>
-                {summaryProject?.spaces.map((space) => <SummarySpaceSection key={space?.spaceId} space={space} />)}
+                {summaryProject?.spaces.map((space) => <SummarySpaceSection key={space?.spaceid} space={space} />)}
                 {/* <SummarySpaceSection space={"Cocina"} />
                 <SummarySpaceSection space={"Ropas"} />
                 <SummarySpaceSection space={"Baño (con ducha)"} /> */}

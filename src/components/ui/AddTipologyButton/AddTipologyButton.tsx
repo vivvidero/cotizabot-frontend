@@ -13,26 +13,26 @@ interface Props {
 
 export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) => {
 
-    const { loading, setLoading } = useContext(LoadingContext)
+    const {  setLoading } = useContext(LoadingContext)
     const { newProject } = useContext(NewProjectContext)
 
 
-    const saveAndAddTipology = (e) => {
+    const saveAndAddTipology = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
 
         setLoading(true)
         // POST ESPACIO
         try {
-            api.post('/spaces', { typologyId: newProject.activeTypologyId, ...space, })
+            api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
             .then((data) => {
                 console.log(data.data);
                 
             })
             .then(() => {
                 setSpace({
-                    spaceType: singleSpace?.name,
-                    roomNumber: singleSpace?.roomNumber,
-                    spaceId: singleSpace?.spaceId
+                    spacetype: singleSpace?.name,
+                    roomnumber: singleSpace?.roomnumber,
+                    spaceid: singleSpace?.spaceid
                 })
             })
             alert('Tipologia de espacio guardado')

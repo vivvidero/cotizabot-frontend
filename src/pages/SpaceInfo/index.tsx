@@ -13,9 +13,9 @@ export const AdminSpaceInfo = () => {
   const [spaces, setSpaces] = useState<Spaces[]>([])
   const [progressCounter, setProgressCounter] = useState<number>(1)
   const [space, setSpace] = useState<SingleSpace>({
-    spaceType: spaces[progressCounter]?.name,
-    roomNumber: spaces[progressCounter]?.roomNumber,
-    spaceId: spaces[progressCounter]?.spaceId
+    spacetype: spaces[progressCounter]?.name,
+    roomnumber: spaces[progressCounter]?.roomnumber,
+    spaceid: spaces[progressCounter]?.spaceid
   })
   const { newProject } = useContext(NewProjectContext)
   const navigate = useNavigate()
@@ -23,27 +23,32 @@ export const AdminSpaceInfo = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
+    
     if (!newProject.activeTypologyId) {
       console.log("NO HAY ID DE TIPOLOGIA");
       return
     }
 
-    // POST ESPACIO
-    api.post('/spaces', { typologyId: newProject.activeTypologyId, ...space, })
-      .then((data) => {
-        console.log(data.data);
-      })
+    try {
+      api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
+        .then((data) => {
+          console.log(data.data);
+        })
 
+      if (progressCounter === spaces.length) {
+        navigate('/new-project/summary')
+      } else {
+        setProgressCounter((prevState) => prevState + 1)
+        localStorage.setItem('progressCounter', JSON.stringify(progressCounter + 1))
+      }
+    } catch (err) {
+      console.log(err);
 
-    if (progressCounter === spaces.length) {
-      navigate('/new-project/summary')
-    } else {
-      setProgressCounter((prevState) => prevState + 1)
-      localStorage.setItem('progressCounter', JSON.stringify(progressCounter + 1))
     }
+
   }
 
-  const handleBackSpace = (e) => {
+  const handleBackSpace = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     localStorage.setItem('progressCounter', JSON.stringify(progressCounter - 1))
     setProgressCounter((prevState) => prevState - 1)
@@ -67,10 +72,6 @@ export const AdminSpaceInfo = () => {
     }
 
   }, [])
-
-  console.log(space);
-
-
   return (
     <MainLayout>
       <AdminProgressBar progress={isModalOpen ? 5 : 4} />

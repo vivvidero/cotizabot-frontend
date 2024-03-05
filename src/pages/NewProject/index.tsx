@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { MainLayout, MiddleLayout } from '../../Layout'
-import { AdminCheckbox, AdminInput, AdminProgressBar, LinkButton, Spinner, SubmitButton } from '../../components'
+import { AdminCheckbox, AdminInput, AdminProgressBar, LinkButton, SubmitButton } from '../../components'
 import { useContext } from 'react'
 import { NewProjectContext } from '../../context/NewProjectContext'
 import api from '../../api'
@@ -13,26 +13,25 @@ export const AdminNewProject = () => {
   const navigate = useNavigate()
   const { newProject, setNewProject } = useContext(NewProjectContext)
   const { setLoading } = useContext(LoadingContext)
-  const [project, setProject] = UseLocalStorage('newProject')
+  const [, setProject] = UseLocalStorage('newProject', newProject)
 
   const handleSubmit = () => {
     setLoading(true)
 
     if (validateFullObject(newProject)) {
       try {
-        api.post(`/projects/new/${newProject.projectId}`, newProject)
+        api.post(`/projects/new/${newProject.projectid}`, newProject)
           .then((data) => {
 
             console.log(data.data);
             
-
             setNewProject((prevState) => {
               return {
                 ...prevState,
-                projectid: data.data.projectId
+                projectid: data.data.projectid
               }
             })
-            setProject({ ...newProject, projectid: data.data.projectId })
+            setProject({ ...newProject, projectid: data.data.projectid })
           })
           .then(() => {
             setLoading(false)

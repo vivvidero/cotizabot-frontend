@@ -1,32 +1,33 @@
 export interface Spaces {
     name: string,
-    roomNumber: number,
-    spaceId?: number
+    roomnumber: number,
+    spaceid?: number,
+    typology: SingleSpace
 }
-
+ 
 export interface SingleSpace {
-    spaceType: string,
-    roomNumber: number,
-    spaceId: number | undefined,
+    spacetype: string,
+    roomnumber: number,
+    spaceid: number | undefined,
     area?: string,
-    image3D?: File | null,
-    actualStatus?: File | null,
-    lowCabinet?: string,
-    highCabinet?: string,
-    spaceTypology?: string,
-    bathroomFurniture?: string,
-    closet?: string,
-    desktop?: string,
+    image3d?: File | null,
+    actualstatus?: File | null,
+    lowercabinetml?: string,
+    uppercabinetml?: string,
+    spacetypology?: string,
+    bathroomfurniture?: string,
+    closetml?: string,
+    deskml?: string,
     walls?: string
     demolitions?: string
-    cubBoard?: string
-    islandOrBar?: string
-    commentUser?: string
-    slidingDoor?: string
-    showerDivision?: string
-    ceiling?: string
-    veneeredWall?: string
-    furnitureTVLibrary?: string
+    cubboard?: string
+    islandorbar?: string
+    commentuser?: string
+    slidingdoor?: string
+    showerdivision?: string
+    ceilingr?: string
+    veneeredwall?: string
+    furnituretvlibrary?: string
     shelf?: string
 }
 

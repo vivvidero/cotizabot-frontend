@@ -14,60 +14,51 @@ export const AdminSpaceSelector = () => {
     const [spaces, setSpaces] = useState<Spaces[]>([])
     const navigate = useNavigate();
 
-
-    console.log(spaces);
-
-
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setLoading(true)
-
         try {
             const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
-            const newProjectSpaces = JSON.parse(localNewProjectSpaces)
-            api.post(`/typologies/spaces/register`, { typologyId: newProject.activeTypologyId, spaceTypes: spaces })
-                .then((data) => {
-                    for (let i = 0; i < newProjectSpaces.length; i++) {
-                        setSpaces((prevState) => {
-                            return {
-                                ...prevState,
-                                spaceId: data.data.spaceIds[i]
-                            }
-                        })
-                        newProjectSpaces[i].spaceId = data.data.spaceIds[i]
-                    }
-                    localStorage.setItem('newProjectSpaces', JSON.stringify(newProjectSpaces))
-                    console.log(data.data);
-                    navigate('space-info');
-                })
+            if (localNewProjectSpaces !== null) {
+                const newProjectSpaces = JSON.parse(localNewProjectSpaces)
+                api.post(`/typologies/spaces/register`, { typologyId: newProject.activeTypologyId, spaceTypes: spaces })
+                    .then((data) => {
+                        for (let i = 0; i < newProjectSpaces.length; i++) {
+                            setSpaces((prevState) => {
+                                return {
+                                    ...prevState,
+                                    spaceId: data.data.spaceIds[i]
+                                }
+                            })
+                            newProjectSpaces[i].spaceId = data.data.spaceIds[i]
+                        }
+                        localStorage.setItem('newProjectSpaces', JSON.stringify(newProjectSpaces))
+                        console.log(data.data);
+                        navigate('space-info');
+                    })
+            } else{
+                console.log('El valor de localNewProjectSpaces es nulo')
+            }
         } catch (error) {
             console.log(error);
         }
-
         setLoading(false)
     };
- 
+
     useEffect(() => {
         localStorage.removeItem('progressCounter')
         const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
-
-
         if (localNewProjectSpaces) {
             setSpaces(JSON.parse(localNewProjectSpaces))
         }
-
     }, [])
-
-
-
-
 
     return (
         <MainLayout>
             <AdminProgressBar progress={2} />
             <MiddleLayout>
                 <h2 className="font-outfit text-2xl text-vivvi">Selecciona los espacios del proyecto</h2>
-                <p> {newProject.projectName} {" > "} {/* {newProject.tipology.tipologyName} */} </p>
+                <p> {newProject.projectname} {" > "} {/* {newProject.tipology.tipologyName} */} </p>
                 <form className="flex flex-col gap-6 w-6/12 my-6 font-medium">
                     <SpaceInputCheckbox name={'kitchen'} singleSpace="Cocina" spaces={spaces} setSpaces={setSpaces} />
                     <SpaceInputCheckbox name={"clothes"} setSpaces={setSpaces} singleSpace="Ropas" spaces={spaces} />

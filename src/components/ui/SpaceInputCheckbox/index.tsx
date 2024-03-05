@@ -19,18 +19,18 @@ export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spac
             localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.filter(space => space.name !== name)))
         } else {
 
-            setSpaces(spaces.concat({ name: name, roomNumber: 1 }))
-            localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.concat({ name: name, roomNumber: 1 })))
+            setSpaces(spaces.concat({ name: name, roomnumber: 1 }))
+            localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.concat({ name: name, roomnumber: 1 })))
         }
     };
 
     const handleSpaceQuantity = (e: ChangeEvent<HTMLSelectElement>) => {
 
         const quantity = parseInt(e.target.value)
-        const arrayRepetidos: { name: string, roomNumber: number }[] = []
+        const arrayRepetidos: { name: string, roomnumber: number }[] = []
         const updateNewProjectSpaces = spaces.filter(spa => spa.name !== name)
         for (let i = 1; i <= quantity; i++) {
-            arrayRepetidos.push({ name: name, roomNumber: i });
+            arrayRepetidos.push({ name: name, roomnumber: i });
         }
         setSpaces(updateNewProjectSpaces.concat(arrayRepetidos));
 

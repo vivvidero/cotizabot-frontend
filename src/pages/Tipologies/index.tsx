@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, SubmitButton, TypologiesBoxInfo, UsedComments } from '../../components'
+import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBoxInfo, UsedComments } from '../../components'
 import { NewProjectContext } from '../../context'
 import api from '../../api'
 import UseLocalStorage from '../../hooks/useLocalStorage'
@@ -9,11 +9,11 @@ import { LoadingContext } from '../../context/LoadingContext'
 export const AdminTipology = () => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
-    const [spacesSelected, updateSpacesSelected, removeSpaces] = UseLocalStorage('newProjectSpaces', newProject)
+    const [, , removeSpaces] = UseLocalStorage('newProjectSpaces', newProject)
     const { loading, setLoading } = useContext(LoadingContext)
 
     console.log(newProject);
-    
+
 
     useEffect(() => {
         setLoading(true)
@@ -21,8 +21,6 @@ export const AdminTipology = () => {
             try {
                 api.get(`/projects/${newProject.projectid}/typologies`)
                     .then((data) => {
-
-
 
                         setNewProject((prevState) => {
                             return {
@@ -56,11 +54,15 @@ export const AdminTipology = () => {
                         ?
                         <Spinner />
                         :
-                        newProject?.tipologies?.length > 0 && newProject?.tipologies
+                        newProject?.tipologies
                             ?
-                            newProject?.tipologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} />)
+                            newProject?.tipologies?.length > 0
+                                ?
+                                newProject?.tipologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} />)
+                                :
+                                <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
                             :
-                            <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
+                            null
                     }
                 </div>
                 {

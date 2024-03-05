@@ -21,17 +21,14 @@ interface ImagePreview {
 export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace }) => {
 
     const [imagePreview3D, setImagePreview3D] = useState<ImagePreview>();
-    const [imagePreviewActualStatus, setImagePreviewActualStatus] = useState<ImagePreview>();
-    /* const [space, setSpace] = useState<SingleSpace>({
-        spaceType: spaces[progressCounter]?.name
-    }) */
+    const [imagePreviewactualstatus, setImagePreviewactualstatus] = useState<ImagePreview>();
     const [comment, setComment] = useState(false)
 
     useEffect(() => {
         setSpace({
-            spaceType: spaces[progressCounter]?.name,
-            roomNumber: spaces[progressCounter]?.roomNumber,
-            spaceId: spaces[progressCounter]?.spaceId
+            spacetype: spaces[progressCounter]?.name,
+            roomnumber: spaces[progressCounter]?.roomnumber,
+            spaceid: spaces[progressCounter]?.spaceid
         })
     }, [progressCounter, spaces, setSpace])
 
@@ -40,7 +37,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             url: '',
             name: ''
         })
-        setImagePreviewActualStatus({
+        setImagePreviewactualstatus({
             url: '',
             name: ''
         })
@@ -57,7 +54,11 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         })
     }
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
+
+        if (!file) {
+            return
+        }
 
         const formData = new FormData();
         formData.append('image', file);
@@ -72,13 +73,13 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             // Leer el contenido del archivo y mostrar una vista previa de la imagen
             const reader = new FileReader();
             reader.onloadend = () => {
-                if (e.target.name === 'image3D') {
+                if (e.target.name === 'image3d') {
                     setImagePreview3D({
                         url: reader.result as string,
                         name: file.name
                     })
                 } else {
-                    setImagePreviewActualStatus({
+                    setImagePreviewactualstatus({
                         url: reader.result as string,
                         name: file.name
                     })
@@ -89,10 +90,12 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         }
     }
 
+    console.log(space);
+
 
     return (
         <>
-            <h3 className='font-roboto text-xl text-vivvi font-semibold mb-4'> {translateSpace(spaces[progressCounter]?.name)} {spaces[progressCounter]?.roomNumber > 1 && spaces[progressCounter]?.roomNumber} </h3>
+            <h3 className='font-roboto text-xl text-vivvi font-semibold mb-4'> {translateSpace(spaces[progressCounter]?.name)} {spaces[progressCounter]?.roomnumber > 1 && spaces[progressCounter]?.roomnumber} </h3>
             <div>
                 <div>
                     <p className='font-medium'>Información tipología existente (obligatorio)</p>
@@ -101,30 +104,30 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                     <div className="flex flex-col gap-4 w-4/12">
                         <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden h-52'>
                             <div className='p-2  flex flex-col items-center overflow-hidden'>
-                                <label htmlFor={`${spaces[progressCounter]?.name}Image3D`} className='flex flex-col items-center cursor-pointer'>
-                                    <img src={imagePreview3D?.url && space?.image3D ? imagePreview3D.url : addTipology} className={` ${space?.image3D ? 'w-full' : 'w-1/2'}`} />
-                                    {imagePreview3D?.url && space?.image3D
+                                <label htmlFor={`${spaces[progressCounter]?.name}image3d`} className='flex flex-col items-center cursor-pointer'>
+                                    <img src={imagePreview3D?.url && space?.image3d ? imagePreview3D.url : addTipology} className={` ${space?.image3d ? 'w-full' : 'w-1/2'}`} />
+                                    {imagePreview3D?.url && space?.image3d
                                         ?
-                                        <p>{space?.image3D?.name}</p>
+                                        <p>{space?.image3d?.name}</p>
                                         :
                                         'Cargar imagen 3D'}
                                 </label>
-                                <input id={`${spaces[progressCounter]?.name}Image3D`} name={'image3D'} type='file' onChange={handleImage} className='hidden' />
-                                <p> {imagePreview3D?.url && space?.image3D ? imagePreview3D?.name : ''} </p>
+                                <input id={`${spaces[progressCounter]?.name}image3d`} name={'image3d'} type='file' onChange={handleImage} className='hidden' />
+                                <p> {imagePreview3D?.url && space?.image3d ? imagePreview3D?.name : ''} </p>
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden'>
                             <div className='p-2 flex flex-col items-center overflow-hidden'>
-                                <label htmlFor={`${spaces[progressCounter]?.name}ActualStatus`} className='flex flex-col items-center cursor-pointer'>
-                                    <img src={imagePreviewActualStatus?.url && space?.actualStatus ? imagePreviewActualStatus.url : addTipology} className={` ${space?.actualStatus ? 'w-full' : 'w-1/3'}`} />
-                                    {imagePreviewActualStatus?.url && space?.actualStatus
+                                <label htmlFor={`${spaces[progressCounter]?.name}actualstatus`} className='flex flex-col items-center cursor-pointer'>
+                                    <img src={imagePreviewactualstatus?.url && space?.actualstatus ? imagePreviewactualstatus.url : addTipology} className={` ${space?.actualstatus ? 'w-full' : 'w-1/3'}`} />
+                                    {imagePreviewactualstatus?.url && space?.actualstatus
                                         ?
-                                        <p>{space?.actualStatus?.name}</p>
+                                        <p>{space?.actualstatus?.name}</p>
                                         :
                                         <p className="text-center">Cargar fotos estado actual</p>}
                                 </label>
-                                <input id={`${spaces[progressCounter]?.name}ActualStatus`} name={'actualStatus'} type='file' onChange={handleImage} className='hidden' />
-                                <p> {imagePreviewActualStatus?.url && space?.actualStatus ? imagePreviewActualStatus?.name : ''} </p>
+                                <input id={`${spaces[progressCounter]?.name}actualstatus`} name={'actualstatus'} type='file' onChange={handleImage} className='hidden' />
+                                <p> {imagePreviewactualstatus?.url && space?.actualstatus ? imagePreviewactualstatus?.name : ''} </p>
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex gap-4 items-center overflow-hidden p-2 cursor-pointer' onClick={() => setComment(!comment)}>
@@ -141,7 +144,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                         {
                             spaces[progressCounter]?.name === 'kitchen'
                                 ?
-                                <SelectInfoSpace handle={handleSpace} options={[1, 2]} />
+                                <SelectInfoSpace handle={handleSpace} options={["1", "2"]} />
                                 :
                                 spaces[progressCounter]?.name === 'clothes'
                                     ?
@@ -160,47 +163,47 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                         {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'walls'} label={'Muros (opcional)'} unit={'m2'} />}
 
                         {/* MUEBLE BAJO */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'lowCabinet'} label={'Mueble bajo'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'lowercabinetml'} label={'Mueble bajo'} unit={'ml'} />}
 
                         {/* PUERTA CORREDIZA */}
-                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace space={space} handle={handleSpace} name={'slidingDoor'} label={'Puerta Corrediza'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace space={space} handle={handleSpace} name={'slidingdoor'} label={'Puerta Corrediza'} unit={'ml'} />}
 
                         {/* ALACENA */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'cubBoard'} label={'Alacena'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace space={space} handle={handleSpace} name={'cubBoard'} label={'Alacena'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'clothes' && <InputInfoSpace space={space} handle={handleSpace} name={'cubboard'} label={'Alacena'} unit={'ml'} />}
 
 
                         {/* ISLA O BARRA */}
-                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'islandOrBar'} label={'Isla o barra (opcional)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'kitchen' && <InputInfoSpace space={space} handle={handleSpace} name={'islandorbar'} label={'Isla o barra (opcional)'} unit={'ml'} />}
 
                         {/* MUEBLE BAÑO */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'bathroomFurniture'} label={'Mueble baño'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace space={space} handle={handleSpace} name={'bathroomFurniture'} label={'Mueble baño'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace space={space} handle={handleSpace} name={'bathroomfurniture'} label={'Mueble baño'} unit={'ml'} />}
 
 
                         {/* DIVISION DUCHA */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'showerDivision'} label={'Division ducha'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'showerdivision'} label={'Division ducha'} unit={'ml'} />}
 
                         {/* CLOSET */}
-                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'closet'} label={'Closet'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'closetml'} label={'Closet'} unit={'ml'} />}
 
 
                         {/* CIERLO RASO */}
-                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'ceiling'} label={'Cielo raso'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'ceiling'} label={'Cielo raso'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bathRoomWithShower' && <InputInfoSpace space={space} handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'bedRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'ceilingr'} label={'Cielo raso'} unit={'ml'} />}
 
                         {/* MURO ENCHAPADO */}
 
-                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace space={space} handle={handleSpace} name={'veneeredWall'} label={'Muro enchapado'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'socialBathRoomWithoutShower' && <InputInfoSpace space={space} handle={handleSpace} name={'veneeredwall'} label={'Muro enchapado'} unit={'ml'} />}
 
 
 
                         {/* Escritorio */}
-                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'desktop'} label={'Escritorio'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'deskml'} label={'Escritorio'} unit={'ml'} />}
 
                         {/* Mueble TV o biblioteca */}
-                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'furnitureTVLibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
-                        {spaces[progressCounter]?.name === 'diningRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'furnitureTVLibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
+                        {spaces[progressCounter]?.name === 'diningRoom' && <InputInfoSpace space={space} handle={handleSpace} name={'furnituretvlibrary'} label={'Mueble (tv o biblioteca)'} unit={'ml'} />}
 
                         {/* REPISA */}
                         {spaces[progressCounter]?.name === 'study' && <InputInfoSpace space={space} handle={handleSpace} name={'shelf'} label={'Repisa'} unit={'ml'} />}
@@ -211,7 +214,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                     &&
                     <>
                         <label className="mx-2 font-roboto font-normal text-lg text-battleGray">Comentario</label>
-                        <input name="commentUser" className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
+                        <input name="commentuser" className='bg-white border border-platinum rounded-md w-full  flex flex-col justify-center items-center overflow-hidden h-20 p-4' onChange={handleSpace} />
                     </>
                 }
                 <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />

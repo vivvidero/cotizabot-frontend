@@ -5,7 +5,3 @@ export interface Apu{
     totalPrice: string
     inputs: string
 }
-
-interface Input{
-    
-}

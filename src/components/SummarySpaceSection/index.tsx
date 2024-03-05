@@ -1,17 +1,17 @@
 import { FC } from "react"
 import { SummaryTipologyCard } from ".."
 import edit from '../../assets/icons/Edit.png'
-import { Spaces } from "../../types/Spaces"
 import { translateSpace } from "../../helpers/translateSpace"
+import { SummarySpace } from "../../types/Summary"
 
 interface Props {
-    space: Spaces
+    space: SummarySpace
 }
 export const SummarySpaceSection: FC<Props> = ({ space }) => {
 
 
     console.log(space);
-    
+
 
     return (
         <section className="flex flex-col items-start w-9/12 my-4">
@@ -23,7 +23,10 @@ export const SummarySpaceSection: FC<Props> = ({ space }) => {
             </div>
             <hr className="w-full mb-4" />
             <div className="grid grid-cols-3 gap-4">
-                {space.typologies.map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} />)}
+                {
+                    space?.typologies
+                    &&
+                    space.typologies.map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} />)}
 
             </div>
         </section>

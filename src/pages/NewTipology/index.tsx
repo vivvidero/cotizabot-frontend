@@ -16,12 +16,12 @@ export const AdminNewTipology = () => {
     const [formDataTypo, setFormDataTypo] = useState(new FormData())
 
     const [newTypology, setNewTypology] = useState<Typology>({
-        typologyName: '',
+        typologyname: '',
         type: '',
-        privateArea: '',
-        builtArea: '',
+        privatearea: '',
+        builtarea: '',
         blueprints: '',
-        revitModel: '',
+        revitmodel: '',
         video: '',
         image: null
     })
@@ -30,7 +30,7 @@ export const AdminNewTipology = () => {
         setNewTypology((prevState) => {
             return {
                 ...prevState,
-                projectid: newProject.projectId
+                projectid: newProject.projectid
             }
         })
 
@@ -51,7 +51,11 @@ export const AdminNewTipology = () => {
     }
 
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
+
+        if (!file) {
+            return
+        }
         const formData = new FormData()
         formData.append('imagen', file);
         setFormDataTypo(formData)
@@ -64,24 +68,23 @@ export const AdminNewTipology = () => {
             reader.readAsDataURL(file);
         }
     }
-
     console.log(newProject);
-    
+
 
     const handleSaveTypology = () => {
         setLoading(true)
+
+        console.log(newProject);
+        
 
         if (!newProject.projectid) {
             console.log("NO HAY ID DE PROYECTO");
             return
         }
-        console.log(newTypology);
-        
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
         const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
-
 
         try {
             api.post(`/typologies`, formDataTypo)
@@ -96,7 +99,7 @@ export const AdminNewTipology = () => {
                     localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: data.data.result.typologyid }))
                     setIsModalOpen(true)
                     setLoading(false)
-                    setTimeout(() => {  
+                    setTimeout(() => {
                         navigate('/new-project/space-selector');
                     }, 3000);
                 })
@@ -117,7 +120,7 @@ export const AdminNewTipology = () => {
         setImagePreview('')
     }
 
-console.log(newTypology);
+    console.log(newTypology);
 
 
     return (
@@ -127,12 +130,12 @@ console.log(newTypology);
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
                     <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Nueva Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
+                        <input name='typologyname' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleNewTipology} />
                         <input name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
-                        <input name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
-                        <input name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
+                        <input name='privatearea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
+                        <input name='builtarea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
                         <input name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleNewTipology} />
-                        <input name='revitModel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
+                        <input name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
                         <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} />
                         {/* <InputFile setNewTypology={setNewTypology} name={'blueprints'} label={'Cargar planos .pdf'} />
                         <InputFile setNewTypology={setNewTypology} name={'revitModel'} label={'Cargar modelo Revit'} />
@@ -140,18 +143,18 @@ console.log(newTypology);
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
-                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative' >
+                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative ' >
                         {
                             !imagePreview ?
                                 <div className='py-2 px-5 flex flex-col items-center'>
                                     <label htmlFor='image' className='mt-4 flex flex-col items-center cursor-pointer'>
-                                        <img src={addTipology} alt={'Tipologia elegida'} className='w-28 object-contain' />
+                                        <img src={addTipology} alt={'Tipologia elegida'} className='w-28 object-contain hover:scale-110 duration-200' />
                                         Cargar imagen de la tipología
                                     </label>
                                 </div>
                                 :
                                 <>
-                                    <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain' />
+                                    <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain ' />
                                     <div className='absolute bottom-5 right-5 cursor-pointer' onClick={deleteImagePreview}>
                                         <img src={delOrange} className='z-20 w-12 ' alt='' />
                                     </div>

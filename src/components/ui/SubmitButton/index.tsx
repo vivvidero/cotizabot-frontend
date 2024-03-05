@@ -5,7 +5,7 @@ import { Spinner } from ".."
 interface Props {
   bg: string,
   children: React.ReactNode
-  handle: () => void,
+  handle: (e: React.FormEvent<HTMLFormElement>) => void;
   
 }
 
