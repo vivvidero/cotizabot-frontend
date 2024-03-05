@@ -1,7 +1,5 @@
 import { Dispatch, FC, SetStateAction, useContext, useState } from 'react'
 import api from '../../../api'
-import { NewProjectContext } from '../../../context'
-import { useNavigate } from 'react-router-dom'
 import { Projects } from '../../../types/Projects'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
@@ -19,6 +17,8 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
     const open = Boolean(dropdownOpen);
     const { setLoading } = useContext(LoadingContext)
 
+    console.log(project);
+    
     
     const handleDelete = () => {
         const confDel = confirm(`Estás seguro de borrar el proyecto: ${project.projectname}`)

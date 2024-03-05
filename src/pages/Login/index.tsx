@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom'
 
 export const AdminLogin = () => {
 
-    const { user, setUser, signIn, error, token, isAuthenticated } = useContext<AuthContextProps>(AuthContext)
+    const { user, setUser, signIn, error, isAuthenticated } = useContext<AuthContextProps>(AuthContext)
 
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {

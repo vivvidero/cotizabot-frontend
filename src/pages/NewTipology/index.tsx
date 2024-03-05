@@ -23,7 +23,7 @@ export const AdminNewTipology = () => {
         blueprints: '',
         revitmodel: '',
         video: '',
-        image: null
+        image: ''
     })
 
     useEffect(() => {
@@ -114,7 +114,7 @@ export const AdminNewTipology = () => {
         setNewTypology((prevState) => {
             return {
                 ...prevState,
-                image: null
+                image: ''
             }
         })
         setImagePreview('')

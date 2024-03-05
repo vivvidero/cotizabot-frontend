@@ -4,17 +4,14 @@ import noProjects from '../../assets/images/noprojects.png'
 import api from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
-import UseLocalStorage from "../../hooks/useLocalStorage"
 import { MenuItem, Select } from "@mui/material"
 import { NewProjectContext } from "../../context"
-import { compararPorNumeroDeId } from "../../helpers/orderProjects"
 
 export const AdminProjects = () => {
 
     const [projects, setProjects] = useState<Projects[]>([])
     const { loading, setLoading } = useContext(LoadingContext)
-    const { newProject, setNewProject } = useContext(NewProjectContext)
-    const [value, setValue, removeLocal] = UseLocalStorage('newProject')
+    const { setNewProject } = useContext(NewProjectContext)
     const [projectsType, setProjectType] = useState<string>("VIS")
 
 
@@ -33,7 +30,8 @@ export const AdminProjects = () => {
             type: '',
             address: '',
         })
-        removeLocal()
+        localStorage.removeItem('newProject')
+
 
         // NO AGREGAR DEPENDENCIAS PORQUE SE EJECUTA EN BUCLE
     }, [])
@@ -89,7 +87,7 @@ export const AdminProjects = () => {
                                 </LinkButton>
                             </div>
                             :
-                            projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />).sort(compararPorNumeroDeId)
+                            projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />)
 
                 }
             </section>

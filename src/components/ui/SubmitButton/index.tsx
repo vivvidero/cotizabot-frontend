@@ -5,7 +5,7 @@ import { Spinner } from ".."
 interface Props {
   bg: string,
   children: React.ReactNode
-  handle: (e: React.FormEvent<HTMLFormElement>) => void;
+  handle: (e: React.MouseEvent<HTMLButtonElement>) => void; // Cambiar el tipo de evento aquí
   
 }
 

@@ -2,7 +2,7 @@ export interface Spaces {
     name: string,
     roomnumber: number,
     spaceid?: number,
-    typology: SingleSpace
+    typology?: SingleSpace
 }
  
 export interface SingleSpace {

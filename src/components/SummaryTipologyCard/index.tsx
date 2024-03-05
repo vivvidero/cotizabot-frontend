@@ -10,6 +10,9 @@ interface Props {
 export const SummaryTipologyCard: FC<Props> = (typology) => {
 
 
+    console.log(typology);
+    
+
     return (
         <div className="w-full shadow-xl p-4 rounded-2xl flex flex-col gap-2 font-roboto">
             <div className="rounded overflow-hidden">

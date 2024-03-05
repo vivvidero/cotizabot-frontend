@@ -7,6 +7,6 @@ export interface Typology {
     blueprints: string,
     revitmodel: string,
     video: string,
-    image: FormData | null
+    image: string
     typologyid?: number
 }

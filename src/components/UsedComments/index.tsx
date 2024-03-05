@@ -1,8 +1,9 @@
-import { SubmitButton } from ".."
 import news from '../../assets/icons/alerta.png'
 import wishList from '../../assets/icons/wishlist.png'
 
 export const UsedComments = () => {
+
+
     return (
         <div className='w-full grid grid-cols-2 gap-4 my-8'>
             <div className='flex flex-col gap-4'>
@@ -10,9 +11,9 @@ export const UsedComments = () => {
                     <img src={news} alt='novedades' />
                     <h3 className='mx-2 font-outfit font-medium text-3xl text-vivvi'>Novedades técnicas del proyecto</h3>
                 </div>
-                <SubmitButton bg={'golden'} >
+                {/* <SubmitButton bg={'golden'}  >
                     Agregar comentario
-                </SubmitButton>
+                </SubmitButton> */}
                 <div className='grid grid-cols-2 gap-2'>
                     <div className='rounded-lg flex flex-col p-2 gap-2' style={{ boxShadow: '0px 4px 6px 0px rgba(125, 125, 125, 0.25)' }}>
                         <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
@@ -30,9 +31,9 @@ export const UsedComments = () => {
                     <img src={wishList} alt='novedades' />
                     <h3 className='mx-2 font-outfit font-medium text-3xl text-vivvi'>Lista de deseos de cliente</h3>
                 </div>
-                <SubmitButton bg={'golden'} >
+                {/* <SubmitButton bg={'golden'} >
                     Agregar comentario
-                </SubmitButton>
+                </SubmitButton> */}
                 <div className='grid grid-cols-2 gap-2'>
                     <div className='rounded-lg flex flex-col p-2 gap-2' style={{ boxShadow: '0px 4px 6px 0px rgba(125, 125, 125, 0.25)' }}>
                         <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>

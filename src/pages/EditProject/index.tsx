@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { AdminCheckbox, AdminInput, LinkButton, SubmitButton } from '../../components'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
 import api from '../../api'
@@ -11,8 +11,6 @@ export const EditProject = () => {
     const navigate = useNavigate()
     const { setLoading } = useContext(LoadingContext)
     const { newProject, setNewProject } = useContext(NewProjectContext)
-/*     const [editProject, setEditProject] = useState()
- */
 
     const handleEdit = () => {
         setLoading(true)

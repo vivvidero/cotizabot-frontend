@@ -5,7 +5,6 @@ import { useContext } from 'react'
 import { NewProjectContext } from '../../context/NewProjectContext'
 import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
-import UseLocalStorage from '../../hooks/useLocalStorage'
 import { validateFullObject } from '../../helpers/validateFullObject'
 
 export const AdminNewProject = () => {
@@ -13,7 +12,6 @@ export const AdminNewProject = () => {
   const navigate = useNavigate()
   const { newProject, setNewProject } = useContext(NewProjectContext)
   const { setLoading } = useContext(LoadingContext)
-  const [, setProject] = UseLocalStorage('newProject', newProject)
 
   const handleSubmit = () => {
     setLoading(true)
@@ -22,16 +20,15 @@ export const AdminNewProject = () => {
       try {
         api.post(`/projects/new/${newProject.projectid}`, newProject)
           .then((data) => {
-
-            console.log(data.data);
-            
+        
             setNewProject((prevState) => {
               return {
                 ...prevState,
                 projectid: data.data.projectid
               }
             })
-            setProject({ ...newProject, projectid: data.data.projectid })
+            localStorage.setItem('newProject', JSON.stringify({ ...newProject, projectid: data.data.projectid }))
+            
           })
           .then(() => {
             setLoading(false)

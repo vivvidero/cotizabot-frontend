@@ -1,11 +1,9 @@
-import { FC, useContext } from 'react'
-import tipologyPlaceholder from '../../assets/images/Rectangle 804.png'
+import { FC, useContext, useEffect } from 'react'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
 import { Typology } from '../../types/Tipology'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api'
-import UseLocalStorage from '../../hooks/useLocalStorage'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 
@@ -18,10 +16,22 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
 
-    const [project, updateProject] = UseLocalStorage('newProject')
-    const [spacesSelected, updateSpacesSelected, removeSpaces] = UseLocalStorage('newProjectSpaces')
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const projectStorage = localStorage.getItem('newProject')
+        if (projectStorage) {
+            const projectlocal = JSON.parse(projectStorage)
+            setNewProject((prevState) => {
+                return {
+                    ...prevState,
+                    projectlocal
+                }
+            })
+        }
+
+    }, [])
+
 
     const handleEdit = () => {
         setNewProject((prevState) => {
@@ -30,16 +40,21 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                 activeTypologyId: typology.typologyid
             }
         })
-        updateProject({ ...newProject, activeTypologyId: typology.typologyid })
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology.typologyid }))
         navigate('/tipology/edit-typology')
     }
 
     const handleDuplicate = () => {
 
+        if (!typology.typologyid) {
+            console.log("Falta ID de tipologia");
+            return
+        }
+
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
-                localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies.push(data.data?.typology) }))
-                api.get(`/projects/${project.projectid}/typologies`)
+                localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.push(data.data?.typology) : [] }))
+                api.get(`/projects/${newProject.projectid}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
@@ -48,8 +63,9 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                                 activeTypologyId: undefined
                             }
                         })
-                        updateProject({ ...newProject, activeTypologyId: undefined })
-                        removeSpaces()
+                        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
+                        localStorage.removeItem('newProjectSpaces')
+
                     })
                     .then(() => setLoading(false))
             })
@@ -60,7 +76,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
-                api.get(`/projects/${project.projectid}/typologies`)
+                api.get(`/projects/${newProject.projectid}/typologies`)
                     .then((data) => {
                         setNewProject((prevState) => {
                             return {
@@ -69,14 +85,15 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                                 activeTypologyId: undefined
                             }
                         })
-                        updateProject({ ...newProject, tipologies: newProject?.tipologies.filter((typo) => typo.typologyid !== typology.typologyid), activeTypologyId: undefined })
-                        removeSpaces()
+                        localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.filter((typo) => typo.typologyid !== typology.typologyid) : [], activeTypologyId: undefined }))
+                        localStorage.removeItem('newProjectSpaces')
                     })
                     .then(() => setLoading(false))
             })
             .catch((err) => console.log(err)
             )
     }
+    
 
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
@@ -119,7 +136,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             </div>
             <div>
                 <button className='border border-vivvi px-6 rounded-full h-8 w-full hover:bg-dorado transition-all duration-300' onClick={handleEdit}>
-                Advertencia tecnica
+                    Advertencia tecnica
                 </button>
             </div>
         </div>

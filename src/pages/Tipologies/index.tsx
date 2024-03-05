@@ -3,17 +3,12 @@ import { MainLayout } from '../../Layout'
 import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBoxInfo, UsedComments } from '../../components'
 import { NewProjectContext } from '../../context'
 import api from '../../api'
-import UseLocalStorage from '../../hooks/useLocalStorage'
 import { LoadingContext } from '../../context/LoadingContext'
 
 export const AdminTipology = () => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
-    const [, , removeSpaces] = UseLocalStorage('newProjectSpaces', newProject)
     const { loading, setLoading } = useContext(LoadingContext)
-
-    console.log(newProject);
-
 
     useEffect(() => {
         setLoading(true)
@@ -30,7 +25,8 @@ export const AdminTipology = () => {
                             }
                         })
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
-                        removeSpaces()
+                        localStorage.removeItem('newProjectSpaces')
+                        
                     })
                     .then(() => setLoading(false))
             } catch (error) {

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, MenuItem } from '@mui/material'
+import { Button, MenuItem } from '@mui/material'
 import { FC, forwardRef, useContext, useState } from 'react';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import clsx from 'clsx';
@@ -6,7 +6,6 @@ import { styled, css } from '@mui/system';
 import { Projects } from '../../../types/Projects';
 import { useNavigate } from 'react-router-dom';
 import { NewProjectContext } from '../../../context';
-import api from '../../../api';
 
 interface Props {
     project: Projects
@@ -16,10 +15,10 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
 
     const [open, setOpen] = useState<boolean>(false);
     const navigate = useNavigate()
-    const { setNewProject, newProject } = useContext(NewProjectContext)
+    const { setNewProject } = useContext(NewProjectContext)
 
-    const handleEdit = (e) => {
-        if (e.target.value === 'Información de proyecto') {
+    const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (e.currentTarget.value === 'Información de proyecto') {
             localStorage.setItem('newProject', JSON.stringify(project))
             setNewProject((prevState) => {
                 return {
@@ -29,7 +28,7 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
             })
             navigate('edit-project')
         } else {
-            setNewProject((prevState) => {
+            setNewProject(() => {
                 return {
                     ...project,
                     projectid: project.projectid

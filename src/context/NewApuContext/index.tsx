@@ -1,13 +1,19 @@
-import {  FC, ReactNode, createContext, useEffect, useState } from "react";
+import {  Dispatch, FC, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
 
 interface NewApu{
     name: string,
     material: string,
     finish: string
 }
+const initialApu = {
+    name: '',
+    material: '',
+    finish: ''
+}
 
 interface NewApuContextProps {
-
+    newApu: NewApu
+    setNewApu: Dispatch<SetStateAction<NewApu>>
 }
 
 interface Props {
@@ -18,9 +24,7 @@ export const NewApuContext = createContext<NewApuContextProps>({} as NewApuConte
 
 export const NewApuProvider: FC<Props> = ({ children }) => {
 
-    const [newApu, setNewApu] = useState({
-       
-    })
+    const [newApu, setNewApu] = useState(initialApu)
 
     useEffect(() => {
         

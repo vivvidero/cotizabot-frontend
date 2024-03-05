@@ -16,14 +16,14 @@ export const EditTypology = () => {
     const [formDataTypo, setFormDataTypo] = useState(new FormData())
 
     const [editTypology, setEditTypology] = useState<Typology>({
-        typologyName: '',
+        typologyname: '',
         type: '',
-        privateArea: '',
-        builtArea: '',
+        privatearea: '',
+        builtarea: '',
         blueprints: '',
-        revitModel: '',
+        revitmodel: '',
         video: '',
-        image: null
+        image: ''
     })
 
     useEffect(() => {
@@ -32,12 +32,12 @@ export const EditTypology = () => {
                 const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
                 setImagePreview(projectToEdit.image)
                 setEditTypology({
-                    typologyName: projectToEdit.typologyname,
+                    typologyname: projectToEdit.typologyname,
                     type: projectToEdit.type,
-                    privateArea: projectToEdit.privatearea,
-                    builtArea: projectToEdit.builtarea,
+                    privatearea: projectToEdit.privatearea,
+                    builtarea: projectToEdit.builtarea,
                     blueprints: projectToEdit.linkpdf,
-                    revitModel: projectToEdit.linkdocument,
+                    revitmodel: projectToEdit.linkdocument,
                     video: projectToEdit.linkvideo,
                     image: projectToEdit.image,
                     projectid: newProject.projectid
@@ -64,7 +64,13 @@ export const EditTypology = () => {
     }
 
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0]
+
+        if (!file) {
+            console.log("No hay archivos");
+            return
+        }
+
         const formData = new FormData()
         formData.append('imagen', file);
         setFormDataTypo(formData)
@@ -116,7 +122,7 @@ export const EditTypology = () => {
         setEditTypology((prevState) => {
             return {
                 ...prevState,
-                image: null
+                image: ''
             }
         })
         setImagePreview('')
@@ -131,12 +137,12 @@ export const EditTypology = () => {
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
                     <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Editar Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input value={editTypology.typologyName} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTipology} />
+                        <input value={editTypology.typologyname} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTipology} />
                         <input value={editTypology.type} name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleEditTipology} />
-                        <input value={editTypology.privateArea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTipology} />
-                        <input value={editTypology.builtArea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTipology} />
+                        <input value={editTypology.privatearea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTipology} />
+                        <input value={editTypology.builtarea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTipology} />
                         <input value={editTypology.blueprints} name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleEditTipology} />
-                        <input value={editTypology.revitModel} name='revitModel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTipology} />
+                        <input value={editTypology.revitmodel} name='revitModel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTipology} />
                         <input value={editTypology.video} name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleEditTipology} />
                     </form>
                 </aside>

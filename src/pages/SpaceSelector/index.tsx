@@ -14,7 +14,7 @@ export const AdminSpaceSelector = () => {
     const [spaces, setSpaces] = useState<Spaces[]>([])
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setLoading(true)
         try {
@@ -36,7 +36,7 @@ export const AdminSpaceSelector = () => {
                         console.log(data.data);
                         navigate('space-info');
                     })
-            } else{
+            } else {
                 console.log('El valor de localNewProjectSpaces es nulo')
             }
         } catch (error) {
@@ -44,6 +44,9 @@ export const AdminSpaceSelector = () => {
         }
         setLoading(false)
     };
+
+    console.log(spaces);
+
 
     useEffect(() => {
         localStorage.removeItem('progressCounter')
@@ -79,6 +82,7 @@ export const AdminSpaceSelector = () => {
                         </LinkButton>
                     </div>
                 </form>
+
             </MiddleLayout>
         </MainLayout>
     )

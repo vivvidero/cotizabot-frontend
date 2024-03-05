@@ -2,10 +2,10 @@ import { FC } from "react"
 import { SummaryTipologyCard } from ".."
 import edit from '../../assets/icons/Edit.png'
 import { translateSpace } from "../../helpers/translateSpace"
-import { SummarySpace } from "../../types/Summary"
+import { Space } from "../../types/Summary"
 
 interface Props {
-    space: SummarySpace
+    space: Space
 }
 export const SummarySpaceSection: FC<Props> = ({ space }) => {
 

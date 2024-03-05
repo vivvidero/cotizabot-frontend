@@ -1,4 +1,4 @@
-export interface Summary {
+/* export interface Summary {
     projectData: ProjectData;
     spaces: SummarySpace[];
 }
@@ -19,8 +19,40 @@ export interface ProjectData {
     spaces: TypologyElement[];
 }
 
+
+export interface SummarySpace {
+    spacetype: string;
+    roomnumber?: number;
+    typologies: TypologyElement[];
+    spaceid?: number
+}
+ */
+
+export interface Summary {
+    projectname:     string;
+    typologyname:    string;
+    city:            string;
+    constructorname: string;
+    typologyid:      number;
+    typologytype:    string;
+    neighborhood:    string;
+    typologyimage:   string;
+    privatearea:     number;
+    builtarea:       number;
+    address:         string;
+    projecttype:     string;
+    spaces:          Space[];
+}
+
+export interface Space {
+    spacetype:  string;
+    roomnumber: number;
+    typologies: { [key: string]: number | null }[];
+    
+}
+
 export interface TypologyElement {
-    spaceid: number;
+    spaceid?: number;
     spacetype?: string;
     area?: number;
     roomnumber?: number;
@@ -42,11 +74,4 @@ export interface TypologyElement {
     bathroomfurniture?: number;
     commentuser?: string
     
-}
-
-export interface SummarySpace {
-    spacetype: string;
-    roomnumber?: number;
-    typologies: TypologyElement[];
-    spaceid?: number
 }

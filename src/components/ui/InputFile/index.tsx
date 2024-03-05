@@ -1,10 +1,10 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import addTipology from '../../../assets/icons/add-tipology.png'
-import { Tipology } from '../../../types/Tipology';
+import { Typology } from '../../../types/Tipology';
 
 interface Props {
-    setNewTipology: Dispatch<SetStateAction<Tipology>>,
-    name: string,
+    setNewTipology: Dispatch<SetStateAction<Typology>>,
+    name: 'blueprints' | 'revitModel' | 'video',
     label: string,
 }
 
@@ -22,9 +22,13 @@ export const InputFile: FC<Props> = ({ setNewTipology, name, label }) => {
         video: ''
     })
 
-
     const handleTipologyImage = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0]
+
+        if (!file) {
+            console.log("No hay Archivo");
+            return
+        }
 
         setFileNames((prevState) => {
             return {
@@ -35,7 +39,7 @@ export const InputFile: FC<Props> = ({ setNewTipology, name, label }) => {
 
         const formData = new FormData()
         formData.append(e.target.name, file);
-        setNewTipology((prevState: Tipology) => {
+        setNewTipology((prevState: Typology) => {
             return {
                 ...prevState,
                 [e.target.name]: formData

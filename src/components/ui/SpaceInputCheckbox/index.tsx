@@ -11,6 +11,10 @@ interface Props {
 
 export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spaces, setSpaces }) => {
 
+    console.log(spaces);
+    
+
+
     const handleSpaces = (e: ChangeEvent<HTMLInputElement>) => {
 
         if (!e.target.checked) {
@@ -18,7 +22,7 @@ export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spac
 
             localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.filter(space => space.name !== name)))
         } else {
-
+            
             setSpaces(spaces.concat({ name: name, roomnumber: 1 }))
             localStorage.setItem('newProjectSpaces', JSON.stringify(spaces.concat({ name: name, roomnumber: 1 })))
         }

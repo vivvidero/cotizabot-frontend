@@ -1,4 +1,3 @@
-import { AdminApuRow, SearchBar } from ".."
 
 export const AdminBudgetsApus = () => {
     return (
