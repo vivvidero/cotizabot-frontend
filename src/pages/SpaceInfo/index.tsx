@@ -1,12 +1,22 @@
 import { FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
-import { AdminProgressBar, AdminSpacesInfo, LinkButton, NewProjectModal } from '../../components'
+import { AdminProgressBar, AdminSpacesInfo, LinkButton, NewProjectModal, SubmitButton } from '../../components'
 import check from '../../assets/icons/check.png'
 import api from '../../api'
-
 import { SingleSpace, Spaces } from '../../types/Spaces'
 import { useNavigate } from 'react-router-dom'
 import { NewProjectContext } from '../../context'
+import { LoadingContext } from '../../context/LoadingContext'
+
+interface ImagePreview {
+  url: string,
+  name: string,
+}
+
+const initialImagePreview: ImagePreview = {
+  url: '',
+  name: ''
+}
 
 export const AdminSpaceInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,20 +27,31 @@ export const AdminSpaceInfo = () => {
     roomnumber: spaces[progressCounter]?.roomnumber,
     spaceid: spaces[progressCounter]?.spaceid
   })
+  const [formDataSpaceTypo, setFormDataSpaceTypo] = useState<FormData>(new FormData)
+  const [imagePreview3D, setImagePreview3D] = useState<ImagePreview>(initialImagePreview);
+  const [imagePreviewactualstatus, setImagePreviewactualstatus] = useState<ImagePreview>(initialImagePreview);
+
+  const { setLoading } = useContext(LoadingContext)
   const { newProject } = useContext(NewProjectContext)
+
   const navigate = useNavigate()
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-
-
+    setLoading(true)
     if (!newProject.activeTypologyId) {
       console.log("NO HAY ID DE TIPOLOGIA");
+      setLoading(false)
       return
     }
+    const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
+    const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+
+    formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
+    formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
     try {
-      api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
+      api.post('/spaces', formDataSpaceTypo)
         .then((data) => {
           console.log(data.data);
           setSpace({
@@ -38,19 +59,22 @@ export const AdminSpaceInfo = () => {
             roomnumber: spaces[progressCounter]?.roomnumber,
             spaceid: spaces[progressCounter]?.spaceid
           })
+          setFormDataSpaceTypo(new FormData)
+          setImagePreview3D(initialImagePreview)
+          setImagePreviewactualstatus(initialImagePreview)
         })
-
-      if (progressCounter === spaces.length) {
-        navigate('/new-project/summary')
-      } else {
-        setProgressCounter((prevState) => prevState + 1)
-        localStorage.setItem('progressCounter', JSON.stringify(progressCounter + 1))
-      }
+        .then(() => {
+          setLoading(false)
+          if (progressCounter === spaces.length) {
+            navigate('/new-project/summary')
+          } else {
+            setProgressCounter((prevState) => prevState + 1)
+            localStorage.setItem('progressCounter', JSON.stringify(progressCounter + 1))
+          }
+        })
     } catch (err) {
       console.log(err);
-
     }
-
   }
 
   const handleBackSpace = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -86,7 +110,7 @@ export const AdminSpaceInfo = () => {
           <p> {progressCounter}/{spaces.length} </p>
         </div>
         <form className="flex flex-col gap-6 w-6/12">
-          <AdminSpacesInfo spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} />
+          <AdminSpacesInfo spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
           <div className=" flex gap-5">
             {
               progressCounter > 1
@@ -95,9 +119,9 @@ export const AdminSpaceInfo = () => {
                 Espacio anterior
               </button>
             }
-            <button onClick={handleSubmit} className={`flex items-center justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-dorado text-vivvi border-vivvi`}>
+            <SubmitButton handle={handleSubmit} bg={'golden'}>
               {progressCounter === spaces.length ? 'Finalizar' : 'Siguiente espacio'}
-            </button>
+            </SubmitButton>
             <LinkButton link="/" bg="">
               Cancelar
             </LinkButton>

@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect } from 'react'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
+import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
 import { Typology } from '../../types/Tipology'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api'
@@ -98,7 +99,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
             <div className='rounded-3xl overflow-hidden'>
-                <img src={typology.image} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
+                <img src={typology.image || typologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
             </div>
             <div className='font-outfit text-base font-normal flex flex-col gap-2'>
                 <h4 className='text-xl'>

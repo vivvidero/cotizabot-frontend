@@ -9,10 +9,7 @@ interface Props {
 }
 export const SummarySpaceSection: FC<Props> = ({ space }) => {
 
-
     console.log(space);
-
-
     return (
         <section className="flex flex-col items-start w-9/12 my-4">
             <div className="flex items-center  gap-8 m-4">
@@ -22,11 +19,11 @@ export const SummarySpaceSection: FC<Props> = ({ space }) => {
                 </button>
             </div>
             <hr className="w-full mb-4" />
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 w-full">
                 {
                     space?.typologies
                     &&
-                    space.typologies.map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} />)}
+                    space.typologies.filter((typology) => typology.area !== null).map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} />)}
 
             </div>
         </section>

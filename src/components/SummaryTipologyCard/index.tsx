@@ -13,7 +13,7 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
     return (
         <div className="w-full shadow-xl p-4 rounded-2xl flex flex-col gap-2 font-roboto">
             <div className="rounded overflow-hidden">
-                <img src={imageTipo} alt="imagen tipologia" className="w-full" />
+                <img src={typology?.typology?.image3d || imageTipo}  alt="imagen tipologia" className="w-full h-40 object-contain" />
             </div>
             <h5 className="font-semibold text-xl"> {typology?.typology?.spacetypology} </h5>
             {
