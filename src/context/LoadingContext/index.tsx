@@ -5,6 +5,8 @@ import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from
 interface LoadingContextProps {
     loading: boolean,
     setLoading: Dispatch<SetStateAction<boolean>>
+    error: string,
+    setError: Dispatch<SetStateAction<string>>
 }
 
 interface Props {
@@ -16,11 +18,11 @@ export const LoadingContext = createContext<LoadingContextProps>({} as LoadingCo
 export const LoadingProvider: FC<Props> = ({ children }) => {
 
     const [loading, setLoading] = useState<boolean>(false)
-
+    const [error, setError] = useState<string>('')
 
 
     return (
-        <LoadingContext.Provider value={{ loading, setLoading }}>
+        <LoadingContext.Provider value={{ loading, setLoading,error, setError }}>
             {children}
         </LoadingContext.Provider>
     )

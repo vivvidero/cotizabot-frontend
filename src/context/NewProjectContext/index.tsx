@@ -13,6 +13,7 @@ export interface NewProject {
     spaces?: Spaces[]
     projectid?: number
     activeTypologyId?: number
+    activeSpaceId?: number
 }
 
 interface NewProjectContextProps {

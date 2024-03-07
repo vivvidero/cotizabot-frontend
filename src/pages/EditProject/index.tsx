@@ -45,7 +45,7 @@ export const EditProject = () => {
                 .catch((err) => console.log(err)
                 )
         }
-    }, [newProject.projectid, setNewProject])
+    }, [newProject.projectid])
     
 
     return (

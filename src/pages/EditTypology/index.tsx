@@ -45,10 +45,6 @@ export const EditTypology = () => {
             })
     }, [newProject.activeTypologyId, newProject.projectid])
 
-    console.log(editTypology);
-
-
-
     const { setLoading } = useContext(LoadingContext)
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,11 +82,6 @@ export const EditTypology = () => {
 
     const handleSaveEditedTypology = () => {
         setLoading(true)
-
-        console.log(newProject.projectid);
-        console.log(newProject?.activeTypologyId);
-
-
         if (!newProject.projectid || !newProject?.activeTypologyId) {
             console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
             return
@@ -100,7 +91,6 @@ export const EditTypology = () => {
         const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
-
 
         try {
             api.post(`/typologies`, formDataTypo)
@@ -114,8 +104,8 @@ export const EditTypology = () => {
                 })
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     const deleteImagePreview = () => {

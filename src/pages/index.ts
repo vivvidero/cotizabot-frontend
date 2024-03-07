@@ -12,5 +12,6 @@ export * from './NewSupplie'
 export * from './SummaryNewProject'
 export * from './EditProject'
 export * from './EditTypology'
+export * from './EditSpace'
 
 

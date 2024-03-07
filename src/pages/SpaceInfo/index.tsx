@@ -7,6 +7,7 @@ import { SingleSpace, Spaces } from '../../types/Spaces'
 import { useNavigate } from 'react-router-dom'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
+import { validateSpaceForm } from '../../helpers/validateSpaceForm'
 
 interface ImagePreview {
   url: string,
@@ -30,8 +31,9 @@ export const AdminSpaceInfo = () => {
   const [formDataSpaceTypo, setFormDataSpaceTypo] = useState<FormData>(new FormData)
   const [imagePreview3D, setImagePreview3D] = useState<ImagePreview>(initialImagePreview);
   const [imagePreviewactualstatus, setImagePreviewactualstatus] = useState<ImagePreview>(initialImagePreview);
+  const [comment, setComment] = useState(false)
 
-  const { setLoading } = useContext(LoadingContext)
+  const { setLoading, error, setError } = useContext(LoadingContext)
   const { newProject } = useContext(NewProjectContext)
 
   const navigate = useNavigate()
@@ -44,6 +46,18 @@ export const AdminSpaceInfo = () => {
       setLoading(false)
       return
     }
+
+    // Valida que el formulario este completo
+    if (!validateSpaceForm(space)) {
+      console.log("Faltan datos");
+      setError("Todos los campos son obligatorios")
+      setLoading(false)
+      setTimeout(() => {
+        setError('')
+      }, 4000);
+      return
+    }
+
     const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
     const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
 
@@ -53,7 +67,7 @@ export const AdminSpaceInfo = () => {
     try {
       api.post('/spaces', formDataSpaceTypo)
         .then((data) => {
-          console.log(data.data);
+          console.log(data);
           setSpace({
             spacetype: spaces[progressCounter]?.name,
             roomnumber: spaces[progressCounter]?.roomnumber,
@@ -62,6 +76,7 @@ export const AdminSpaceInfo = () => {
           setFormDataSpaceTypo(new FormData)
           setImagePreview3D(initialImagePreview)
           setImagePreviewactualstatus(initialImagePreview)
+          setComment(false)
         })
         .then(() => {
           setLoading(false)
@@ -73,7 +88,8 @@ export const AdminSpaceInfo = () => {
           }
         })
     } catch (err) {
-      console.log(err);
+      setLoading(false)
+      console.log(" Error al enviar el form: ", err);
     }
   }
 
@@ -99,8 +115,8 @@ export const AdminSpaceInfo = () => {
     if (localSpaces) {
       setSpaces(JSON.parse(localSpaces))
     }
-
   }, [])
+
   return (
     <MainLayout>
       <AdminProgressBar progress={isModalOpen ? 5 : 4} />
@@ -110,7 +126,15 @@ export const AdminSpaceInfo = () => {
           <p> {progressCounter}/{spaces.length} </p>
         </div>
         <form className="flex flex-col gap-6 w-6/12">
-          <AdminSpacesInfo spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
+          <AdminSpacesInfo comment={comment} setComment={setComment} spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
+          {
+            error
+            &&
+            <div className='bg-red-300 p-4'>
+              <p> {error} </p>
+            </div>
+          }
+
           <div className=" flex gap-5">
             {
               progressCounter > 1

@@ -1,21 +1,41 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import imageTipo from '../../assets/images/tipoImage.png'
+import edit from '../../assets/icons/Edit.png'
 import { SummaryInput } from '..';
 import { TypologyElement } from '../../types/Summary';
+import { NewProjectContext } from '../../context';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     typology: TypologyElement
 }
 
 export const SummaryTipologyCard: FC<Props> = (typology) => {
-    
+
+    const navigate = useNavigate()
+    const {newProject, setNewProject} = useContext(NewProjectContext)
+    console.log(typology);
+    const handleEditSpace = () => {
+
+        localStorage.setItem('newProject', JSON.stringify({...newProject, activeSpaceId: typology?.typology?.spaceid}))
+        setNewProject((prevState) => {
+            return {
+                ...prevState,
+                activeSpaceId: typology?.typology?.spaceid
+            }
+        })
+        navigate(`/project/typology/space/edit`)
+    }
 
     return (
         <div className="w-full shadow-xl p-4 rounded-2xl flex flex-col gap-2 font-roboto">
-            <div className="rounded overflow-hidden">
-                <img src={typology?.typology?.image3d || imageTipo}  alt="imagen tipologia" className="w-full h-40 object-contain" />
+            <div className="rounded overflow-hidden relative">
+                <img src={typology?.typology?.image3d || imageTipo} alt="imagen tipologia" className="w-full h-40 object-contain" />
+                <button className="border bg-dorado border-vivvi rounded-full p-1 absolute top-3 right-3 hover:scale-105 transition-all duration-150" onClick={handleEditSpace}>
+                    <img src={edit} alt="editar" />
+                </button>
             </div>
-            <h5 className="font-semibold text-xl"> {typology?.typology?.spacetypology} </h5>
+            <h5 className="font-semibold text-xl">Tipologia: {typology?.typology?.spacetypology} </h5>
             {
                 typology?.typology?.area
                 &&

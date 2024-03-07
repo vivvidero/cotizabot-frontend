@@ -1,14 +1,16 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import { SummaryTipologyCard } from ".."
 import edit from '../../assets/icons/Edit.png'
 import { translateSpace } from "../../helpers/translateSpace"
 import { Space } from "../../types/Summary"
+import ReactModal from "react-modal"
 
 interface Props {
     space: Space
 }
 export const SummarySpaceSection: FC<Props> = ({ space }) => {
 
+    const [editMode, setEditMode] = useState<boolean>(false)
     console.log(space);
     return (
         <section className="flex flex-col items-start w-9/12 my-4">
@@ -23,9 +25,13 @@ export const SummarySpaceSection: FC<Props> = ({ space }) => {
                 {
                     space?.typologies
                     &&
-                    space.typologies.filter((typology) => typology.area !== null).map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} />)}
+                    space.typologies.filter((typology) => typology.area !== null).map((typology) => <SummaryTipologyCard key={typology?.spaceid} typology={typology} setEditMode={setEditMode} />)}
 
             </div>
+
+            <ReactModal isOpen={editMode} >
+
+            </ReactModal>
         </section>
     )
 }

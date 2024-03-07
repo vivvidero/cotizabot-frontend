@@ -4,6 +4,7 @@ import { SingleSpace, Spaces } from '../../../types/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
 import api from '../../../api'
 import { NewProjectContext } from '../../../context'
+import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
 
 interface ImagePreview {
     url: string,
@@ -23,11 +24,12 @@ interface Props {
     setFormDataSpaceTypo: Dispatch<SetStateAction<FormData>>
     setImagePreviewactualstatus: Dispatch<SetStateAction<ImagePreview>>
     setImagePreview3D: Dispatch<SetStateAction<ImagePreview>>
+    setComment: Dispatch<SetStateAction<boolean>>
 }
 
-export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D }) => {
+export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, setComment }) => {
 
-    const { setLoading } = useContext(LoadingContext)
+    const { setLoading, setError } = useContext(LoadingContext)
     const { newProject } = useContext(NewProjectContext)
 
     const saveAndAddTipology = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -39,6 +41,18 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
             setLoading(false)
             return
         }
+
+        // Valida que el formulario este completo
+        if (!validateSpaceForm(space)) {
+            console.log("Faltan datos");
+            setError("Todos los campos son obligatorios")
+            setLoading(false)
+            setTimeout(() => {
+                setError('')
+            }, 4000);
+            return
+        }
+
         const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
         const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
 
@@ -58,6 +72,7 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
                     setFormDataSpaceTypo(new FormData)
                     setImagePreview3D(initialImagePreview)
                     setImagePreviewactualstatus(initialImagePreview)
+                    setComment(false)
                 })
                 .then(() => {
                     alert('Tipologia de espacio guardado')

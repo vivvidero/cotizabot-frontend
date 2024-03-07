@@ -16,9 +16,6 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
     const [dropdownOpen, setDropdownOpen] = useState<null | HTMLElement>(null);
     const open = Boolean(dropdownOpen);
     const { setLoading } = useContext(LoadingContext)
-
-    console.log(project);
-    
     
     const handleDelete = () => {
         const confDel = confirm(`Estás seguro de borrar el proyecto: ${project.projectname}`)

@@ -9,10 +9,7 @@ interface Props {
     setSpaces: Dispatch<SetStateAction<Spaces[]>>
 }
 
-export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spaces, setSpaces }) => {
-
-    console.log(spaces);
-    
+export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spaces, setSpaces }) => {    
 
 
     const handleSpaces = (e: ChangeEvent<HTMLInputElement>) => {
