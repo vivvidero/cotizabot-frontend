@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import imageTipo from '../../assets/images/tipoImage.png'
 import edit from '../../assets/icons/Edit.png'
 import { SummaryInput } from '..';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface Props {
     typology: TypologyElement
+    setEditMode: Dispatch<SetStateAction<boolean>>
 }
 
 export const SummaryTipologyCard: FC<Props> = (typology) => {
