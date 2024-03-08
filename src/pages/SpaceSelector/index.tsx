@@ -34,12 +34,14 @@ export const AdminSpaceSelector = () => {
                         }
                         localStorage.setItem('newProjectSpaces', JSON.stringify(newProjectSpaces))
                         console.log(data.data);
+                        setLoading(false)
                         navigate('space-info');
                     })
             } else {
                 console.log('El valor de localNewProjectSpaces es nulo')
+                setLoading(false)
             }
-            setLoading(false)
+
         } catch (error) {
             console.log(error);
             setLoading(false)

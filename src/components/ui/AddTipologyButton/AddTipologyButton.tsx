@@ -4,27 +4,64 @@ import { SingleSpace, Spaces } from '../../../types/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
 import api from '../../../api'
 import { NewProjectContext } from '../../../context'
+import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
+
+interface ImagePreview {
+    url: string,
+    name: string,
+}
+
+const initialImagePreview: ImagePreview = {
+    url: '',
+    name: ''
+}
 
 interface Props {
     setSpace: Dispatch<SetStateAction<SingleSpace>>
     singleSpace: Spaces,
     space: SingleSpace,
-
+    formDataSpaceTypo: FormData
+    setFormDataSpaceTypo: Dispatch<SetStateAction<FormData>>
+    setImagePreviewactualstatus: Dispatch<SetStateAction<ImagePreview>>
+    setImagePreview3D: Dispatch<SetStateAction<ImagePreview>>
+    setComment: Dispatch<SetStateAction<boolean>>
 }
 
-export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) => {
+export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, setComment }) => {
 
-    const { setLoading } = useContext(LoadingContext)
+    const { setLoading, setError } = useContext(LoadingContext)
     const { newProject } = useContext(NewProjectContext)
-
 
     const saveAndAddTipology = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
-
         setLoading(true)
+
+        if (!newProject.activeTypologyId) {
+            console.log("NO HAY ID DE TIPOLOGIA");
+            setLoading(false)
+            return
+        }
+
+        // Valida que el formulario este completo
+        if (!validateSpaceForm(space)) {
+            console.log("Faltan datos");
+            setError("Todos los campos son obligatorios")
+            setLoading(false)
+            setTimeout(() => {
+                setError('')
+            }, 4000);
+            return
+        }
+
+        const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
+        const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+
+        formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
+        formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
+
         // POST ESPACIO
         try {
-            api.post('/spaces', { typologyid: newProject.activeTypologyId, ...space })
+            api.post('/spaces', formDataSpaceTypo)
                 .then((data) => {
                     console.log(data.data);
                     setSpace({
@@ -32,15 +69,18 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space }) =
                         roomnumber: singleSpace?.roomnumber,
                         spaceid: singleSpace?.spaceid
                     })
+                    setFormDataSpaceTypo(new FormData)
+                    setImagePreview3D(initialImagePreview)
+                    setImagePreviewactualstatus(initialImagePreview)
+                    setComment(false)
                 })
-            alert('Tipologia de espacio guardado')
+                .then(() => {
+                    alert('Tipologia de espacio guardado')
+                    setLoading(false)
+                })
         } catch (error) {
             console.log(error);
-
         }
-
-
-        setLoading(false)
     }
 
 

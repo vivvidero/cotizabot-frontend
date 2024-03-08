@@ -52,6 +52,7 @@ export interface Space {
 }
 
 export interface TypologyElement {
+    image3d?: string;
     spaceid?: number;
     spacetype?: string;
     area?: number;

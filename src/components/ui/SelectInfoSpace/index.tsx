@@ -15,7 +15,7 @@ export const SelectInfoSpace: FC<Props> = ({ handle, options, value }) => {
         <div className="flex flex-col">
             <p className="mx-2 font-roboto font-normal text-lg text-battleGray"> Tipología </p>
             <label className=" p-2 bg-white border border-platinum flex items-center" >
-                <select name='spacetypology' onChange={handle} className="w-full" value={value ? value : ''}>
+                <select name='spacetypology' onChange={handle} className="w-full" value={value ? value : ''} required>
                     <option defaultChecked defaultValue={''}></option>
                     {options.map((option) => <option key={option}> {option} </option>)}
                 </select>

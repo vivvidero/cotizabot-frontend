@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect } from "react"
 import { SingleSpace, Spaces } from "../../types/Spaces"
 import { translateSpace } from "../../helpers/translateSpace";
 import addTipology from '../../assets/icons/add-tipology.png'
@@ -6,23 +6,28 @@ import addComment from '../../assets/icons/add-comment.png'
 import { InputInfoSpace, SelectInfoSpace } from "..";
 import { AddTipologyButton } from "../ui/AddTipologyButton/AddTipologyButton";
 
+interface ImagePreview {
+    url: string,
+    name: string,
+}
+
 interface Props {
     spaces: Spaces[],
     progressCounter: number
     space: SingleSpace
     setSpace: Dispatch<SetStateAction<SingleSpace>>
+    setFormDataSpaceTypo: Dispatch<SetStateAction<FormData>>
+    formDataSpaceTypo: FormData
+    setImagePreviewactualstatus: Dispatch<SetStateAction<ImagePreview>>
+    setImagePreview3D: Dispatch<SetStateAction<ImagePreview>>
+    imagePreview3D: ImagePreview
+    imagePreviewactualstatus: ImagePreview,
+    comment: boolean,
+    setComment: Dispatch<SetStateAction<boolean>>
 }
 
-interface ImagePreview {
-    url: string,
-    name: string
-}
+export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, imagePreview3D, imagePreviewactualstatus, comment, setComment }) => {
 
-export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace }) => {
-
-    const [imagePreview3D, setImagePreview3D] = useState<ImagePreview>();
-    const [imagePreviewactualstatus, setImagePreviewactualstatus] = useState<ImagePreview>();
-    const [comment, setComment] = useState(false)
 
     useEffect(() => {
         setSpace({
@@ -50,7 +55,6 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
 
 
     const handleSpace = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-
         setSpace((prevState) => {
             return {
                 ...prevState,
@@ -64,16 +68,8 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         if (!file) {
             return
         }
+        formDataSpaceTypo.append(e.target.name, file)
 
-        const formData = new FormData();
-        formData.append('image', file);
-
-        setSpace((prevState) => {
-            return {
-                ...prevState,
-                [e.target.name]: formData
-            }
-        })
         if (file) {
             // Leer el contenido del archivo y mostrar una vista previa de la imagen
             const reader = new FileReader();
@@ -94,9 +90,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             reader.readAsDataURL(file);
         }
     }
-
     console.log(space);
-
 
     return (
         <>
@@ -109,30 +103,30 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                     <div className="flex flex-col gap-4 w-4/12">
                         <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden h-52'>
                             <div className='p-2  flex flex-col items-center overflow-hidden'>
-                                <label htmlFor={`${spaces[progressCounter]?.name}image3d`} className='flex flex-col items-center cursor-pointer'>
-                                    <img src={imagePreview3D?.url && space?.image3d ? imagePreview3D.url : addTipology} className={` ${space?.image3d ? 'w-full' : 'w-1/2'}`} />
-                                    {imagePreview3D?.url && space?.image3d
+                                <label htmlFor={`image3d`} className='flex flex-col items-center cursor-pointer'>
+                                    <img src={imagePreview3D?.url ? imagePreview3D.url : addTipology} className={` ${imagePreview3D?.url ? 'w-full' : 'w-1/2'}`} />
+                                    {imagePreview3D?.url
                                         ?
-                                        <p>{space?.image3d?.name}</p>
+                                        null
                                         :
                                         'Cargar imagen 3D'}
                                 </label>
-                                <input id={`${spaces[progressCounter]?.name}image3d`} name={'image3d'} type='file' onChange={handleImage} className='hidden' />
-                                <p> {imagePreview3D?.url && space?.image3d ? imagePreview3D?.name : ''} </p>
+                                <input id={`image3d`} name={'image3d'} type='file' onChange={handleImage} className='hidden' />
+                                {/*  <p> {imagePreview3D?.url && space?.image3d ? imagePreview3D?.name : ''} </p> */}
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden'>
                             <div className='p-2 flex flex-col items-center overflow-hidden'>
-                                <label htmlFor={`${spaces[progressCounter]?.name}actualstatus`} className='flex flex-col items-center cursor-pointer'>
-                                    <img src={imagePreviewactualstatus?.url && space?.actualstatus ? imagePreviewactualstatus.url : addTipology} className={` ${space?.actualstatus ? 'w-full' : 'w-1/3'}`} />
-                                    {imagePreviewactualstatus?.url && space?.actualstatus
+                                <label htmlFor={`actualstatus`} className='flex flex-col items-center cursor-pointer'>
+                                    <img src={imagePreviewactualstatus?.url ? imagePreviewactualstatus.url : addTipology} className={` ${imagePreviewactualstatus?.url ? 'w-full' : 'w-1/3'}`} />
+                                    {imagePreviewactualstatus?.url
                                         ?
-                                        <p>{space?.actualstatus?.name}</p>
+                                        null
                                         :
                                         <p className="text-center">Cargar fotos estado actual</p>}
                                 </label>
-                                <input id={`${spaces[progressCounter]?.name}actualstatus`} name={'actualstatus'} type='file' onChange={handleImage} className='hidden' />
-                                <p> {imagePreviewactualstatus?.url && space?.actualstatus ? imagePreviewactualstatus?.name : ''} </p>
+                                <input id={`actualstatus`} name={'actualstatus'} type='file' onChange={handleImage} className='hidden' />
+                                {/* <p> {imagePreviewactualstatus?.url ? imagePreviewactualstatus?.name : ''} </p> */}
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex gap-4 items-center overflow-hidden p-2 cursor-pointer' onClick={() => setComment(!comment)}>
@@ -224,12 +218,12 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                 {
                     spaces[progressCounter]?.name === 'kitchen'
                     &&
-                    <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />
+                    <AddTipologyButton setComment={setComment} setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
                 }
                 {
                     spaces[progressCounter]?.name === 'clothes'
                     &&
-                    <AddTipologyButton setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} />
+                    <AddTipologyButton setComment={setComment} setSpace={setSpace} space={space} singleSpace={spaces[progressCounter]} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
                 }
             </div>
         </>

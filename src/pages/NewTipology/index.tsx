@@ -13,7 +13,7 @@ import { NewProjectContext } from '../../context'
 export const AdminNewTipology = () => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
-    const [formDataTypo, setFormDataTypo] = useState(new FormData())
+    const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
 
     const [newTypology, setNewTypology] = useState<Typology>({
         typologyname: '',
@@ -85,7 +85,6 @@ export const AdminNewTipology = () => {
         try {
             api.post(`/typologies`, formDataTypo)
                 .then((data) => {
-                    console.log(data.data);
                     setNewProject((prevState) => {
                         return {
                             ...prevState,
