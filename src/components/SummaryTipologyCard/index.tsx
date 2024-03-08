@@ -1,24 +1,27 @@
 import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import imageTipo from '../../assets/images/tipoImage.png'
 import edit from '../../assets/icons/Edit.png'
+import deleteIcon from '../../assets/icons/delete.png'
 import { SummaryInput } from '..';
-import { TypologyElement } from '../../types/Summary';
+import { Summary, TypologyElement } from '../../types/Summary';
 import { NewProjectContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
+import { LoadingContext } from '../../context/LoadingContext';
+import api from '../../api';
 
 interface Props {
     typology: TypologyElement
-    setEditMode: Dispatch<SetStateAction<boolean>>
+    setSummaryProject: Dispatch<SetStateAction<Summary | undefined>>
 }
 
 export const SummaryTipologyCard: FC<Props> = (typology) => {
 
     const navigate = useNavigate()
-    const {newProject, setNewProject} = useContext(NewProjectContext)
-    console.log(typology);
-    const handleEditSpace = () => {
+    const { newProject, setNewProject } = useContext(NewProjectContext)
+    const { setLoading } = useContext(LoadingContext)
 
-        localStorage.setItem('newProject', JSON.stringify({...newProject, activeSpaceId: typology?.typology?.spaceid}))
+    const handleEditSpace = () => {
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeSpaceId: typology?.typology?.spaceid }))
         setNewProject((prevState) => {
             return {
                 ...prevState,
@@ -28,6 +31,24 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
         navigate(`/project/typology/space/edit`)
     }
 
+    const handleDeleteSpace = () => {
+        const confDel = confirm(`Estás seguro de borrar la tipologia del espacio`)
+        if (confDel) {
+            api.delete(`/proyectos/spaces/${typology?.typology?.spaceid}`)
+                .then(() => {
+                    setLoading(true);
+                    // Obtener Summary después de eliminar
+                    api.get(`/projects/${newProject?.projectid}/typologies/${newProject.activeTypologyId}/spaces`)
+                        .then((data) => typology.setSummaryProject(data.data))
+                        .then(() => setLoading(false));
+                })
+                .catch(error => {
+                    console.error("Error al eliminar el proyecto:", error);
+                    setLoading(false);
+                });
+        }
+    }
+
     return (
         <div className="w-full shadow-xl p-4 rounded-2xl flex flex-col gap-2 font-roboto">
             <div className="rounded overflow-hidden relative">
@@ -35,31 +56,30 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
                 <button className="border bg-dorado border-vivvi rounded-full p-1 absolute top-3 right-3 hover:scale-105 transition-all duration-150" onClick={handleEditSpace}>
                     <img src={edit} alt="editar" />
                 </button>
+                <button className="border bg-dorado border-vivvi rounded-full p-1 absolute top-14 right-3 hover:scale-105 transition-all duration-150" onClick={handleDeleteSpace}>
+                    <img src={deleteIcon} alt="editar" />
+                </button>
             </div>
             <h5 className="font-semibold text-xl">Tipologia: {typology?.typology?.spacetypology} </h5>
             {
                 typology?.typology?.area
                 &&
                 <SummaryInput data='Área' value={typology?.typology?.area} />
-
             }
             {
                 typology?.typology?.demolitions
                 &&
                 <SummaryInput data='Demoliciones' value={typology?.typology?.demolitions} />
-
             }
             {
                 typology?.typology?.walls
                 &&
                 <SummaryInput data='Muros' value={typology?.typology?.walls} />
-
             }
             {
                 typology?.typology?.uppercabinetml
                 &&
                 <SummaryInput data='Mueble Alto' value={typology?.typology?.uppercabinetml} />
-
             }
             {
                 typology?.typology?.lowercabinetml
@@ -122,8 +142,6 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
                 &&
                 <SummaryInput data='Repisa' value={typology?.typology?.shelf} />
             }
-
-
             {
                 typology?.typology?.commentuser
                 &&

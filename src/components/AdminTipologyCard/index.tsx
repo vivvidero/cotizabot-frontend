@@ -26,7 +26,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             setNewProject((prevState) => {
                 return {
                     ...prevState,
-                    projectlocal
+                    ...projectlocal
                 }
             })
         }
@@ -94,7 +94,17 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             .catch((err) => console.log(err)
             )
     }
-    
+
+    const handleSummary = () => {
+        setNewProject((prevState) => {
+            return {
+                ...prevState,
+                activeTypologyId: typology?.typologyid
+            }
+        })
+        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology?.typologyid }))
+        navigate('/new-project/summary')
+    }
 
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
@@ -135,9 +145,14 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                     <img src={del} className='w-full' />
                 </button>
             </div>
-            <div>
+            <div className='mb-1'>
                 <button className='border border-vivvi px-6 rounded-full h-8 w-full hover:bg-dorado transition-all duration-300' onClick={handleEdit}>
                     Advertencia tecnica
+                </button>
+            </div>
+            <div>
+                <button className='border border-vivvi px-6 rounded-full h-8 w-full hover:bg-dorado transition-all duration-300' onClick={handleSummary}>
+                    Ir a Resumen
                 </button>
             </div>
         </div>

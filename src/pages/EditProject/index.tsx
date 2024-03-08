@@ -16,10 +16,6 @@ export const EditProject = () => {
         setLoading(true)
         try {
             api.post(`/projects/new/${newProject.projectid}`, newProject)
-                .then((data) => {
-                    console.log("Proyecto editado con exito");
-                    console.log(data); 
-                })
                 .then(() => {
                     setLoading(false)
                     navigate('/new-project/tipology')

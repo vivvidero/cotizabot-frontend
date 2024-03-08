@@ -85,7 +85,6 @@ export const AdminNewTipology = () => {
         try {
             api.post(`/typologies`, formDataTypo)
                 .then((data) => {
-                    console.log(data.data);
                     setNewProject((prevState) => {
                         return {
                             ...prevState,
