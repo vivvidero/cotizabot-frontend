@@ -3,7 +3,7 @@ import { AdminProgressBar, LinkButton, NewTipologyModal, SubmitButton } from '..
 import addTipology from '../../assets/icons/add-tipology.png'
 import delOrange from '../../assets/icons/Delete-orange.png'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Typology } from '../../types/Tipology'
 import api from '../../api'
@@ -14,6 +14,10 @@ export const AdminNewTipology = () => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
+    const {projectid} = useParams()
+
+    console.log(projectid);
+    
 
     const [newTypology, setNewTypology] = useState<Typology>({
         typologyname: '',
@@ -72,13 +76,13 @@ export const AdminNewTipology = () => {
     const handleSaveTypology = () => {
         setLoading(true)
 
-        if (!newProject.projectid) {
+        if (!projectid) {
             console.log("NO HAY ID DE PROYECTO");
             setLoading(false)
             return
         }
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
-        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
 
@@ -95,7 +99,7 @@ export const AdminNewTipology = () => {
                     setIsModalOpen(true)
                     setLoading(false)
                     setTimeout(() => {
-                        navigate('/new-project/space-selector');
+                        navigate(`/new-project/${projectid}/${data.data.result.typologyid}/space-selector`);
                     }, 3000);
                 })
         } catch (error) {

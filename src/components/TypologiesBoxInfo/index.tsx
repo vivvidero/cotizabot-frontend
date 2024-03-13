@@ -5,17 +5,19 @@ import constructorIcon from '../../assets/icons/constructora.png'
 import locationIcon from '../../assets/icons/location.png'
 import checkIcon from '../../assets/icons/check-redondo.png'
 import { SubmitButton } from '..'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const TypologiesBoxInfo = () => {
+
+    const {projectid} = useParams()
 
     const { newProject } = useContext(NewProjectContext)
     const navigate = useNavigate()
 
     const handleEdit = () => {
-        navigate('/admin/projects/edit-project')
+        navigate(`/admin/projects/${projectid}/edit-project`)
     }
-    
+        
 
     return (
         <div className='w-full p-2 rounded-xl grid grid-cols-5 grid-rows-3 gap-2 font-roboto text-xl mb-4' style={{ 'boxShadow': '0px 4px 6px 0px rgba(195, 195, 195, 0.25)', 'backgroundColor': 'rgba(255, 255, 255, 0.5)' }}>

@@ -3,7 +3,7 @@ import { AdminProgressBar, LinkButton, NewTipologyModal, SubmitButton } from '..
 import addTipology from '../../assets/icons/add-tipology.png'
 import delOrange from '../../assets/icons/Delete-orange.png'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Typology } from '../../types/Tipology'
 import api from '../../api'
@@ -26,8 +26,14 @@ export const EditTypology = () => {
         image: ''
     })
 
+    const { projectid, typologyid } = useParams()
+
+    console.log(projectid);
+    console.log(typologyid);
+    
+
     useEffect(() => {
-        api.get(`/projects/${newProject.projectid}/typologies`)
+        api.get(`/projects/${projectid}/typologies`)
             .then((data) => {
                 const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
                 setImagePreview(projectToEdit.image)
@@ -82,13 +88,13 @@ export const EditTypology = () => {
 
     const handleSaveEditedTypology = () => {
         setLoading(true)
-        if (!newProject.projectid || !newProject?.activeTypologyId) {
+        if (!projectid || !typologyid) {
             console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
             return
         }
 
         const jsonBlob = new Blob([JSON.stringify(editTypology)], { type: 'application/json' });
-        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: newProject.projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid, typologyId: typologyid })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
 
@@ -99,7 +105,7 @@ export const EditTypology = () => {
                     setIsModalOpen(true)
                     setLoading(false)
                     setTimeout(() => {
-                        navigate('/new-project/tipology');
+                        navigate(`/new-project/${projectid}`);
                     }, 3000);
                 })
         } catch (error) {
@@ -118,8 +124,6 @@ export const EditTypology = () => {
         setImagePreview('')
     }
 
-    console.log(editTypology);
-    
 
     return (
         <MainLayout>

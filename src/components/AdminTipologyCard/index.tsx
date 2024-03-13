@@ -1,21 +1,24 @@
-import { FC, useContext, useEffect } from 'react'
+import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
 import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
 import { Typology } from '../../types/Tipology'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../api'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 
 interface Props {
-    typology: Typology
+    typology: Typology,
+    setTypologies: Dispatch<SetStateAction<[]>>
 }
 
-export const AdminTipologyCard: FC<Props> = ({ typology }) => {
+export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
+    const {projectid} = useParams()
+
 
     const navigate = useNavigate()
 
@@ -30,9 +33,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                 }
             })
         }
-
     }, [])
-
 
     const handleEdit = () => {
         setNewProject((prevState) => {
@@ -42,7 +43,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             }
         })
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology.typologyid }))
-        navigate('/tipology/edit-typology')
+        navigate(`${typology.typologyid}/edit-typology`)
     }
 
     const handleDuplicate = () => {
@@ -55,15 +56,9 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
                 localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.push(data.data?.typology) : [] }))
-                api.get(`/projects/${newProject.projectid}/typologies`)
+                api.get(`/projects/${projectid}/typologies`)
                     .then((data) => {
-                        setNewProject((prevState) => {
-                            return {
-                                ...prevState,
-                                tipologies: data.data,
-                                activeTypologyId: undefined
-                            }
-                        })
+                        setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
 
@@ -77,15 +72,9 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
-                api.get(`/projects/${newProject.projectid}/typologies`)
+                api.get(`/projects/${projectid}/typologies`)
                     .then((data) => {
-                        setNewProject((prevState) => {
-                            return {
-                                ...prevState,
-                                tipologies: data.data,
-                                activeTypologyId: undefined
-                            }
-                        })
+                        setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.filter((typo) => typo.typologyid !== typology.typologyid) : [], activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
                     })

@@ -4,7 +4,7 @@ import { AdminProgressBar, AdminSpacesInfo, LinkButton, NewProjectModal, SubmitB
 import check from '../../assets/icons/check.png'
 import api from '../../api'
 import { SingleSpace, Spaces } from '../../types/Spaces'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 import { validateSpaceForm } from '../../helpers/validateSpaceForm'
@@ -35,6 +35,9 @@ export const AdminSpaceInfo = () => {
 
   const { setLoading, error, setError } = useContext(LoadingContext)
   const { newProject } = useContext(NewProjectContext)
+
+  const {projectid, typologyid} = useParams()
+
 
   const navigate = useNavigate()
 
@@ -81,7 +84,7 @@ export const AdminSpaceInfo = () => {
         .then(() => {
           setLoading(false)
           if (progressCounter === spaces.length) {
-            navigate('/new-project/summary')
+            navigate(`/new-project/${projectid}/${typologyid}/summary`)
           } else {
             setProgressCounter((prevState) => prevState + 1)
             localStorage.setItem('progressCounter', JSON.stringify(progressCounter + 1))

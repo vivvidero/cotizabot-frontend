@@ -4,18 +4,20 @@ import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBox
 import { NewProjectContext } from '../../context'
 import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
+import { useParams } from 'react-router-dom'
 
 export const AdminTipology = () => {
 
     const { newProject } = useContext(NewProjectContext)
     const { loading, setLoading } = useContext(LoadingContext)
     const [typologies, setTypologies] = useState([])
-
+    const {projectid } =useParams()
+    
     useEffect(() => {
         setLoading(true)
-        if (newProject.projectid) {
+        if (projectid) {
             try {
-                api.get(`/projects/${newProject.projectid}/typologies`)
+                api.get(`/projects/${projectid}/typologies`)
                     .then((data) => {
                         setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
@@ -28,8 +30,6 @@ export const AdminTipology = () => {
         }
         setLoading(false)
     }, [])
-
-    console.log(typologies);
     
 
 
@@ -51,7 +51,7 @@ export const AdminTipology = () => {
                             ?
                             typologies?.length > 0
                                 ?
-                                typologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} />)
+                                typologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} setTypologies={setTypologies} />)
                                 :
                                 <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
                             :

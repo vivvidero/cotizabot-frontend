@@ -20,7 +20,6 @@ export const AdminNewProject = () => {
       try {
         api.post(`/projects/new/${newProject.projectid}`, newProject)
           .then((data) => {
-        
             setNewProject((prevState) => {
               return {
                 ...prevState,
@@ -28,11 +27,8 @@ export const AdminNewProject = () => {
               }
             })
             localStorage.setItem('newProject', JSON.stringify({ ...newProject, projectid: data.data.projectid }))
-            
-          })
-          .then(() => {
             setLoading(false)
-            navigate('/new-project/tipology')
+            navigate(`/new-project/${data.data.projectid}`)
           })
       } catch (error) {
         console.log(error);

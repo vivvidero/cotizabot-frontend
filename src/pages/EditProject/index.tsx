@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { AdminCheckbox, AdminInput, LinkButton, SubmitButton } from '../../components'
 import { useContext, useEffect } from 'react'
@@ -11,14 +11,16 @@ export const EditProject = () => {
     const navigate = useNavigate()
     const { setLoading } = useContext(LoadingContext)
     const { newProject, setNewProject } = useContext(NewProjectContext)
+    const {projectid} = useParams()
+
 
     const handleEdit = () => {
         setLoading(true)
         try {
-            api.post(`/projects/new/${newProject.projectid}`, newProject)
+            api.post(`/projects/new/${projectid}`, newProject)
                 .then(() => {
                     setLoading(false)
-                    navigate('/new-project/tipology')
+                    navigate(`/new-project/${projectid}`)
                 })
         } catch (error) {
             console.log(error);
@@ -28,8 +30,8 @@ export const EditProject = () => {
     }
 
     useEffect(() => {
-        if (newProject.projectid) {
-            api.get(`/proyectos/${newProject.projectid}`)
+        if (projectid) {
+            api.get(`/proyectos/${projectid}`)
                 .then((data) => {
                     
                     setNewProject(() => {
@@ -41,7 +43,7 @@ export const EditProject = () => {
                 .catch((err) => console.log(err)
                 )
         }
-    }, [newProject.projectid])
+    }, [])
     
 
     return (

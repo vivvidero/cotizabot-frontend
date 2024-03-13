@@ -47,7 +47,6 @@ export const AdminProjects = () => {
                         <LinkButton link={"new-project"} bg="golden">
                             Nuevo Proyecto
                         </LinkButton>
-
                         <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
                             <MenuItem value={"VIS"} >VIS</MenuItem>
                             <MenuItem value={"Usado"} >Usado</MenuItem>

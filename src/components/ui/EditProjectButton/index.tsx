@@ -26,7 +26,7 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
                     projectid: project.projectid
                 }
             })
-            navigate('edit-project')
+            navigate(`/admin/projects/${project.projectid}/edit-project`)
         } else {
             setNewProject(() => {
                 return {
@@ -34,9 +34,8 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
                     projectid: project.projectid
                 }
             })
-            navigate('/new-project/tipology')
+            navigate(`/new-project/${project.projectid}`)
         }
-
     }
 
     return (
@@ -53,10 +52,8 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
                     <h2 id="unstyled-modal-title" className="modal-title text-center font-outfit text-2xl">
                         Que quieres editar?
                     </h2>
-
                     <Button color="success" variant="contained" onClick={handleEdit} value={'Información de proyecto'}>Información de proyecto</Button>
                     <Button color="success" variant="contained" onClick={handleEdit} value={'Tipologias'}>Tipologias</Button>
-
                 </ModalContent>
             </Modal>
         </>

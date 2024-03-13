@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { AdminProgressBar, LinkButton, SpaceInputCheckbox, SubmitButton } from "../../components"
 import { NewProjectContext } from "../../context"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Spaces } from "../../types/Spaces"
 import api from "../../api"
 import { LoadingContext } from "../../context/LoadingContext"
@@ -14,6 +14,12 @@ export const AdminSpaceSelector = () => {
     const [spaces, setSpaces] = useState<Spaces[]>([])
     const navigate = useNavigate();
 
+    const {projectid, typologyid} = useParams()
+
+    console.log(projectid);
+    console.log(typologyid);
+    
+
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setLoading(true)
@@ -21,7 +27,7 @@ export const AdminSpaceSelector = () => {
             const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
             if (localNewProjectSpaces !== null) {
                 const newProjectSpaces = JSON.parse(localNewProjectSpaces)
-                api.post(`/typologies/spaces/register`, { typologyId: newProject.activeTypologyId, spaceTypes: spaces })
+                api.post(`/typologies/spaces/register`, { typologyId: typologyid, spaceTypes: spaces })
                     .then((data) => {
                         for (let i = 0; i < newProjectSpaces.length; i++) {
                             setSpaces((prevState) => {
@@ -33,7 +39,6 @@ export const AdminSpaceSelector = () => {
                             newProjectSpaces[i].spaceId = data.data.spaceIds[i]
                         }
                         localStorage.setItem('newProjectSpaces', JSON.stringify(newProjectSpaces))
-                        console.log(data.data);
                         setLoading(false)
                         navigate('space-info');
                     })

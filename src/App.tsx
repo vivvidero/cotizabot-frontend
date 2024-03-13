@@ -29,13 +29,13 @@ function App() {
                     </Route>
                   </Route>
                   <Route path='/admin/projects/new-project' element={<AdminNewProject />} />
-                  <Route path='/admin/projects/edit-project' element={<EditProject />} />
-                  <Route path='/new-project/tipology' element={<AdminTipology />} />
-                  <Route path='/new-project/tipology/new-tipology' element={<AdminNewTipology />} />
-                  <Route path='/tipology/edit-typology' element={<EditTypology />} />
-                  <Route path='/new-project/space-selector' element={<AdminSpaceSelector />} />
-                  <Route path='/new-project/space-selector/space-info' element={<AdminSpaceInfo />} />
-                  <Route path='/new-project/summary' element={<SummaryNewProject />} />
+                  <Route path='/admin/projects/:projectid/edit-project' element={<EditProject />} />
+                  <Route path='/new-project/:projectid' element={<AdminTipology />} />
+                  <Route path='/new-project/:projectid/new-tipology' element={<AdminNewTipology />} />
+                  <Route path='/new-project/:projectid/:typologyid/edit-typology' element={<EditTypology />} />
+                  <Route path='/new-project/:projectid/:typologyid/space-selector' element={<AdminSpaceSelector />} />
+                  <Route path='/new-project/:projectid/:typologyid/space-selector/space-info' element={<AdminSpaceInfo />} />
+                  <Route path='/new-project/:projectid/:typologyid/summary' element={<SummaryNewProject />} />
                   <Route path='/project/typology/space/edit' element={<EditSpace />} />
                   <Route path='/admin/budgets/apus/new-apu' element={<AdminNewApu />} />
                   <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
