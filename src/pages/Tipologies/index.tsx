@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '../../Layout'
 import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBoxInfo, UsedComments } from '../../components'
 import { NewProjectContext } from '../../context'
@@ -7,8 +7,9 @@ import { LoadingContext } from '../../context/LoadingContext'
 
 export const AdminTipology = () => {
 
-    const { newProject, setNewProject } = useContext(NewProjectContext)
+    const { newProject } = useContext(NewProjectContext)
     const { loading, setLoading } = useContext(LoadingContext)
+    const [typologies, setTypologies] = useState([])
 
     useEffect(() => {
         setLoading(true)
@@ -16,17 +17,9 @@ export const AdminTipology = () => {
             try {
                 api.get(`/projects/${newProject.projectid}/typologies`)
                     .then((data) => {
-
-                        setNewProject((prevState) => {
-                            return {
-                                ...prevState,
-                                tipologies: data.data,
-                                activeTypologyId: undefined
-                            }
-                        })
+                        setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
-                        
                     })
                     .then(() => setLoading(false))
             } catch (error) {
@@ -35,6 +28,10 @@ export const AdminTipology = () => {
         }
         setLoading(false)
     }, [])
+
+    console.log(typologies);
+    
+
 
     return (
         <MainLayout>
@@ -50,11 +47,11 @@ export const AdminTipology = () => {
                         ?
                         <Spinner />
                         :
-                        newProject?.tipologies
+                        typologies
                             ?
-                            newProject?.tipologies?.length > 0
+                            typologies?.length > 0
                                 ?
-                                newProject?.tipologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} />)
+                                typologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} />)
                                 :
                                 <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
                             :
