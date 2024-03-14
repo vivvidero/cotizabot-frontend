@@ -2,23 +2,17 @@ import { MainLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, NewTipologyModal, SubmitButton } from '../../components'
 import addTipology from '../../assets/icons/add-tipology.png'
 import delOrange from '../../assets/icons/Delete-orange.png'
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Typology } from '../../types/Tipology'
 import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
-import { NewProjectContext } from '../../context'
 
 export const AdminNewTipology = () => {
 
-    const { newProject, setNewProject } = useContext(NewProjectContext)
-    const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
-    const {projectid} = useParams()
-
-    console.log(projectid);
-    
-
+    const { setLoading } = useContext(LoadingContext)
+    const { projectid } = useParams()
     const [newTypology, setNewTypology] = useState<Typology>({
         typologyname: '',
         type: '',
@@ -29,18 +23,7 @@ export const AdminNewTipology = () => {
         video: '',
         image: ''
     })
-
-    useEffect(() => {
-        setNewTypology((prevState) => {
-            return {
-                ...prevState,
-                projectid: newProject.projectid
-            }
-        })
-
-    }, [])
-
-    const { setLoading } = useContext(LoadingContext)
+    const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
@@ -82,20 +65,13 @@ export const AdminNewTipology = () => {
             return
         }
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
-        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid, typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid })], { type: 'application/json' });
         formDataTypo.append('datos', jsonBlob, 'datos.json')
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
 
         try {
             api.post(`/typologies`, formDataTypo)
                 .then((data) => {
-                    setNewProject((prevState) => {
-                        return {
-                            ...prevState,
-                            activeTypologyId: data.data.result.typologyid
-                        }
-                    })
-                    localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: data.data.result.typologyid }))
                     setIsModalOpen(true)
                     setLoading(false)
                     setTimeout(() => {
@@ -132,9 +108,6 @@ export const AdminNewTipology = () => {
                         <input name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleNewTipology} />
                         <input name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
                         <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} />
-                        {/* <InputFile setNewTypology={setNewTypology} name={'blueprints'} label={'Cargar planos .pdf'} />
-                        <InputFile setNewTypology={setNewTypology} name={'revitModel'} label={'Cargar modelo Revit'} />
-                        <InputFile setNewTypology={setNewTypology} name={'video'} label={'Cargar video de la vivienda'} /> */}
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
@@ -158,10 +131,9 @@ export const AdminNewTipology = () => {
                         <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
-                                <SubmitButton bg={'golden'} handle={handleSaveTypology}>
-                                    <p>Guardar y continuar</p>
-                                </SubmitButton>
-                        
+                        <SubmitButton bg={'golden'} handle={handleSaveTypology}>
+                            <p>Guardar y continuar</p>
+                        </SubmitButton>
                         <LinkButton link={"/"} bg=''>
                             Cancelar
                         </LinkButton>

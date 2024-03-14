@@ -5,7 +5,6 @@ import check from '../../assets/icons/check.png'
 import api from '../../api'
 import { SingleSpace, Spaces } from '../../types/Spaces'
 import { useNavigate, useParams } from 'react-router-dom'
-import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 import { validateSpaceForm } from '../../helpers/validateSpaceForm'
 
@@ -34,7 +33,6 @@ export const AdminSpaceInfo = () => {
   const [comment, setComment] = useState(false)
 
   const { setLoading, error, setError } = useContext(LoadingContext)
-  const { newProject } = useContext(NewProjectContext)
 
   const {projectid, typologyid} = useParams()
 
@@ -44,7 +42,7 @@ export const AdminSpaceInfo = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    if (!newProject.activeTypologyId) {
+    if (!typologyid) {
       console.log("NO HAY ID DE TIPOLOGIA");
       setLoading(false)
       return
@@ -62,15 +60,14 @@ export const AdminSpaceInfo = () => {
     }
 
     const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
-    const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+    const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: typologyid })], { type: 'application/json' });
 
     formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
     formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
     try {
       api.post('/spaces', formDataSpaceTypo)
-        .then((data) => {
-          console.log(data);
+        .then(() => {
           setSpace({
             spacetype: spaces[progressCounter]?.name,
             roomnumber: spaces[progressCounter]?.roomnumber,

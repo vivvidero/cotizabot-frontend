@@ -22,7 +22,6 @@ export const validateSpaceForm = (space: SingleSpace) => {
         isComplete = !space.area ? false : true
     }
 
-    console.log(isComplete);
 
 
     return isComplete

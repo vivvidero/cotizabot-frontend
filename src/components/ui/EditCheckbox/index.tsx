@@ -7,9 +7,9 @@ interface Props {
     value: string
 }
 
-export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
+export const EditCheckbox: FC<Props> = ({ label, name, value }) => {
 
-    const { setNewProject } = useContext(NewProjectContext)
+    const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -25,7 +25,7 @@ export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
     return (
         <div className='w-full py-6 px-5 border bg-white'>
             <label>
-                <input className='mr-2' type='checkbox' name={name} value={value} /* defaultChecked={newProject.type === value ? true : false} */ onChange={handleProject} />
+                <input className='mr-2' type='checkbox' name={name} value={value} checked={newProject.type === value ? true : false} onChange={handleProject} />
                 {label}
             </label>
         </div>

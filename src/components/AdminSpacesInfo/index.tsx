@@ -90,7 +90,6 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             reader.readAsDataURL(file);
         }
     }
-    console.log(space);
 
     return (
         <>
@@ -112,7 +111,6 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                                         'Cargar imagen 3D'}
                                 </label>
                                 <input id={`image3d`} name={'image3d'} type='file' onChange={handleImage} className='hidden' />
-                                {/*  <p> {imagePreview3D?.url && space?.image3d ? imagePreview3D?.name : ''} </p> */}
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden'>
@@ -126,7 +124,6 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
                                         <p className="text-center">Cargar fotos estado actual</p>}
                                 </label>
                                 <input id={`actualstatus`} name={'actualstatus'} type='file' onChange={handleImage} className='hidden' />
-                                {/* <p> {imagePreviewactualstatus?.url ? imagePreviewactualstatus?.name : ''} </p> */}
                             </div>
                         </div>
                         <div className='bg-white border border-platinum rounded-md flex gap-4 items-center overflow-hidden p-2 cursor-pointer' onClick={() => setComment(!comment)}>

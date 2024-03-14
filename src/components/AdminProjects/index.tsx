@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react"
-import { AdminProyectItem, LinkButton, Spinner } from ".."
+import { AdminProyectItem, LinkButton, ProjectsSkeleton } from ".."
 import noProjects from '../../assets/images/noprojects.png'
 import api from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
 import { MenuItem, Select } from "@mui/material"
-import { NewProjectContext } from "../../context"
-
+/* import { NewProjectContext } from "../../context"
+ */
 export const AdminProjects = () => {
 
     const [projects, setProjects] = useState<Projects[]>([])
     const { loading, setLoading } = useContext(LoadingContext)
-    const { setNewProject } = useContext(NewProjectContext)
-    const [projectsType, setProjectType] = useState<string>("VIS")
+/*     const { setNewProject } = useContext(NewProjectContext)
+ */    const [projectsType, setProjectType] = useState<string>("VIS")
 
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export const AdminProjects = () => {
                 setProjects(data.data.reverse())
             })
             .then(() => setLoading(false))
-        setNewProject({
+        /* setNewProject({
             projectname: '',
             constructorname: '',
             city: '',
@@ -30,7 +30,7 @@ export const AdminProjects = () => {
             type: '',
             address: '',
         })
-        localStorage.removeItem('newProject')
+        localStorage.removeItem('newProject') */
 
 
         // NO AGREGAR DEPENDENCIAS PORQUE SE EJECUTA EN BUCLE
@@ -40,25 +40,15 @@ export const AdminProjects = () => {
     return (
         <>
             <div className='flex justify-between my-6'>
-                {
-                    projects.length > 0
-                    &&
-                    <>
-                        <LinkButton link={"new-project"} bg="golden">
-                            Nuevo Proyecto
-                        </LinkButton>
-                        <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
-                            <MenuItem value={"VIS"} >VIS</MenuItem>
-                            <MenuItem value={"Usado"} >Usado</MenuItem>
-                        </Select>
-                    </>
-                }
+                <LinkButton link={"new-project"} bg="golden">
+                    Nuevo Proyecto
+                </LinkButton>
+                <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
+                    <MenuItem value={"VIS"} >VIS</MenuItem>
+                    <MenuItem value={"Usado"} >Usado</MenuItem>
+                </Select>
             </div>
-
             <section className='flex flex-col gap-4'>
-                {
-                    projects.length > 0
-                    &&
                     <div className='grid grid-cols-12 px-5 py-7'>
                         <div className='col-span-3'></div>
                         <div className='col-span-2'><p>Constructora</p></div>
@@ -67,14 +57,10 @@ export const AdminProjects = () => {
                         <div className='col-span-2'><p>Dirección</p></div>
                         <div className='col-span-1'></div>
                     </div>
-                }
-
                 {
                     loading
                         ?
-                        <div className="w-full flex justify-center">
-                            <Spinner />
-                        </div>
+                        <ProjectsSkeleton />
                         :
                         projects.length <= 0
                             ?
@@ -87,7 +73,6 @@ export const AdminProjects = () => {
                             </div>
                             :
                             projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />)
-
                 }
             </section>
         </>

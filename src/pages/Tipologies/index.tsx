@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '../../Layout'
 import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBoxInfo, UsedComments } from '../../components'
-import { NewProjectContext } from '../../context'
-import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
+import api from '../../api'
 
 
 interface TypologiesData {
@@ -20,12 +19,21 @@ interface TypologiesData {
     linkvideo: string;
 }
 
+interface InfoProject {
+    projectid: number;
+    projectname: string;
+    constructorname: string;
+    city: string;
+    neighborhood: string;
+    address: string;
+    type: string;
+}
 
 export const AdminTipology = () => {
 
-    const { newProject } = useContext(NewProjectContext)
     const { loading, setLoading } = useContext(LoadingContext)
     const [typologies, setTypologies] = useState<TypologiesData[]>([])
+    const [infoProject, setInfoProject] = useState<InfoProject>()
     const { projectid } = useParams()
 
     useEffect(() => {
@@ -35,25 +43,22 @@ export const AdminTipology = () => {
                 api.get<TypologiesData[]>(`/projects/${projectid}/typologies`)
                     .then((data) => {
                         setTypologies(data.data)
-                        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
-                        localStorage.removeItem('newProjectSpaces')
+                        api.get(`/proyectos/${projectid}`)
+                            .then((data) => setInfoProject(data.data.project))
+                            .then(() => setLoading(false))
                     })
-                    .then(() => setLoading(false))
             } catch (error) {
                 console.log(error);
+                setLoading(false)
             }
         }
-        setLoading(false)
-    }, [])
-
-    console.log(typologies);
-
+    }, [projectid, setLoading])
 
     return (
         <MainLayout>
             <AdminProgressBar progress={1} />
             <article className='w-full py-12 px-10 flex flex-col justify-center items-start '>
-                <TypologiesBoxInfo />
+                <TypologiesBoxInfo infoProject={infoProject} />
                 <h2 className='my-4 text-3xl text-vivvi font-outfit'>Tipologías</h2>
                 <LinkButton link={'new-tipology'} bg={'golden'}>
                     Nueva Tipología
@@ -75,11 +80,10 @@ export const AdminTipology = () => {
                     }
                 </div>
                 {
-                    newProject.type === "Usado"
+                    infoProject?.type === "Usado"
                     &&
                     <UsedComments />
                 }
-
             </article>
         </MainLayout>
     )

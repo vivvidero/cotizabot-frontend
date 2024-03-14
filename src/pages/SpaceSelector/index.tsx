@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { AdminProgressBar, LinkButton, SpaceInputCheckbox, SubmitButton } from "../../components"
-import { NewProjectContext } from "../../context"
 import { useNavigate, useParams } from "react-router-dom"
 import { Spaces } from "../../types/Spaces"
 import api from "../../api"
@@ -9,16 +8,23 @@ import { LoadingContext } from "../../context/LoadingContext"
 
 export const AdminSpaceSelector = () => {
 
-    const { newProject } = useContext(NewProjectContext);
     const { setLoading } = useContext(LoadingContext);
     const [spaces, setSpaces] = useState<Spaces[]>([])
+    const [infoProject, setInfoProject] = useState<string>('')
+    const [infoTypology, setInfoTypology] = useState<string>('')
     const navigate = useNavigate();
+    const { projectid, typologyid } = useParams()
 
-    const {projectid, typologyid} = useParams()
 
-    console.log(projectid);
-    console.log(typologyid);
-    
+    useEffect(() => {
+        api.get(`/proyectos/${projectid}`)
+            .then((data) => {
+                setInfoProject(data.data.project.projectname)
+                api.get(`/typology/${typologyid}`)
+                    .then((data) => setInfoTypology(data.data.typology.typologyname))
+            })
+    }, [projectid, typologyid])
+
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -66,7 +72,7 @@ export const AdminSpaceSelector = () => {
             <AdminProgressBar progress={2} />
             <MiddleLayout>
                 <h2 className="font-outfit text-2xl text-vivvi">Selecciona los espacios del proyecto</h2>
-                <p> {newProject.projectname} {" > "} {/* {newProject.tipology.tipologyName} */} </p>
+                <p> {infoProject} {" > "} {infoTypology} </p>
                 <form className="flex flex-col gap-6 w-6/12 my-6 font-medium">
                     <SpaceInputCheckbox name={'kitchen'} singleSpace="Cocina" spaces={spaces} setSpaces={setSpaces} />
                     <SpaceInputCheckbox name={"clothes"} setSpaces={setSpaces} singleSpace="Ropas" spaces={spaces} />

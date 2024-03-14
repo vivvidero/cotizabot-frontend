@@ -4,12 +4,12 @@ import { NewProjectContext } from '../../../context'
 interface Props {
   placeholder: string
   name: string
-  value: string
+  
 }
 
-export const AdminInput: FC<Props> = ({ placeholder, name, value }) => {
+export const AdminInput: FC<Props> = ({ placeholder, name }) => {
 
-  const { setNewProject, newProject } = useContext(NewProjectContext)
+  const { setNewProject, /* newProject */ } = useContext(NewProjectContext)
 
   const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -19,10 +19,10 @@ export const AdminInput: FC<Props> = ({ placeholder, name, value }) => {
         [e.target.name]: e.target.value
       }
     })
-    localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value }));
+    /* localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value })); */
   }
 
   return (
-    <input className='py-6 px-5 border' type='text' placeholder={placeholder} name={name} value={value} onChange={handleProject} />
+    <input className='py-6 px-5 border' type='text' placeholder={placeholder} name={name} onChange={handleProject} />
   )
 }

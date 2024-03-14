@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { MainLayout, MiddleLayout } from '../../Layout'
-import { AdminCheckbox, AdminInput, LinkButton, SubmitButton } from '../../components'
+import {  EditCheckbox, EditInput, LinkButton, SubmitButton } from '../../components'
 import { useContext, useEffect } from 'react'
 import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
@@ -11,13 +11,13 @@ export const EditProject = () => {
     const navigate = useNavigate()
     const { setLoading } = useContext(LoadingContext)
     const { newProject, setNewProject } = useContext(NewProjectContext)
-    const {projectid} = useParams()
+    const { projectid } = useParams()
 
 
     const handleEdit = () => {
         setLoading(true)
         try {
-            api.post(`/projects/new/${projectid}`, newProject)
+            api.put(`/project/${projectid}`, newProject)
                 .then(() => {
                     setLoading(false)
                     navigate(`/new-project/${projectid}`)
@@ -25,26 +25,29 @@ export const EditProject = () => {
         } catch (error) {
             console.log(error);
             setLoading(false)
-
         }
     }
 
     useEffect(() => {
         if (projectid) {
+            setLoading(true)
             api.get(`/proyectos/${projectid}`)
                 .then((data) => {
-                    
                     setNewProject(() => {
                         return {
                             ...data.data.project
                         }
                     })
+                    setLoading(false)
                 })
-                .catch((err) => console.log(err)
+                .catch((err) => {
+                    console.log(err)
+                    setLoading(false)
+                }
                 )
         }
-    }, [])
-    
+    }, [projectid, setNewProject, setLoading])
+
 
     return (
         <MainLayout>
@@ -52,14 +55,14 @@ export const EditProject = () => {
             <MiddleLayout>
                 <h2 className='mb-16 text-3xl text-vivvi font-outfit'>Editar Proyecto</h2>
                 <form className='flex flex-col gap-6 w-1/3'>
-                    <AdminInput placeholder={'Nombre del proyecto'} name={'projectname'} value={newProject?.projectname} />
-                    <AdminInput placeholder={'Constructora'} name={'constructorname'} value={newProject?.constructorname} />
-                    <AdminInput placeholder={'Ciudad'} name={'city'} value={newProject?.city} />
-                    <AdminInput placeholder={'Barrio'} name={'neighborhood'} value={newProject?.neighborhood} />
-                    <AdminInput placeholder={'Dirección'} name={'address'} value={newProject?.address} />
+                    <EditInput placeholder={'Nombre del proyecto'} name={'projectname'} value={newProject?.projectname} />
+                    <EditInput placeholder={'Constructora'} name={'constructorname'} value={newProject?.constructorname} />
+                    <EditInput placeholder={'Ciudad'} name={'city'} value={newProject?.city} />
+                    <EditInput placeholder={'Barrio'} name={'neighborhood'} value={newProject?.neighborhood} />
+                    <EditInput placeholder={'Dirección'} name={'address'} value={newProject?.address} />
                     <div className='flex gap-8'>
-                        <AdminCheckbox label={'VIS'} name={'type'} value={'VIS'} />
-                        <AdminCheckbox label={'Usado'} name={'type'} value={'Usado'} />
+                        <EditCheckbox label={'VIS'} name={'type'} value={'VIS'} />
+                        <EditCheckbox label={'Usado'} name={'type'} value={'Usado'} />
                     </div>
                     <div className='flex gap-4 justify-center'>
                         <SubmitButton bg={'golden'} handle={handleEdit}  >
