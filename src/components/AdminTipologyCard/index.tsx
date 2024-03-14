@@ -2,17 +2,30 @@ import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
 import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
-import { Typology } from '../../types/Tipology'
 import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../api'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 
-interface Props {
-    typology: Typology,
-    setTypologies: Dispatch<SetStateAction<[]>>
+
+
+interface TypologiesData {
+    typologyid: number;
+    projectid: number;
+    typologyname: string;
+    type: string;
+    privatearea: number;
+    builtarea: number;
+    image: string;
+    linkpdf: string;
+    linkdocument: string;
+    linkvideo: string;
 }
 
+interface Props {
+    typology: TypologiesData,
+    setTypologies: Dispatch<SetStateAction<TypologiesData[]>>
+}
 export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
@@ -92,7 +105,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
             }
         })
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology?.typologyid }))
-        navigate('/new-project/summary')
+        navigate(`/new-project/${projectid}/${typology?.typologyid}/summary`)
     }
 
     return (

@@ -5,7 +5,7 @@ import deleteIcon from '../../assets/icons/delete.png'
 import { SummaryInput } from '..';
 import { Summary, TypologyElement } from '../../types/Summary';
 import { NewProjectContext } from '../../context';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingContext } from '../../context/LoadingContext';
 import api from '../../api';
 
@@ -19,6 +19,7 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
     const navigate = useNavigate()
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
+    const { projectid, typologyid } = useParams()
 
     const handleEditSpace = () => {
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeSpaceId: typology?.typology?.spaceid }))
@@ -28,25 +29,22 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
                 activeSpaceId: typology?.typology?.spaceid
             }
         })
-        navigate(`/project/typology/space/edit`)
+        navigate(`/project/${projectid}/typology/${typologyid}/space/${typology?.typology?.spaceid}/edit`)
     }
 
     const handleDeleteSpace = () => {
-        const confDel = confirm(`Estás seguro de borrar la tipologia del espacio`)
-        if (confDel) {
-            api.delete(`/proyectos/spaces/${typology?.typology?.spaceid}`)
-                .then(() => {
-                    setLoading(true);
-                    // Obtener Summary después de eliminar
-                    api.get(`/projects/${newProject?.projectid}/typologies/${newProject.activeTypologyId}/spaces`)
-                        .then((data) => typology.setSummaryProject(data.data))
-                        .then(() => setLoading(false));
-                })
-                .catch(error => {
-                    console.error("Error al eliminar el proyecto:", error);
-                    setLoading(false);
-                });
-        }
+        api.delete(`/proyectos/spaces/${typology?.typology?.spaceid}`)
+            .then(() => {
+                setLoading(true);
+                // Obtener Summary después de eliminar
+                api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
+                    .then((data) => typology.setSummaryProject(data.data))
+                    .then(() => setLoading(false));
+            })
+            .catch(error => {
+                console.error("Error al eliminar el proyecto:", error);
+                setLoading(false);
+            });
     }
 
     return (

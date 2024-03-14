@@ -36,7 +36,7 @@ function App() {
                   <Route path='/new-project/:projectid/:typologyid/space-selector' element={<AdminSpaceSelector />} />
                   <Route path='/new-project/:projectid/:typologyid/space-selector/space-info' element={<AdminSpaceInfo />} />
                   <Route path='/new-project/:projectid/:typologyid/summary' element={<SummaryNewProject />} />
-                  <Route path='/project/typology/space/edit' element={<EditSpace />} />
+                  <Route path='/project/:projectid/typology/:typologyid/space/:spaceid/edit' element={<EditSpace />} />
                   <Route path='/admin/budgets/apus/new-apu' element={<AdminNewApu />} />
                   <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
                   <Route path='/admin/budgets/referencias/edit' element={<AdminEditReference />} />

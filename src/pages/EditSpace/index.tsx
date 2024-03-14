@@ -4,7 +4,7 @@ import { InputInfoSpace, LinkButton, SelectInfoSpace, SubmitButton } from '../..
 import api from '../../api'
 import addTipology from '../../assets/icons/add-tipology.png'
 import addComment from '../../assets/icons/add-comment.png'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 import { validateSpaceForm } from '../../helpers/validateSpaceForm'
@@ -30,12 +30,13 @@ export const EditSpace = () => {
   })
   const { newProject } = useContext(NewProjectContext)
   const { setLoading, error, setError } = useContext(LoadingContext)
+  const {projectid, typologyid,spaceid} = useParams()
 
   useEffect(() => {
-    if (newProject?.activeSpaceId) {
+    if (spaceid) {
       setLoading(true)
       try {
-        api.get(`/proyectos/spaces/${newProject?.activeSpaceId}`)
+        api.get(`/proyectos/spaces/${spaceid}`)
           .then((data) => {
             console.log(data.data);
             setSpaceToEdit(data.data)
@@ -57,9 +58,7 @@ export const EditSpace = () => {
     }
 
 
-  }, [newProject?.activeSpaceId, setLoading])
-
-  console.log(spaceToEdit);
+  }, [spaceid, setLoading])
 
 
   const [formDataSpaceTypo, setFormDataSpaceTypo] = useState<FormData>(new FormData)
@@ -73,7 +72,7 @@ export const EditSpace = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    if (!newProject.activeSpaceId || !spaceToEdit) {
+    if (!spaceid || !spaceToEdit) {
       console.log("NO HAY ID DE TIPOLOGIA");
       setLoading(false)
       return
@@ -97,10 +96,8 @@ export const EditSpace = () => {
     /*     formDataSpaceTypo.append('spaceId', jsonBlobSpaceId, 'spaceId.json')
      */
     try {
-      api.put(`/proyectos/spaces/${newProject.activeSpaceId}`, formDataSpaceTypo)
-        .then((data) => {
-          console.log(data);
-
+      api.put(`/proyectos/spaces/${spaceid}`, formDataSpaceTypo)
+        .then(() => {
           setFormDataSpaceTypo(new FormData)
           setImagePreview3D(initialImagePreview)
           setImagePreviewactualstatus(initialImagePreview)
@@ -108,7 +105,7 @@ export const EditSpace = () => {
         })
         .then(() => {
           setLoading(false)
-          navigate('/new-project/summary')
+          navigate(`/new-project/${projectid}/${typologyid}/summary`)
         })
     } catch (err) {
       setLoading(false)

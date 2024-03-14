@@ -6,18 +6,33 @@ import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
 
+
+interface TypologiesData {
+    typologyid: number;
+    projectid: number;
+    typologyname: string;
+    type: string;
+    privatearea: number;
+    builtarea: number;
+    image: string;
+    linkpdf: string;
+    linkdocument: string;
+    linkvideo: string;
+}
+
+
 export const AdminTipology = () => {
 
     const { newProject } = useContext(NewProjectContext)
     const { loading, setLoading } = useContext(LoadingContext)
-    const [typologies, setTypologies] = useState([])
-    const {projectid } =useParams()
-    
+    const [typologies, setTypologies] = useState<TypologiesData[]>([])
+    const { projectid } = useParams()
+
     useEffect(() => {
         setLoading(true)
         if (projectid) {
             try {
-                api.get(`/projects/${projectid}/typologies`)
+                api.get<TypologiesData[]>(`/projects/${projectid}/typologies`)
                     .then((data) => {
                         setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
@@ -30,7 +45,8 @@ export const AdminTipology = () => {
         }
         setLoading(false)
     }, [])
-    
+
+    console.log(typologies);
 
 
     return (

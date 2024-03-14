@@ -15,7 +15,6 @@ export const SummaryNewProject = () => {
 
     useEffect(() => {
         const newProjectStorage = localStorage.getItem('newProject')
-
         if (newProjectStorage) {
             /* const newProjectParsed = JSON.parse(newProjectStorage) */
             api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
@@ -25,6 +24,9 @@ export const SummaryNewProject = () => {
                 })
         }
     }, [typologyid, projectid])
+
+    console.log(summaryProject);
+    
 
     return (
         <MainLayout>
