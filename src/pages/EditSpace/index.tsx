@@ -305,7 +305,7 @@ export const EditSpace = () => {
             <SubmitButton handle={handleSubmit} bg={'golden'}>
               Guardar edición
             </SubmitButton>
-            <LinkButton link="/new-project/summary" bg="">
+            <LinkButton link={`/new-project/${projectid}/${typologyid}/summary`} bg="">
               Cancelar
             </LinkButton>
           </div>
