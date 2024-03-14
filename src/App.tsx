@@ -1,5 +1,5 @@
 import './App.css'
-import { Admin, AdminEditReference, AdminLogin, AdminNewApu, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceInfo, AdminSpaceSelector, AdminTipology, EditProject, EditSpace, EditTypology, SummaryNewProject, } from './pages'
+import { Admin, AdminEditReference, AdminNewApu, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceInfo, AdminSpaceSelector, AdminTipology, EditProject, EditSpace, EditTypology, Login, SummaryNewProject, } from './pages'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { AuthProvider, NewProjectProvider } from './context'
@@ -17,7 +17,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 {/* <Route path='/login' element={<Login />} /> */}
-                <Route path='/' element={<AdminLogin />} />
+                <Route path='/' element={<Login />} />
                 {/* <Route path='/register' element={<Register />} /> */}
                 <Route element={<ProtectedRoutes />}>
                   <Route path='/admin' element={<Admin />}>

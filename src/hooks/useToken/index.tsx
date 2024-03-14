@@ -1,42 +1,29 @@
 import { useState, Dispatch, SetStateAction } from 'react';
 
-// Define el tipo para el token
-type UserToken = {
-    token: string | null;
-    // Otros campos relacionados con el token, si los hay
-};
 
 type TokenHook = {
-    setToken: Dispatch<SetStateAction<UserToken>>;
+    setToken: Dispatch<SetStateAction<string | null>>;
     token: string | null;
 };
 
 export const useToken = (): TokenHook => {
-    const getToken = (): UserToken => {
+    const getToken = (): string | null => {
         const tokenString = localStorage.getItem('token');
-        const userToken: UserToken = tokenString ? JSON.parse(tokenString) : { token: null };
+        const userToken: string | null = tokenString ? JSON.parse(tokenString) : null
         return userToken;
     }
 
-    const [token, setToken] = useState<UserToken>(getToken());
+    const [token, setToken] = useState<string | null>(getToken());
 
-    const saveToken = (userToken: SetStateAction<UserToken>): void => {
-        if (typeof userToken === 'function') {
-            // Manejar la función de actualización del estado
-            setToken((prevState) => {
-                const updatedToken = userToken(prevState);
-                localStorage.setItem('token', JSON.stringify(updatedToken));
-                return updatedToken;
-            });
-        } else {
+    const saveToken = (userToken: SetStateAction<string | null>): void => {
             // Manejar el valor directo del estado
             setToken(userToken);
             localStorage.setItem('token', JSON.stringify(userToken));
-        }
-    }
+        
+    }    
 
     return {
         setToken: saveToken,
-        token: token.token
+        token
     }
 }

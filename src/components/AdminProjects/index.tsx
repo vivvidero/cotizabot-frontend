@@ -5,14 +5,12 @@ import api from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
 import { MenuItem, Select } from "@mui/material"
-/* import { NewProjectContext } from "../../context"
- */
+
 export const AdminProjects = () => {
 
     const [projects, setProjects] = useState<Projects[]>([])
     const { loading, setLoading } = useContext(LoadingContext)
-/*     const { setNewProject } = useContext(NewProjectContext)
- */    const [projectsType, setProjectType] = useState<string>("VIS")
+    const [projectsType, setProjectType] = useState<string>("VIS")
 
 
     useEffect(() => {
@@ -22,19 +20,7 @@ export const AdminProjects = () => {
                 setProjects(data.data.reverse())
             })
             .then(() => setLoading(false))
-        /* setNewProject({
-            projectname: '',
-            constructorname: '',
-            city: '',
-            neighborhood: '',
-            type: '',
-            address: '',
-        })
-        localStorage.removeItem('newProject') */
-
-
-        // NO AGREGAR DEPENDENCIAS PORQUE SE EJECUTA EN BUCLE
-    }, [])
+    }, [setLoading])
 
 
     return (
@@ -49,14 +35,14 @@ export const AdminProjects = () => {
                 </Select>
             </div>
             <section className='flex flex-col gap-4'>
-                    <div className='grid grid-cols-12 px-5 py-7'>
-                        <div className='col-span-3'></div>
-                        <div className='col-span-2'><p>Constructora</p></div>
-                        <div className='col-span-2'><p>Ciudad</p></div>
-                        <div className='col-span-2'><p>Barrio</p></div>
-                        <div className='col-span-2'><p>Dirección</p></div>
-                        <div className='col-span-1'></div>
-                    </div>
+                <div className='grid grid-cols-12 px-5 py-7'>
+                    <div className='col-span-3'></div>
+                    <div className='col-span-2'><p>Constructora</p></div>
+                    <div className='col-span-2'><p>Ciudad</p></div>
+                    <div className='col-span-2'><p>Barrio</p></div>
+                    <div className='col-span-2'><p>Dirección</p></div>
+                    <div className='col-span-1'></div>
+                </div>
                 {
                     loading
                         ?
