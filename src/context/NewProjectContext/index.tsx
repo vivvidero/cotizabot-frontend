@@ -42,16 +42,6 @@ export const NewProjectProvider: FC<Props> = ({ children }) => {
 
     const [newProject, setNewProject] = useState<NewProject>(initialValue)
 
-    /* useEffect(() => {
-        const storedQuotation = localStorage.getItem('newProject');
-
-        if (storedQuotation) {
-
-            setNewProject(JSON.parse(storedQuotation));
-        }
-    }, []) */
-
-
     return (
         <NewProjectContext.Provider value={{ newProject, setNewProject }}>
             {children}

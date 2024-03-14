@@ -1,32 +1,23 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
-import { NewProjectContext } from "../../context"
 import { LinkButton, SummarySpaceSection } from "../../components"
 import api from "../../api"
 import { Summary } from "../../types/Summary"
-import {  useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 export const SummaryNewProject = () => {
 
-    const { newProject } = useContext(NewProjectContext)
     const [summaryProject, setSummaryProject] = useState<Summary>()
 
     const { projectid, typologyid } = useParams()
 
     useEffect(() => {
-        const newProjectStorage = localStorage.getItem('newProject')
-        if (newProjectStorage) {
-            /* const newProjectParsed = JSON.parse(newProjectStorage) */
-            api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
-                .then((data) => {
-                    setSummaryProject(data.data)
-                    localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: newProject?.activeTypologyId }))
-                })
-        }
+        api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
+            .then((data) => {
+                setSummaryProject(data.data)
+            })
     }, [typologyid, projectid])
 
-    console.log(summaryProject);
-    
 
     return (
         <MainLayout>
