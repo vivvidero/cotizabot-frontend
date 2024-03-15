@@ -36,7 +36,7 @@ export const AdminNewTipology = () => {
             }
         })
     }
-
+    /*   */
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
 
@@ -55,7 +55,9 @@ export const AdminNewTipology = () => {
             reader.readAsDataURL(file);
         }
     }
-
+    /**
+       * Guarda la nueva tipología en el servidor.
+       */
     const handleSaveTypology = () => {
         setLoading(true)
 
@@ -84,6 +86,10 @@ export const AdminNewTipology = () => {
         }
 
     }
+
+    /**
+   * Elimina la vista previa de la imagen seleccionada para la tipología.
+   */
     const deleteImagePreview = () => {
         setNewTypology((prevState) => {
             return {

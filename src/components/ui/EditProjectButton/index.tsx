@@ -7,26 +7,31 @@ import { Projects } from '../../../types/Projects';
 import { useNavigate } from 'react-router-dom';
 import { NewProjectContext } from '../../../context';
 
+/**
+ * Componente para el botón de edición de proyecto en la lista de proyectos del panel de administración.
+ * Permite editar la información del proyecto.
+ */
+
 interface Props {
     project: Projects
 }
 
 export const EditProjectButton: FC<Props> = ({ project }) => {
 
-    const [open, setOpen] = useState<boolean>(false);
-    const navigate = useNavigate()
-    const { setNewProject } = useContext(NewProjectContext)
+    const [open, setOpen] = useState<boolean>(false); // Estado para controlar la apertura del modal
+    const navigate = useNavigate(); // Función de navegación de React router dom v6
+    const { setNewProject } = useContext(NewProjectContext); // Contexto para el nuevo proyecto
 
+    // Manejador para editar el proyecto
     const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (e.currentTarget.value === 'Información de proyecto') {
-            localStorage.setItem('newProject', JSON.stringify(project))
             setNewProject((prevState) => {
                 return {
                     ...prevState,
                     projectid: project.projectid
                 }
             })
-            navigate(`/admin/projects/${project.projectid}/edit-project`)
+            navigate(`/admin/projects/${project.projectid}/edit-project`)  // Navega a la página de edición de proyecto
         } else {
             setNewProject(() => {
                 return {
@@ -34,7 +39,7 @@ export const EditProjectButton: FC<Props> = ({ project }) => {
                     projectid: project.projectid
                 }
             })
-            navigate(`/new-project/${project.projectid}`)
+            navigate(`/new-project/${project.projectid}`)  // Navega a la página de Tipologias
         }
     }
 

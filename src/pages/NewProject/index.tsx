@@ -10,9 +10,16 @@ import api from '../../api'
 export const AdminNewProject = () => {
 
   const navigate = useNavigate()
-  const { newProject, /* setNewProject */ } = useContext(NewProjectContext)
+  const { newProject } = useContext(NewProjectContext)
   const { setLoading, setError, error } = useContext(LoadingContext)
 
+
+  
+  /**
+   * Función que maneja el envío del formulario.
+   * Verifica si el nuevo proyecto es válido, envía la información al servidor y
+   * redirige a la página del proyecto creado.
+   */
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)

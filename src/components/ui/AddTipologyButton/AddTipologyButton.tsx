@@ -26,12 +26,15 @@ interface Props {
     setImagePreview3D: Dispatch<SetStateAction<ImagePreview>>
     setComment: Dispatch<SetStateAction<boolean>>
 }
-
+/**
+ * Componente que muestra un botón para guardar y agregar una nueva tipología.
+ */
 export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, setComment }) => {
 
     const { setLoading, setError } = useContext(LoadingContext)
     const { typologyid } = useParams()
 
+    /**Guarda y agrega una nueva tipología. **/
     const saveAndAddTipology = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setLoading(true)
@@ -59,7 +62,6 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
         formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
         formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
-        // POST ESPACIO
         try {
             api.post('/spaces', formDataSpaceTypo)
                 .then((data) => {
@@ -82,7 +84,6 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
             console.log(error);
         }
     }
-
 
     return (
         <div className='font-medium my-4'>

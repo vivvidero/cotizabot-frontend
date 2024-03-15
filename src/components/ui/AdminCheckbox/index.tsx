@@ -19,13 +19,13 @@ export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
                 [e.target.name]: e.target.value
             }
         })
-        /* localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value })); */
+        
     }
 
     return (
         <div className='w-full py-6 px-5 border bg-white'>
             <label>
-                <input className='mr-2' type='checkbox' name={name} value={value} /* defaultChecked={newProject.type === value ? true : false} */ onChange={handleProject} />
+                <input className='mr-2' type='checkbox' name={name} value={value} onChange={handleProject} />
                 {label}
             </label>
         </div>

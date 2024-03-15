@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, AdminTipologyCard, LinkButton, Spinner, TypologiesBoxInfo, UsedComments } from '../../components'
+import { AdminProgressBar, LinkButton, ProjectBoxInfo, Spinner, TipologyCard, UsedComments } from '../../components'
 import { LoadingContext } from '../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
 import api from '../../api'
@@ -29,13 +29,16 @@ interface InfoProject {
     type: string;
 }
 
-export const AdminTipology = () => {
+export const Tipologies = () => {
 
     const { loading, setLoading } = useContext(LoadingContext)
     const [typologies, setTypologies] = useState<TypologiesData[]>([])
     const [infoProject, setInfoProject] = useState<InfoProject>()
     const { projectid } = useParams()
 
+     /**
+     * Obtiene la información del proyecto y sus tipologías.
+     */
     useEffect(() => {
         setLoading(true)
         if (projectid) {
@@ -58,7 +61,7 @@ export const AdminTipology = () => {
         <MainLayout>
             <AdminProgressBar progress={1} />
             <article className='w-full py-12 px-10 flex flex-col justify-center items-start '>
-                <TypologiesBoxInfo infoProject={infoProject} />
+                <ProjectBoxInfo infoProject={infoProject} />
                 <h2 className='my-4 text-3xl text-vivvi font-outfit'>Tipologías</h2>
                 <LinkButton link={'new-tipology'} bg={'golden'}>
                     Nueva Tipología
@@ -72,7 +75,7 @@ export const AdminTipology = () => {
                             ?
                             typologies?.length > 0
                                 ?
-                                typologies.map((typology, index) => <AdminTipologyCard key={index} typology={typology} setTypologies={setTypologies} />)
+                                typologies.map((typology, index) => <TipologyCard key={index} typology={typology} setTypologies={setTypologies} />)
                                 :
                                 <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
                             :

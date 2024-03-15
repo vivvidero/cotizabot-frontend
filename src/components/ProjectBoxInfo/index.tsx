@@ -21,13 +21,14 @@ interface Props {
     infoProject: InfoProject | undefined
 }
 
-export const TypologiesBoxInfo: FC<Props> = ({infoProject}) => {
+export const ProjectBoxInfo: FC<Props> = ({infoProject}) => {
 
     const { loading } = useContext(LoadingContext)
     const { projectid } = useParams()
 
     const navigate = useNavigate()
 
+    // Manejador para editar el proyecto
     const handleEdit = () => {
         navigate(`/admin/projects/${projectid}/edit-project`)
     }

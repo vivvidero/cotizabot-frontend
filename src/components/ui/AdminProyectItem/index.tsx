@@ -11,12 +11,17 @@ interface Props {
     setProjects: Dispatch<SetStateAction<Projects[]>>
 }
 
-
+/**
+ * Componente para mostrar un elemento de proyecto en la lista de proyectos del panel de administración.
+ * Permite ver detalles del proyecto, editar y eliminar.
+ */
 export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
-    const [dropdownOpen, setDropdownOpen] = useState<null | HTMLElement>(null);
-    const open = Boolean(dropdownOpen);
-    const { setLoading } = useContext(LoadingContext)
-    
+
+    const [dropdownOpen, setDropdownOpen] = useState<null | HTMLElement>(null); // Estado para controlar la apertura del menú desplegable
+    const open = Boolean(dropdownOpen); // Variable para determinar si el menú desplegable está abierto
+    const { setLoading } = useContext(LoadingContext) // Contexto de carga para mostrar indicador de carga
+
+    // Manejador para eliminar un proyecto
     const handleDelete = () => {
         const confDel = confirm(`Estás seguro de borrar el proyecto: ${project.projectname}`)
         if (confDel) {
@@ -38,7 +43,7 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
         }
     }
 
-
+    // Manejadores para abrir y cerrar el menú desplegable
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setDropdownOpen(event.currentTarget);
     };
@@ -74,11 +79,11 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
 
                 >
                     <EditProjectButton project={project} />
-                    
+
                     <MenuItem onClick={handleDelete}>Eliminar </MenuItem>
 
                 </Menu>
-                
+
             </div>
         </div>
     )

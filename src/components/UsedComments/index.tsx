@@ -3,7 +3,6 @@ import wishList from '../../assets/icons/wishlist.png'
 
 export const UsedComments = () => {
 
-
     return (
         <div className='w-full grid grid-cols-2 gap-4 my-8'>
             <div className='flex flex-col gap-4'>
@@ -24,7 +23,6 @@ export const UsedComments = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
             <div className='flex flex-col gap-4'>
                 <div className='flex'>
@@ -44,9 +42,7 @@ export const UsedComments = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
-            
         </div>
     )
 }

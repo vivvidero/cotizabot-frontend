@@ -22,23 +22,33 @@ export interface AuthContextProps {
 interface Props {
     children: ReactNode
 }
-
+/**
+ * Contexto de autenticación para gestionar la autenticación del usuario.
+ */
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
+/**
+ * Componente proveedor de autenticación que envuelve la aplicación y proporciona el contexto de autenticación.
+ */
 export const AuthProvider: FC<Props> = ({ children }) => {
 
     const { token, setToken } = useToken();
     const [nickname, setNickName] = useState<string | null>('')
-    const {setLoading} = useContext(LoadingContext)
+    const { setLoading } = useContext(LoadingContext)
     const [user, setUser] = useState<User>({
         email: '',
         password: ''
     })
     const [error, setError] = useState<string>('')
 
-
+    /**
+         * Función para iniciar sesión.
+         * @param user Usuario a autenticar
+         */
     const signIn = async (user: User): Promise<void> => {
         setLoading(true)
+
+        // Validar campos de usuario
         if (user.email === '' || user.password === '') {
             setError('Todos los campos son obligatorios')
             setLoading(false)
@@ -60,7 +70,9 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             }, 4000);
         }
     }
-
+    /**
+         * Función para cerrar sesión.
+         */
     const logout = () => {
         setLoading(true)
         // Eliminar el token de autenticación
@@ -73,7 +85,9 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         localStorage.removeItem('nickname');
         setLoading(false)
     }
-
+    /**
+         * Efecto para cargar el apodo del almacenamiento local al cargar el componente.
+         */
     useEffect(() => {
         const nicknameStorage = localStorage.getItem('nickname')
         setNickName(nicknameStorage ? JSON.parse(nicknameStorage) : null)

@@ -13,7 +13,9 @@ interface Props {
     typology: TypologyElement
     setSummaryProject: Dispatch<SetStateAction<Summary | undefined>>
 }
-
+/**
+ * Componente que muestra una tarjeta de resumen para una tipología.
+ */
 export const SummaryTipologyCard: FC<Props> = (typology) => {
 
     const navigate = useNavigate()
@@ -21,6 +23,7 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
     const { setLoading } = useContext(LoadingContext)
     const { projectid, typologyid } = useParams()
 
+    /**Maneja la acción de editar el espacio asociado a la tipología.*/
     const handleEditSpace = () => {
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeSpaceId: typology?.typology?.spaceid }))
         setNewProject((prevState) => {
@@ -32,6 +35,7 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
         navigate(`/project/${projectid}/typology/${typologyid}/space/${typology?.typology?.spaceid}/edit`)
     }
 
+    /**Maneja la acción de eliminar el espacio asociado a la tipología.*/
     const handleDeleteSpace = () => {
         api.delete(`/proyectos/spaces/${typology?.typology?.spaceid}`)
             .then(() => {
@@ -59,87 +63,22 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
                 </button>
             </div>
             <h5 className="font-semibold text-xl">Tipologia: {typology?.typology?.spacetypology} </h5>
-            {
-                typology?.typology?.area
-                &&
-                <SummaryInput data='Área' value={typology?.typology?.area} />
-            }
-            {
-                typology?.typology?.demolitions
-                &&
-                <SummaryInput data='Demoliciones' value={typology?.typology?.demolitions} />
-            }
-            {
-                typology?.typology?.walls
-                &&
-                <SummaryInput data='Muros' value={typology?.typology?.walls} />
-            }
-            {
-                typology?.typology?.uppercabinetml
-                &&
-                <SummaryInput data='Mueble Alto' value={typology?.typology?.uppercabinetml} />
-            }
-            {
-                typology?.typology?.lowercabinetml
-                &&
-                <SummaryInput data='Mueble bajo' value={typology?.typology?.lowercabinetml} />
-
-            }
-            {
-                typology?.typology?.cubboard
-                &&
-                <SummaryInput data='Alacena' value={typology?.typology?.cubboard} />
-            }
-            {
-                typology?.typology?.islandorbar
-                &&
-                <SummaryInput data='Isla o Barra' value={typology?.typology?.islandorbar} />
-            }
-            {
-                typology?.typology?.slidingdoor
-                &&
-                <SummaryInput data='Puerta corrediza' value={typology?.typology?.slidingdoor} />
-            }
-            {
-                typology?.typology?.bathroomfurniture
-                &&
-                <SummaryInput data='Mueble baño' value={typology?.typology?.bathroomfurniture} />
-            }
-            {
-                typology?.typology?.veneeredwall
-                &&
-                <SummaryInput data='Muro enchapado' value={typology?.typology?.veneeredwall} />
-            }
-            {
-                typology?.typology?.showerdivision
-                &&
-                <SummaryInput data='División ducha' value={typology?.typology?.showerdivision} />
-            }
-            {
-                typology?.typology?.ceilingr
-                &&
-                <SummaryInput data='Cielo raso' value={typology?.typology?.ceilingr} />
-            }
-            {
-                typology?.typology?.closetml
-                &&
-                <SummaryInput data='mlclosetml' value={typology?.typology?.closetml} />
-            }
-            {
-                typology?.typology?.deskml
-                &&
-                <SummaryInput data='Escritorio' value={typology?.typology?.deskml} />
-            }
-            {
-                typology?.typology?.furnituretvlibrary
-                &&
-                <SummaryInput data='Mueble (TV o biblioteca)' value={typology?.typology?.furnituretvlibrary} />
-            }
-            {
-                typology?.typology?.shelf
-                &&
-                <SummaryInput data='Repisa' value={typology?.typology?.shelf} />
-            }
+            {typology?.typology?.area && <SummaryInput data='Área' value={typology?.typology?.area} />}
+            {typology?.typology?.demolitions && <SummaryInput data='Demoliciones' value={typology?.typology?.demolitions} />}
+            {typology?.typology?.walls && <SummaryInput data='Muros' value={typology?.typology?.walls} />}
+            {typology?.typology?.uppercabinetml && <SummaryInput data='Mueble Alto' value={typology?.typology?.uppercabinetml} />}
+            {typology?.typology?.lowercabinetml && <SummaryInput data='Mueble bajo' value={typology?.typology?.lowercabinetml} />}
+            {typology?.typology?.cubboard && <SummaryInput data='Alacena' value={typology?.typology?.cubboard} />}
+            {typology?.typology?.islandorbar && <SummaryInput data='Isla o Barra' value={typology?.typology?.islandorbar} />}
+            {typology?.typology?.slidingdoor && <SummaryInput data='Puerta corrediza' value={typology?.typology?.slidingdoor} />}
+            {typology?.typology?.bathroomfurniture && <SummaryInput data='Mueble baño' value={typology?.typology?.bathroomfurniture} />}
+            {typology?.typology?.veneeredwall && <SummaryInput data='Muro enchapado' value={typology?.typology?.veneeredwall} />}
+            {typology?.typology?.showerdivision && <SummaryInput data='División ducha' value={typology?.typology?.showerdivision} />}
+            {typology?.typology?.ceilingr && <SummaryInput data='Cielo raso' value={typology?.typology?.ceilingr} />}
+            {typology?.typology?.closetml && <SummaryInput data='mlclosetml' value={typology?.typology?.closetml} />}
+            {typology?.typology?.deskml && <SummaryInput data='Escritorio' value={typology?.typology?.deskml} />}
+            {typology?.typology?.furnituretvlibrary && <SummaryInput data='Mueble (TV o biblioteca)' value={typology?.typology?.furnituretvlibrary} />}
+            {typology?.typology?.shelf && <SummaryInput data='Repisa' value={typology?.typology?.shelf} />}
             {
                 typology?.typology?.commentuser
                 &&

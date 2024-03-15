@@ -10,7 +10,10 @@ interface ImagePreview {
     url: string,
     name: string,
 }
-
+/**
+ * Componente para mostrar y editar la información de un espacio en el formulario de proyecto.
+ * Permite al usuario ingresar información relacionada con el espacio, como imágenes, comentarios y características específicas del espacio.
+ */
 interface Props {
     spaces: Spaces[],
     progressCounter: number
@@ -26,9 +29,9 @@ interface Props {
     setComment: Dispatch<SetStateAction<boolean>>
 }
 
-export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, imagePreview3D, imagePreviewactualstatus, comment, setComment }) => {
+export const SpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, imagePreview3D, imagePreviewactualstatus, comment, setComment }) => {
 
-
+    // Actualiza el estado del espacio al cambiar el contador de progreso o la lista de espacios
     useEffect(() => {
         setSpace({
             spacetype: spaces[progressCounter]?.name,
@@ -37,6 +40,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         })
     }, [progressCounter, spaces, setSpace])
 
+    // Restablece la vista previa de las imágenes y actualiza el estado del espacio al cambiar el contador de progreso
     useEffect(() => {
         setImagePreview3D({
             url: '',
@@ -53,7 +57,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
         })
     }, [progressCounter])
 
-
+// Maneja los cambios en los campos de entrada y select para el espacio
     const handleSpace = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         setSpace((prevState) => {
             return {
@@ -62,6 +66,7 @@ export const AdminSpacesInfo: FC<Props> = ({ spaces, progressCounter, space, set
             }
         })
     }
+    // Maneja la carga de imágenes para el espacio
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
 

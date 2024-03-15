@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
-import { AdminProgressBar, AdminSpacesInfo, LinkButton, NewProjectModal, SubmitButton } from '../../components'
+import { AdminProgressBar, LinkButton, NewProjectModal, SpacesInfo, SubmitButton } from '../../components'
 import check from '../../assets/icons/check.png'
 import api from '../../api'
 import { SingleSpace, Spaces } from '../../types/Spaces'
@@ -18,7 +18,7 @@ const initialImagePreview: ImagePreview = {
   name: ''
 }
 
-export const AdminSpaceInfo = () => {
+export const SpaceInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [spaces, setSpaces] = useState<Spaces[]>([])
   const [progressCounter, setProgressCounter] = useState<number>(1)
@@ -34,11 +34,12 @@ export const AdminSpaceInfo = () => {
 
   const { setLoading, error, setError } = useContext(LoadingContext)
 
-  const {projectid, typologyid} = useParams()
+  const { projectid, typologyid } = useParams()
 
 
   const navigate = useNavigate()
 
+  /*   Maneja el envío del formulario para guardar la información del espacio.*/
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -93,6 +94,7 @@ export const AdminSpaceInfo = () => {
     }
   }
 
+  // Maneja la navegación al espacio anterior.
   const handleBackSpace = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     localStorage.setItem('progressCounter', JSON.stringify(progressCounter - 1))
@@ -126,7 +128,7 @@ export const AdminSpaceInfo = () => {
           <p> {progressCounter}/{spaces.length} </p>
         </div>
         <form className="flex flex-col gap-6 w-6/12">
-          <AdminSpacesInfo comment={comment} setComment={setComment} spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
+          <SpacesInfo comment={comment} setComment={setComment} spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
           {
             error
             &&

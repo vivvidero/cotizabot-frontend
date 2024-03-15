@@ -30,7 +30,7 @@ export const EditSpace = () => {
   })
   const { newProject } = useContext(NewProjectContext)
   const { setLoading, error, setError } = useContext(LoadingContext)
-  const {projectid, typologyid,spaceid} = useParams()
+  const { projectid, typologyid, spaceid } = useParams()
 
   useEffect(() => {
     if (spaceid) {
@@ -48,7 +48,7 @@ export const EditSpace = () => {
               url: data.data.actualstatus,
               name: ''
             })
-            
+
             setLoading(false)
           })
       } catch (error) {
@@ -90,11 +90,8 @@ export const EditSpace = () => {
     }
 
     const jsonBlobSpace = new Blob([JSON.stringify(spaceToEdit)], { type: 'application/json' });
-    /*     const jsonBlobSpaceId = new Blob([JSON.stringify({ spaceId: newProject?.activeSpaceId })], { type: 'application/json' });
-     */
     formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
-    /*     formDataSpaceTypo.append('spaceId', jsonBlobSpaceId, 'spaceId.json')
-     */
+
     try {
       api.put(`/proyectos/spaces/${spaceid}`, formDataSpaceTypo)
         .then(() => {
@@ -156,12 +153,10 @@ export const EditSpace = () => {
 
   return (
     <MainLayout>
-      {/* <AdminProgressBar progress={isModalOpen ? 5 : 4} /> */}
+
       <MiddleLayout>
         <h2 className="font-outfit text-2xl text-vivvi">Edita la información del espacio</h2>
-        {/* <div className='p-1 px-6 rounded-md bg-honeydew text-vivvi font-roboto text-xl font-medium m-4'>
-          <p> {progressCounter}/{spaces.length} </p>
-        </div> */}
+
         <form className="flex flex-col gap-6 w-6/12">
           <h3 className='font-roboto text-xl text-vivvi font-semibold mb-4'> {spaceToEdit?.spacetype && translateSpace(spaceToEdit.spacetype)} {spaceToEdit?.roomnumber && spaceToEdit?.roomnumber > 1 && spaceToEdit?.roomnumber} </h3>
           <div>
@@ -284,24 +279,14 @@ export const EditSpace = () => {
               </>
             }
           </div>
+          error
+          &&
+          <div className='bg-red-300 p-4'>
+            <p> {error} </p>
+          </div>
 
-          {/*           <AdminSpacesInfo comment={comment} setComment={setComment} spaces={spaces} space={space} setSpace={setSpace} progressCounter={progressCounter - 1} setFormDataSpaceTypo={setFormDataSpaceTypo} formDataSpaceTypo={formDataSpaceTypo} imagePreview3D={imagePreview3D} imagePreviewactualstatus={imagePreviewactualstatus} setImagePreview3D={setImagePreview3D} setImagePreviewactualstatus={setImagePreviewactualstatus} />
- */}          {
-            error
-            &&
-            <div className='bg-red-300 p-4'>
-              <p> {error} </p>
-            </div>
-          }
 
           <div className=" flex gap-5">
-            {/* {
-              progressCounter > 1
-              &&
-              <button className='flex items-center justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border border-vivvi' onClick={handleBackSpace}>
-                Espacio anterior
-              </button>
-            } */}
             <SubmitButton handle={handleSubmit} bg={'golden'}>
               Guardar edición
             </SubmitButton>
@@ -310,15 +295,6 @@ export const EditSpace = () => {
             </LinkButton>
           </div>
         </form>
-        {/* <NewProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <h2 className='text-3xl font-roboto mb-4'>Proyecto guardado 🔥</h2>
-          <div>
-            <img src={check} alt='check' />
-          </div>
-          <LinkButton link="/admin/projects" bg="golden">
-            Finalizar
-          </LinkButton>
-        </NewProjectModal> */}
       </MiddleLayout>
     </MainLayout>
   )

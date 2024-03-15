@@ -6,13 +6,15 @@ import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
 import { MenuItem, Select } from "@mui/material"
 
-export const AdminProjects = () => {
-
+export const ProjectsList = () => {
+    // Estado para almacenar la lista de proyectos
     const [projects, setProjects] = useState<Projects[]>([])
+    // Contexto de carga para mostrar indicador de carga
     const { loading, setLoading } = useContext(LoadingContext)
+    // Estado para el tipo de proyectos a mostrar
     const [projectsType, setProjectType] = useState<string>("VIS")
 
-
+    // GET para cargar la lista de proyectos al montar el componente
     useEffect(() => {
         setLoading(true)
         api.get('/proyectos')

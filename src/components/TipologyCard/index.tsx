@@ -26,7 +26,7 @@ interface Props {
     typology: TypologiesData,
     setTypologies: Dispatch<SetStateAction<TypologiesData[]>>
 }
-export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
+export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
@@ -35,6 +35,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
 
     const navigate = useNavigate()
 
+    // Efecto para cargar el proyecto almacenado en el contexto al montar el componente
     useEffect(() => {
         const projectStorage = localStorage.getItem('newProject')
         if (projectStorage) {
@@ -48,6 +49,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
         }
     }, [])
 
+    // Manejador para editar una tipología
     const handleEdit = () => {
         setNewProject((prevState) => {
             return {
@@ -59,13 +61,12 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
         navigate(`${typology.typologyid}/edit-typology`)
     }
 
+    // Manejador para duplicar una tipología
     const handleDuplicate = () => {
-
         if (!typology.typologyid) {
             console.log("Falta ID de tipologia");
             return
         }
-
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
                 localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.push(data.data?.typology) : [] }))
@@ -74,14 +75,13 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
                         setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
-
                     })
                     .then(() => setLoading(false))
             })
             .catch((err) => console.log(err)
             )
     }
-
+ // Manejador para eliminar una tipología
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
@@ -97,6 +97,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology, setTypologies }) => {
             )
     }
 
+    // Manejador para ver el resumen de una tipología
     const handleSummary = () => {
         setNewProject((prevState) => {
             return {
