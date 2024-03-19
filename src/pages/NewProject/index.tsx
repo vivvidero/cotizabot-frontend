@@ -14,7 +14,7 @@ export const AdminNewProject = () => {
   const { setLoading, setError, error } = useContext(LoadingContext)
 
 
-  
+
   /**
    * Función que maneja el envío del formulario.
    * Verifica si el nuevo proyecto es válido, envía la información al servidor y
@@ -26,8 +26,9 @@ export const AdminNewProject = () => {
 
     if (validateFullObject(newProject)) {
       try {
-        api.post(`/projects/new/`, newProject)
+        api.post(`/projects/new/${newProject.projectid}`, newProject)
           .then((data) => {
+
             setLoading(false)
             navigate(`/new-project/${data.data.projectid}`)
           })
@@ -45,6 +46,8 @@ export const AdminNewProject = () => {
     }
   }
 
+
+
   return (
     <MainLayout>
       <AdminProgressBar progress={0} />
@@ -52,10 +55,10 @@ export const AdminNewProject = () => {
         <h2 className='mb-16 text-3xl text-vivvi font-outfit'>Nuevo Proyecto</h2>
         <form className='flex flex-col gap-6 w-1/3'>
           <AdminInput placeholder={'Nombre del proyecto'} name={'projectname'} />
-          <AdminInput placeholder={'Constructora'} name={'constructorname'}  />
-          <AdminInput placeholder={'Ciudad'} name={'city'}/>
-          <AdminInput placeholder={'Barrio'} name={'neighborhood'}  />
-          <AdminInput placeholder={'Dirección'} name={'address'}  />
+          <AdminInput placeholder={'Constructora'} name={'constructorname'} />
+          <AdminInput placeholder={'Ciudad'} name={'city'} />
+          <AdminInput placeholder={'Barrio'} name={'neighborhood'} />
+          <AdminInput placeholder={'Dirección'} name={'address'} />
           <div className='flex gap-8'>
             <AdminCheckbox label={'VIS'} name={'type'} value={'VIS'} />
             <AdminCheckbox label={'Usado'} name={'type'} value={'Usado'} />
@@ -64,7 +67,7 @@ export const AdminNewProject = () => {
             <SubmitButton bg={'golden'} handle={handleSubmit}  >
               <p>Continuar</p>
             </SubmitButton>
-            <LinkButton link='/admin' bg=''>
+            <LinkButton link='/admin/projects' bg=''>
               Cancelar
             </LinkButton>
           </div>
