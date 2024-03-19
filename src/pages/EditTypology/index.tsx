@@ -11,9 +11,8 @@ import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
 
 export const EditTypology = () => {
-
-    const { newProject } = useContext(NewProjectContext)
-    const [formDataTypo, setFormDataTypo] = useState(new FormData())
+    const { newProject } = useContext(NewProjectContext);
+    const [formDataTypo, setFormDataTypo] = useState(new FormData());
 
     const [editTypology, setEditTypology] = useState<Typology>({
         typologyname: '',
@@ -24,141 +23,138 @@ export const EditTypology = () => {
         revitmodel: '',
         video: '',
         image: ''
-    })
+    });
 
-    const { projectid, typologyid } = useParams()
-
-    console.log(projectid);
-    console.log(typologyid);
-    
+    const { projectid, typologyid } = useParams();
 
     useEffect(() => {
-        api.get(`/projects/${projectid}/typologies`)
-            .then((data) => {
-                const projectToEdit = data.data.filter((typology: Typology) => typology.typologyid === newProject.activeTypologyId)[0]
-                setImagePreview(projectToEdit.image)
-                setEditTypology({
-                    typologyname: projectToEdit.typologyname,
-                    type: projectToEdit.type,
-                    privatearea: projectToEdit.privatearea,
-                    builtarea: projectToEdit.builtarea,
-                    blueprints: projectToEdit.linkpdf,
-                    revitmodel: projectToEdit.linkdocument,
-                    video: projectToEdit.linkvideo,
-                    image: projectToEdit.image,
-                    projectid: newProject.projectid
-                })
-            })
-    }, [newProject.activeTypologyId, newProject.projectid])
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/projects/${projectid}/typologies`);
+                const projectToEdit = response.data.find((typology: Typology) => typology.typologyid === newProject.activeTypologyId);
+                if (projectToEdit) {
+                    setEditTypology({
+                        typologyname: projectToEdit.typologyname,
+                        type: projectToEdit.type,
+                        privatearea: projectToEdit.privatearea,
+                        builtarea: projectToEdit.builtarea,
+                        blueprints: projectToEdit.linkpdf,
+                        revitmodel: projectToEdit.linkdocument,
+                        video: projectToEdit.linkvideo,
+                        image: projectToEdit.image,
+                        projectid: newProject.projectid
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-    const { setLoading } = useContext(LoadingContext)
+        fetchData();
+    }, [newProject.activeTypologyId, newProject.projectid, projectid]);
+
+    const { setLoading } = useContext(LoadingContext);
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    const handleEditTipology = (e: ChangeEvent<HTMLInputElement>) => {
-        setEditTypology((prevState) => {
-            return {
-                ...prevState,
-                [e.target.name]: e.target.value
-            }
-        })
-    }
+    const handleEditTypology = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setEditTypology((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
+        const file = e.target.files?.[0];
 
         if (!file) {
             console.log("No hay archivos");
-            return
+            return;
         }
 
-        const formData = new FormData()
+        const formData = new FormData();
         formData.append('imagen', file);
-        setFormDataTypo(formData)
+        setFormDataTypo(formData);
+
         if (file) {
-            // Leer el contenido del archivo y mostrar una vista previa de la imagen
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
             };
             reader.readAsDataURL(file);
         }
-    }
+    };
 
-    const handleSaveEditedTypology = () => {
-        setLoading(true)
+    const handleSaveEditedTypology = async () => {
+        setLoading(true);
+
         if (!projectid || !typologyid) {
             console.log("NO HAY ID DE PROYECTO O DE TIPOLOGIA ACTIVA");
-            return
+            return;
         }
 
         const jsonBlob = new Blob([JSON.stringify(editTypology)], { type: 'application/json' });
         const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid, typologyId: typologyid })], { type: 'application/json' });
-        formDataTypo.append('datos', jsonBlob, 'datos.json')
-        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
+        formDataTypo.append('datos', jsonBlob, 'datos.json');
+        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json');
 
         try {
-            api.post(`/typologies`, formDataTypo)
-                .then((data) => {
-                    console.log(data.data);
-                    setIsModalOpen(true)
-                    setLoading(false)
-                    setTimeout(() => {
-                        navigate(`/new-project/${projectid}`);
-                    }, 3000);
-                })
+            const response = await api.post(`/typologies`, formDataTypo);
+            console.log(response.data);
+            setIsModalOpen(true);
+            setLoading(false);
+            setTimeout(() => {
+                navigate(`/new-project/${projectid}`);
+            }, 3000);
         } catch (error) {
-            console.log(error);
-            setLoading(false)
+            console.error('Error saving edited typology:', error);
+            setLoading(false);
         }
-    }
+    };
 
     const deleteImagePreview = () => {
-        setEditTypology((prevState) => {
-            return {
-                ...prevState,
-                image: ''
-            }
-        })
-        setImagePreview('')
-    }
-
+        setEditTypology((prevState) => ({
+            ...prevState,
+            image: ''
+        }));
+        setImagePreview('');
+    };
 
     return (
         <MainLayout>
             <AdminProgressBar progress={2} />
-            <article className='w-full h-full pt-5 flex' >
+            <article className='w-full h-full pt-5 flex'>
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
                     <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Editar Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input defaultValue={editTypology.typologyname} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.type} name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.privatearea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.builtarea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.blueprints} name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.revitmodel} name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTipology} />
-                        <input defaultValue={editTypology.video} name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleEditTipology} />
+                        <input defaultValue={editTypology.typologyname} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.type} name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.privatearea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.builtarea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.blueprints} name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.revitmodel} name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.video} name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleEditTypology} />
                     </form>
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
-                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative' >
-                        {
-                            !imagePreview ?
-                                <div className='py-2 px-5 flex flex-col items-center'>
-                                    <label htmlFor='image' className='mt-4 flex flex-col items-center cursor-pointer'>
-                                        <img src={addTipology} alt={'Tipologia elegida'} className='w-28 object-contain' />
-                                        Cargar imagen de la tipología
-                                    </label>
+                    <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative'>
+                        {!imagePreview ? (
+                            <div className='py-2 px-5 flex flex-col items-center'>
+                                <label htmlFor='image' className='mt-4 flex flex-col items-center cursor-pointer'>
+                                    <img src={addTipology} alt={'Tipologia elegida'} className='w-28 object-contain' />
+                                    Cargar imagen de la tipología
+                                </label>
+                            </div>
+                        ) : (
+                            <>
+                                <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain' />
+                                <div className='absolute bottom-5 right-5 cursor-pointer' onClick={deleteImagePreview}>
+                                    <img src={delOrange} className='z-20 w-12 ' alt='' />
                                 </div>
-                                :
-                                <>
-                                    <img src={imagePreview} alt={'Tipologia elegida'} className='w-full object-contain' />
-                                    <div className='absolute bottom-5 right-5 cursor-pointer' onClick={deleteImagePreview}>
-                                        <img src={delOrange} className='z-20 w-12 ' alt='' />
-                                    </div>
-                                </>
-                        }
+                            </>
+                        )}
                         <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' />
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
@@ -178,5 +174,5 @@ export const EditTypology = () => {
                 </div>
             </article>
         </MainLayout>
-    )
-}
+    );
+};
