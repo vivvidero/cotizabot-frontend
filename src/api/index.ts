@@ -6,9 +6,14 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL
 })
 
-export const fetchProjects = async () => {
-    const response = await api.get('/proyectos')
+export const fetchProjects = async (page: number, projectsType: string) => {
+    const response = await api.get(`/proyectos?page=${page}&type=${projectsType}`)
     return response
+}
+
+export const fetchProjectsPages = async (projectsType: string) => {
+    const response = await api.get(`/projects/count?type=${projectsType}`)    
+    return response.data.totalPages
 }
 
 export const fetchProjectById = async (id: string) => {

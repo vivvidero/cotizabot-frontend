@@ -8,7 +8,7 @@ export const Admin = () => {
 
     return (
         <MainLayout>
-            <div className='px-10 py-16 bg-snow h-screen'>
+            <div className='px-10 py-16 bg-snow min-h-screen'>
                 <nav>
                     <ul className='flex gap-4 font-outfit text-2xl'>
                         <NavLink className={isActiveLink === 'projects' ? "text-vivvi font-[500] underline"

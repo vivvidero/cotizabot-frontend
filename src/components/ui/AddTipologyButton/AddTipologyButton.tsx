@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import plus from '../../../assets/icons/Plus.png'
 import { SingleSpace, Spaces } from '../../../types/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
-import api from '../../../api'
+import { createSpace } from '../../../api'
 import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
 import { useParams } from 'react-router-dom'
 
@@ -63,11 +63,11 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
         formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
         try {
-            api.post('/spaces', formDataSpaceTypo)
+            createSpace(formDataSpaceTypo)
                 .then((data) => {
                     console.log(data.data);
                     setSpace({
-                        spacetype: singleSpace?.name,
+                        spacetype: singleSpace?.spacetype,
                         roomnumber: singleSpace?.roomnumber,
                         spaceid: singleSpace?.spaceid
                     })

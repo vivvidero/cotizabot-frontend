@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react"
+import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { AdminProyectItem, LinkButton, ProjectsSkeleton } from ".."
 import noProjects from '../../assets/images/noprojects.png'
-import { fetchProjects } from "../../api"
+import { fetchProjects, fetchProjectsPages } from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
-import { MenuItem, Select } from "@mui/material"
+import { MenuItem, Pagination, Select } from "@mui/material"
 
 export const ProjectsList = () => {
     // Estado para almacenar la lista de proyectos
@@ -14,15 +14,25 @@ export const ProjectsList = () => {
     // Estado para el tipo de proyectos a mostrar
     const [projectsType, setProjectType] = useState<string>("VIS")
 
+    const [totalPages, setTotalPages] = useState<number>(1)
+    const [page, setPage] = useState(1);
+
     // GET para cargar la lista de proyectos al montar el componente
     useEffect(() => {
         setLoading(true)
-        fetchProjects()
+        fetchProjects(page, projectsType)
             .then((data) => {
                 setProjects(data.data.reverse())
+                fetchProjectsPages(projectsType)
+                    .then((data) => setTotalPages(data)
+                    )
             })
             .then(() => setLoading(false))
-    }, [setLoading])
+    }, [setLoading, page, projectsType])
+
+    const handlePage = (_: ChangeEvent<unknown>, page: number) => {
+        setPage(page)
+    }
 
 
     return (
@@ -31,11 +41,15 @@ export const ProjectsList = () => {
                 <LinkButton link={"new-project"} bg="golden">
                     Nuevo Proyecto
                 </LinkButton>
-                <Select onChange={(event) => setProjectType(event.target.value as string)} defaultValue={"VIS"}>
+                <Select onChange={(event) => {
+                    setProjectType(event.target.value as string)
+                    setPage(1)
+                }} defaultValue={"VIS"}>
                     <MenuItem value={"VIS"} >VIS</MenuItem>
                     <MenuItem value={"Usado"} >Usado</MenuItem>
                 </Select>
             </div>
+            <Pagination count={totalPages} onChange={handlePage} />
             <section className='flex flex-col gap-4'>
                 <div className='grid grid-cols-12 px-5 py-7'>
                     <div className='col-span-3'></div>

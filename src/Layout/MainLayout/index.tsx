@@ -9,7 +9,7 @@ interface Props {
 export const MainLayout: FC<Props> = ({ children }) => {
 
     return (
-        <main className='w-full h-screen flex flex-col'>
+        <main className='w-full min-h-screen flex flex-col'>
             <Header />
 
             {children}
