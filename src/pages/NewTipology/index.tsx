@@ -10,7 +10,7 @@ import api from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
 
 export const AdminNewTipology = () => {
-
+    const [errorMessage, setErrorMessage] = useState(''); // Manejar el error al intentar guardar una tipologia sin agregar datos
     const { setLoading } = useContext(LoadingContext)
     const { projectid } = useParams()
     const [newTypology, setNewTypology] = useState<Typology>({
@@ -59,33 +59,53 @@ export const AdminNewTipology = () => {
        * Guarda la nueva tipología en el servidor.
        */
     const handleSaveTypology = () => {
-        setLoading(true)
+        setLoading(true);
 
-        if (!projectid) {
-            console.log("NO HAY ID DE PROYECTO");
-            setLoading(false)
-            return
+        // Verificar si al menos los primeros cuatro campos obligatorios están llenos
+        if (
+            !newTypology.typologyname ||
+            !newTypology.type ||
+            !newTypology.privatearea ||
+            !newTypology.builtarea
+        ) {
+            // Mostrar un mensaje de error al usuario
+            setErrorMessage('Debe completar los campos de nombre, tipo, área privada y área construida antes de guardar.');
+            setLoading(false);
+            return;
         }
+
+        // Continuar con el proceso de guardar la tipología si los primeros cuatro campos están completos
+        if (!projectid) {
+            // Mostrar un mensaje de error al usuario
+            setErrorMessage('No se puede guardar la tipología sin un ID de proyecto.');
+            setLoading(false);
+            return;
+        }
+
+        // Restablecer el mensaje de error
+        setErrorMessage('');
+
+        // Continuar con el proceso de guardar la tipología si todos los campos están completos y hay un ID de proyecto
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
         const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid })], { type: 'application/json' });
-        formDataTypo.append('datos', jsonBlob, 'datos.json')
-        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json')
+        formDataTypo.append('datos', jsonBlob, 'datos.json');
+        formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json');
 
         try {
             api.post(`/typologies`, formDataTypo)
                 .then((data) => {
-                    setIsModalOpen(true)
-                    setLoading(false)
+                    setIsModalOpen(true);
+                    setLoading(false);
                     setTimeout(() => {
                         navigate(`/new-project/${projectid}/${data.data.result.typologyid}/space-selector`);
                     }, 3000);
-                })
+                });
         } catch (error) {
             console.log(error);
-            setLoading(false)
+            setLoading(false);
         }
+    };
 
-    }
 
     /**
    * Elimina la vista previa de la imagen seleccionada para la tipología.
@@ -115,6 +135,8 @@ export const AdminNewTipology = () => {
                         <input name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
                         <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} />
                     </form>
+                    {/* Mostrar el mensaje de error si existe */}
+                    {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
                     <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative ' >
