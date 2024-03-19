@@ -4,7 +4,7 @@ import {  EditCheckbox, EditInput, LinkButton, SubmitButton } from '../../compon
 import { useContext, useEffect } from 'react'
 import { LoadingContext } from '../../context/LoadingContext'
 import { NewProjectContext } from '../../context'
-import api from '../../api'
+import api, { fetchProjectById } from '../../api'
 
 export const EditProject = () => {
 
@@ -31,7 +31,7 @@ export const EditProject = () => {
     useEffect(() => {
         if (projectid) {
             setLoading(true)
-            api.get(`/proyectos/${projectid}`)
+            fetchProjectById(projectid)
                 .then((data) => {
                     setNewProject(() => {
                         return {

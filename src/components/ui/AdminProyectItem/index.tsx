@@ -52,7 +52,7 @@ export const AdminProyectItem: FC<Props> = ({ project, setProjects }) => {
     };
 
     return (
-        <div className='grid grid-cols-12 shadow-lg px-5 py-7 rounded-xl font-roboto text-lg bg-white items-center' >
+        <div className='grid grid-cols-12 shadow-lg px-5 py-7 rounded-xl font-roboto text-lg bg-white items-center hover:bg-slate-50' >
             <div className='col-span-3'> {project.projectname} </div>
             <div className='col-span-2'><p>{project.constructorname} </p></div>
             <div className='col-span-2'><p> {project.city} </p></div>

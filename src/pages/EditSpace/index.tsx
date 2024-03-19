@@ -1,11 +1,10 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { InputInfoSpace, LinkButton, SelectInfoSpace, SubmitButton } from '../../components'
-import api from '../../api'
+import  { fetchSpaceById, updateSpaceById } from '../../api'
 import addTipology from '../../assets/icons/add-tipology.png'
 import addComment from '../../assets/icons/add-comment.png'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 import { validateSpaceForm } from '../../helpers/validateSpaceForm'
 import { translateSpace } from '../../helpers/translateSpace'
@@ -28,7 +27,6 @@ export const EditSpace = () => {
     roomnumber: 1,
     spaceid: 0
   })
-  const { newProject } = useContext(NewProjectContext)
   const { setLoading, error, setError } = useContext(LoadingContext)
   const { projectid, typologyid, spaceid } = useParams()
 
@@ -36,9 +34,8 @@ export const EditSpace = () => {
     if (spaceid) {
       setLoading(true)
       try {
-        api.get(`/proyectos/spaces/${spaceid}`)
+        fetchSpaceById(spaceid)
           .then((data) => {
-            console.log(data.data);
             setSpaceToEdit(data.data)
             setImagePreview3D({
               url: data.data.image3d,
@@ -48,7 +45,6 @@ export const EditSpace = () => {
               url: data.data.actualstatus,
               name: ''
             })
-
             setLoading(false)
           })
       } catch (error) {
@@ -60,6 +56,8 @@ export const EditSpace = () => {
 
   }, [spaceid, setLoading])
 
+  console.log(spaceToEdit);
+  
 
   const [formDataSpaceTypo, setFormDataSpaceTypo] = useState<FormData>(new FormData)
   const [imagePreview3D, setImagePreview3D] = useState<ImagePreview>(initialImagePreview);
@@ -93,7 +91,7 @@ export const EditSpace = () => {
     formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
 
     try {
-      api.put(`/proyectos/spaces/${spaceid}`, formDataSpaceTypo)
+      updateSpaceById(spaceid, formDataSpaceTypo)
         .then(() => {
           setFormDataSpaceTypo(new FormData)
           setImagePreview3D(initialImagePreview)
@@ -149,7 +147,7 @@ export const EditSpace = () => {
     })
   }
 
-  if (!newProject.activeSpaceId) { return <Navigate to={'/new-project/summary'} replace /> }
+  if (!spaceid) { return <Navigate to={`/new-project/${projectid}/${typologyid}/summary`} replace /> }
 
   return (
     <MainLayout>
@@ -279,13 +277,13 @@ export const EditSpace = () => {
               </>
             }
           </div>
-          error
-          &&
-          <div className='bg-red-300 p-4'>
-            <p> {error} </p>
-          </div>
+          {error
+            &&
+            <div className='bg-red-300 p-4'>
+              <p> {error} </p>
+            </div>
 
-
+          }
           <div className=" flex gap-5">
             <SubmitButton handle={handleSubmit} bg={'golden'}>
               Guardar edición

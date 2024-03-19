@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { LinkButton, SummarySpaceSection } from "../../components"
-import api from "../../api"
+import  { fetchSummary } from "../../api"
 import { Summary } from "../../types/Summary"
-import { useParams } from "react-router-dom"
+import { redirect, useParams } from "react-router-dom"
 
 export const SummaryNewProject = () => {
 
@@ -12,10 +12,14 @@ export const SummaryNewProject = () => {
     const { projectid, typologyid } = useParams()
 
     useEffect(() => {
-        api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
-            .then((data) => {
-                setSummaryProject(data.data)
-            })
+        if (projectid && typologyid) {
+            fetchSummary(projectid, typologyid)
+                .then((data) => {
+                    setSummaryProject(data.data)
+                })
+        } else {
+            redirect('/admin/projects')
+        }
     }, [typologyid, projectid])
 
 

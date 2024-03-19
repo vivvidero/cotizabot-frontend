@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { AdminProyectItem, LinkButton, ProjectsSkeleton } from ".."
 import noProjects from '../../assets/images/noprojects.png'
-import api from "../../api"
+import { fetchProjects } from "../../api"
 import { Projects } from "../../types/Projects"
 import { LoadingContext } from "../../context/LoadingContext"
 import { MenuItem, Select } from "@mui/material"
@@ -17,7 +17,7 @@ export const ProjectsList = () => {
     // GET para cargar la lista de proyectos al montar el componente
     useEffect(() => {
         setLoading(true)
-        api.get('/proyectos')
+        fetchProjects()
             .then((data) => {
                 setProjects(data.data.reverse())
             })
