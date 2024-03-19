@@ -6,7 +6,7 @@ import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
 import { Typology } from '../../types/Tipology'
-import api from '../../api'
+import  { createTypology } from '../../api'
 import { LoadingContext } from '../../context/LoadingContext'
 
 export const AdminNewTipology = () => {
@@ -92,7 +92,7 @@ export const AdminNewTipology = () => {
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json');
 
         try {
-            api.post(`/typologies`, formDataTypo)
+            createTypology(formDataTypo)
                 .then((data) => {
                     setIsModalOpen(true);
                     setLoading(false);

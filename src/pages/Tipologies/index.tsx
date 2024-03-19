@@ -3,7 +3,8 @@ import { MainLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, ProjectBoxInfo, Spinner, TipologyCard, UsedComments } from '../../components'
 import { LoadingContext } from '../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
-import api from '../../api'
+import { fetchProjectById, fetchTypologiesByProjectId } from '../../api'
+import noTypologies from '../../assets/images/noprojects.png'
 
 
 interface TypologiesData {
@@ -36,17 +37,17 @@ export const Tipologies = () => {
     const [infoProject, setInfoProject] = useState<InfoProject>()
     const { projectid } = useParams()
 
-     /**
-     * Obtiene la información del proyecto y sus tipologías.
-     */
+    /**
+    * Obtiene la información del proyecto y sus tipologías.
+    */
     useEffect(() => {
         setLoading(true)
         if (projectid) {
             try {
-                api.get<TypologiesData[]>(`/projects/${projectid}/typologies`)
+                fetchTypologiesByProjectId(projectid)
                     .then((data) => {
                         setTypologies(data.data)
-                        api.get(`/proyectos/${projectid}`)
+                        fetchProjectById(projectid)
                             .then((data) => setInfoProject(data.data.project))
                             .then(() => setLoading(false))
                     })
@@ -77,7 +78,13 @@ export const Tipologies = () => {
                                 ?
                                 typologies.map((typology, index) => <TipologyCard key={index} typology={typology} setTypologies={setTypologies} />)
                                 :
-                                <p className='text-3xl text-vivvi'>No hay tipologias aun!</p>
+                                <div className="w-full m-auto border border-platinum rounded-lg bg-white flex flex-col items-center justify-center gap-6 p-6">
+                                    <img className="w-1/4" src={noTypologies} alt="sin proyectos" />
+                                    <h3 className="text-2xl font-semibold">No tienes tipologías creadas aún</h3>
+                                    {/* <LinkButton link={"new-project"} bg="golden">
+                                        Nuevo Proyecto
+                                    </LinkButton> */}
+                                </div>
                             :
                             null
                     }

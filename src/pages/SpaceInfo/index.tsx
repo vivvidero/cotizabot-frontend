@@ -2,7 +2,7 @@ import { FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, NewProjectModal, SpacesInfo, SubmitButton } from '../../components'
 import check from '../../assets/icons/check.png'
-import api from '../../api'
+import { createSpace, fetchSpacesByTypologyId } from '../../api'
 import { SingleSpace, Spaces } from '../../types/Spaces'
 import { useNavigate, useParams } from 'react-router-dom'
 import { LoadingContext } from '../../context/LoadingContext'
@@ -23,7 +23,7 @@ export const SpaceInfo = () => {
   const [spaces, setSpaces] = useState<Spaces[]>([])
   const [progressCounter, setProgressCounter] = useState<number>(1)
   const [space, setSpace] = useState<SingleSpace>({
-    spacetype: spaces[progressCounter]?.name,
+    spacetype: spaces[progressCounter]?.spacetype,
     roomnumber: spaces[progressCounter]?.roomnumber,
     spaceid: spaces[progressCounter]?.spaceid
   })
@@ -35,7 +35,6 @@ export const SpaceInfo = () => {
   const { setLoading, error, setError } = useContext(LoadingContext)
 
   const { projectid, typologyid } = useParams()
-
 
   const navigate = useNavigate()
 
@@ -67,10 +66,10 @@ export const SpaceInfo = () => {
     formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
     try {
-      api.post('/spaces', formDataSpaceTypo)
+      createSpace(formDataSpaceTypo)
         .then(() => {
           setSpace({
-            spacetype: spaces[progressCounter]?.name,
+            spacetype: spaces[progressCounter]?.spacetype,
             roomnumber: spaces[progressCounter]?.roomnumber,
             spaceid: spaces[progressCounter]?.spaceid
           })
@@ -112,12 +111,11 @@ export const SpaceInfo = () => {
   }, [])
 
   useEffect(() => {
-    const localSpaces = localStorage.getItem('newProjectSpaces')
-
-    if (localSpaces) {
-      setSpaces(JSON.parse(localSpaces))
+    if (typologyid) {
+      fetchSpacesByTypologyId(typologyid)
+        .then((data) => setSpaces(data.data.spaces))
     }
-  }, [])
+  }, [typologyid])
 
   return (
     <MainLayout>

@@ -5,7 +5,7 @@ import { FormEvent, useContext } from 'react'
 import { NewProjectContext } from '../../context/NewProjectContext'
 import { LoadingContext } from '../../context/LoadingContext'
 import { validateFullObject } from '../../helpers/validateFullObject'
-import api from '../../api'
+import { createProject } from '../../api'
 
 export const AdminNewProject = () => {
 
@@ -26,9 +26,8 @@ export const AdminNewProject = () => {
 
     if (validateFullObject(newProject)) {
       try {
-        api.post(`/projects/new/${newProject.projectid}`, newProject)
+        createProject(newProject)
           .then((data) => {
-
             setLoading(false)
             navigate(`/new-project/${data.data.projectid}`)
           })

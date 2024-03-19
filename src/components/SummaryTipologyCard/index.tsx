@@ -7,7 +7,7 @@ import { Summary, TypologyElement } from '../../types/Summary';
 import { NewProjectContext } from '../../context';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingContext } from '../../context/LoadingContext';
-import api from '../../api';
+import  { deleteSpaceById, fetchSummary } from '../../api';
 
 interface Props {
     typology: TypologyElement
@@ -17,15 +17,14 @@ interface Props {
  * Componente que muestra una tarjeta de resumen para una tipología.
  */
 export const SummaryTipologyCard: FC<Props> = (typology) => {
+    const { projectid, typologyid } = useParams()
 
     const navigate = useNavigate()
-    const { newProject, setNewProject } = useContext(NewProjectContext)
+    const {  setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
-    const { projectid, typologyid } = useParams()
 
     /**Maneja la acción de editar el espacio asociado a la tipología.*/
     const handleEditSpace = () => {
-        localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeSpaceId: typology?.typology?.spaceid }))
         setNewProject((prevState) => {
             return {
                 ...prevState,
@@ -37,19 +36,28 @@ export const SummaryTipologyCard: FC<Props> = (typology) => {
 
     /**Maneja la acción de eliminar el espacio asociado a la tipología.*/
     const handleDeleteSpace = () => {
-        api.delete(`/proyectos/spaces/${typology?.typology?.spaceid}`)
+        if (!typology?.typology?.spaceid) {
+            return
+        }
+        deleteSpaceById(typology?.typology?.spaceid)
             .then(() => {
                 setLoading(true);
-                // Obtener Summary después de eliminar
-                api.get(`/projects/${projectid}/typologies/${typologyid}/spaces`)
-                    .then((data) => typology.setSummaryProject(data.data))
-                    .then(() => setLoading(false));
+                if (projectid && typologyid) {
+                    // Obtener Summary después de eliminar
+                    fetchSummary(projectid, typologyid)
+                        .then((data) => typology.setSummaryProject(data.data))
+                        .then(() => setLoading(false));
+                }
+                
             })
             .catch(error => {
                 console.error("Error al eliminar el proyecto:", error);
                 setLoading(false);
             });
     }
+
+    console.log(typology);
+        
 
     return (
         <div className="w-full shadow-xl p-4 rounded-2xl flex flex-col gap-2 font-roboto">
