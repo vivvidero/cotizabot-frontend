@@ -32,31 +32,30 @@ interface InfoProject {
 
 export const Tipologies = () => {
 
-    const { loading, setLoading } = useContext(LoadingContext)
-    const [typologies, setTypologies] = useState<TypologiesData[]>([])
-    const [infoProject, setInfoProject] = useState<InfoProject>()
-    const { projectid } = useParams()
+    const { loading, setLoading } = useContext(LoadingContext);
+    const [typologies, setTypologies] = useState<TypologiesData[]>([]);
+    const [infoProject, setInfoProject] = useState<InfoProject>();
+    const [loadingTypologies, setLoadingTypologies] = useState(true); // Nuevo estado para manejar la carga de las tipologías
+    const { projectid } = useParams();
 
-    /**
-    * Obtiene la información del proyecto y sus tipologías.
-    */
     useEffect(() => {
-        setLoading(true)
+        setLoading(true);
         if (projectid) {
             try {
                 fetchTypologiesByProjectId(projectid)
                     .then((data) => {
-                        setTypologies(data.data)
+                        setTypologies(data.data);
                         fetchProjectById(projectid)
                             .then((data) => setInfoProject(data.data.project))
-                            .then(() => setLoading(false))
+                            .then(() => setLoading(false));
                     })
+                    .then(() => setLoadingTypologies(false)); // Cambio en la lógica para controlar el estado de carga de las tipologías
             } catch (error) {
                 console.log(error);
-                setLoading(false)
+                setLoading(false);
             }
         }
-    }, [projectid, setLoading])
+    }, [projectid, setLoading]);
 
     return (
         <MainLayout>
@@ -68,33 +67,25 @@ export const Tipologies = () => {
                     Nueva Tipología
                 </LinkButton>
                 <div className='mt-6 grid grid-cols-5 gap-5 w-full'>
-                    {loading
-                        ?
+                    {loadingTypologies ? ( // Cambio aquí para mostrar el spinner mientras se cargan las tipologías
                         <Spinner />
-                        :
-                        typologies
-                            ?
-                            typologies?.length > 0
-                                ?
-                                typologies.map((typology, index) => <TipologyCard key={index} typology={typology} setTypologies={setTypologies} />)
-                                :
-                                <div className="w-full m-auto border border-platinum rounded-lg bg-white flex flex-col items-center justify-center gap-6 p-6">
-                                    <img className="w-1/4" src={noTypologies} alt="sin proyectos" />
-                                    <h3 className="text-2xl font-semibold">No tienes tipologías creadas aún</h3>
-                                    {/* <LinkButton link={"new-project"} bg="golden">
-                                        Nuevo Proyecto
-                                    </LinkButton> */}
-                                </div>
-                            :
-                            null
-                    }
+                    ) : typologies ? (
+                        typologies.length > 0 ? (
+                            typologies.map((typology, index) => (
+                                <TipologyCard key={index} typology={typology} setTypologies={setTypologies} />
+                            ))
+                        ) : (
+                            <div className="w-full m-auto border border-platinum rounded-lg bg-white flex flex-col items-center justify-center gap-6 p-6">
+                                <img className="w-1/4" src={noTypologies} alt="sin proyectos" />
+                                <h3 className="text-2xl font-semibold">No tienes tipologías creadas aún</h3>
+                            </div>
+                        )
+                    ) : null}
                 </div>
                 {
-                    infoProject?.type === "Usado"
-                    &&
-                    <UsedComments />
+                    infoProject?.type === "Usado" && <UsedComments />
                 }
             </article>
         </MainLayout>
-    )
-}
+    );
+};
