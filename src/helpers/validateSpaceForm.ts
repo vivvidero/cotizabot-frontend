@@ -10,7 +10,7 @@ export const validateSpaceForm = (space: SingleSpace) => {
     let isComplete;
 
     if (space.spacetype === 'kitchen') {
-        isComplete = !space.area || !space.spacetypology || !space.demolitions || !space.walls || !space.lowercabinetml || !space.cubboard || !space.islandorbar ? false : true
+        isComplete = !space.area || !space.spacetypology || !space.lowercabinetml || !space.cubboard ? false : true
     } else if (space.spacetype === 'clothes') {
         isComplete = !space.area || !space.spacetypology || !space.slidingdoor || !space.cubboard ? false : true
     } else if (space.spacetype === 'socialBathRoomWithoutShower') {
