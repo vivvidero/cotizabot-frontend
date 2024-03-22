@@ -35,7 +35,6 @@ export const Tipologies = () => {
     const { loading, setLoading } = useContext(LoadingContext);
     const [typologies, setTypologies] = useState<TypologiesData[]>([]);
     const [infoProject, setInfoProject] = useState<InfoProject>();
-    const [loadingTypologies, setLoadingTypologies] = useState(true); // Nuevo estado para manejar la carga de las tipologías
     const { projectid } = useParams();
 
     useEffect(() => {
@@ -49,7 +48,6 @@ export const Tipologies = () => {
                             .then((data) => setInfoProject(data.data.project))
                             .then(() => setLoading(false));
                     })
-                    .then(() => setLoadingTypologies(false)); // Cambio en la lógica para controlar el estado de carga de las tipologías
             } catch (error) {
                 console.log(error);
                 setLoading(false);
@@ -66,8 +64,8 @@ export const Tipologies = () => {
                 <LinkButton link={'new-tipology'} bg={'golden'}>
                     Nueva Tipología
                 </LinkButton>
-                <div className='mt-6 grid grid-cols-5 gap-5 w-full'>
-                    {loadingTypologies ? ( // Cambio aquí para mostrar el spinner mientras se cargan las tipologías
+                <div className='mt-6 grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 w-full'>
+                    {loading ? (
                         <Spinner />
                     ) : typologies ? (
                         typologies.length > 0 ? (

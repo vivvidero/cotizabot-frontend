@@ -109,10 +109,13 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
         navigate(`/new-project/${projectid}/${typology?.typologyid}/summary`)
     }
 
+    console.log(typology);
+    
+
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
             <div className='rounded-3xl overflow-hidden'>
-                <img src={typology.image || typologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
+                <img src={ typology.image ? typology.image : typologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
             </div>
             <div className='font-outfit text-base font-normal flex flex-col gap-2'>
                 <h4 className='text-xl'>
@@ -120,19 +123,19 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
                 </h4>
                 <div className='flex items-center justify-between'>
                     <p> Área Construida</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.builtarea} m2 </p>
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
                     <p> Área privada</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.privatearea} m2</p>
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
                     <p> Tipo</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.type}</p>
                     </div>
                 </div>

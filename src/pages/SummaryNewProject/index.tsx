@@ -22,6 +22,8 @@ export const SummaryNewProject = () => {
         }
     }, [typologyid, projectid])
 
+    console.log(summaryProject);
+    
 
     return (
         <MainLayout>

@@ -146,6 +146,7 @@ export const EditSpace = () => {
       }
     })
   }
+  
 
   if (!spaceid) { return <Navigate to={`/new-project/${projectid}/${typologyid}/summary`} replace /> }
 

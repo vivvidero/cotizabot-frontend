@@ -49,7 +49,11 @@ export const ProjectBoxInfo: FC<Props> = ({ infoProject }) => {
             ) : (
                 <div className='w-full p-2 rounded-xl grid grid-cols-5 grid-rows-3 gap-2 font-roboto text-xl mb-4' style={{ boxShadow: '0px 4px 6px 0px rgba(195, 195, 195, 0.25)', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
                     {/* Renderizar cada sección de información */}
-                   
+                    {infoSections.map(({ label }) => (
+                        <div key={label} className='flex items-end'>
+                            <h5> {label} </h5>
+                        </div>
+                    ))}
                     {infoSections.map(({ label, icon, text }) => (
                         <div key={label} className='bg-white rounded-lg p-1 flex justify-between items-center'>
                             <div><img src={icon} alt={label} /></div>

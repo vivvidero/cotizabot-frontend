@@ -68,7 +68,7 @@ export const EditProject = () => {
                         <SubmitButton bg={'golden'} handle={handleEdit}  >
                             <p>Guardar edición</p>
                         </SubmitButton>
-                        <LinkButton link='/admin/projects' bg=''>
+                        <LinkButton link={`/new-project/${projectid}`} bg=''>
                             Cancelar
                         </LinkButton>
                     </div>

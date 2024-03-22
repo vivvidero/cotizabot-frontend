@@ -125,7 +125,7 @@ export const EditTypology = () => {
     return (
         <MainLayout>
             <AdminProgressBar progress={2} />
-            <article className='w-full h-full pt-5 flex'>
+            <article className='w-full pt-5 flex flex-auto'>
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
                     <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Editar Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
