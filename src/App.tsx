@@ -1,11 +1,12 @@
 import './App.css'
-import { Admin, AdminEditReference, AdminNewApu, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceSelector, EditProject, EditSpace, EditTypology, Login, SpaceInfo, SummaryNewProject, Tipologies, } from './pages'
+import { Admin, AdminEditReference, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceSelector, EditProject, EditSpace, EditTypology, Login, NewApu, SpaceInfo, SummaryNewProject, Tipologies, } from './pages'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { AuthProvider, NewProjectProvider } from './context'
 import { LoadingProvider } from './context/LoadingContext'
 import { NewApuProvider } from './context/NewApuContext'
-import { Budgets, BudgetsApus, BudgetsSupplies, ProjectsList } from './components'
+import {ApusList, BudgetsNav, BudgetsSupplies, ProjectsList } from './components'
+import { NewDataSheet } from './pages/Budgets/Apus/NewDataSheet'
 
 function App() {
 
@@ -20,9 +21,9 @@ function App() {
                 <Route element={<ProtectedRoutes />}>
                   <Route path='/admin' element={<Admin />}>
                     <Route path='projects' element={<ProjectsList />} />
-                    <Route path='budgets' element={<Budgets />}>
-                      <Route path='apus' element={<BudgetsApus />} />
-                      <Route path='referencias' element={<BudgetsApus />} />
+                    <Route path='budgets' element={<BudgetsNav />}>
+                      <Route path='apus' element={<ApusList />} />
+                      <Route path='referencias' element={<ApusList />} />
                       <Route path='insumos' element={<BudgetsSupplies />} />
                     </Route>
                   </Route>
@@ -35,7 +36,9 @@ function App() {
                   <Route path='/new-project/:projectid/:typologyid/space-selector/space-info' element={<SpaceInfo />} />
                   <Route path='/new-project/:projectid/:typologyid/summary' element={<SummaryNewProject />} />
                   <Route path='/project/:projectid/typology/:typologyid/space/:spaceid/edit' element={<EditSpace />} />
-                  <Route path='/admin/budgets/apus/new-apu' element={<AdminNewApu />} />
+                  <Route path='/admin/budgets/apus/create' element={<NewApu />} />
+                  <Route path='/admin/budgets/apus/create/:apuId/data-sheet' element={<NewDataSheet />} />
+                  <Route path='/admin/budgets/apus/create/:apuId/dashboard' element={<NewDataSheet />} />
                   <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
                   <Route path='/admin/budgets/referencias/edit' element={<AdminEditReference />} />
                   <Route path='/admin/budgets/apus/new-supplie' element={<AdminNewSupplie />} />
