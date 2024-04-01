@@ -129,10 +129,10 @@ export const EditTypology = () => {
                 <aside className='bg-white w-1/4 flex flex-col border border-platinum flex-1 py-7 px-10'>
                     <h3 className='font-outfit mb-12 text-2xl text-vivvi'>Editar Tipología</h3>
                     <form className='w-full flex flex-col gap-7 flex-1'>
-                        <input defaultValue={editTypology.typologyname} name='typologyName' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.typologyname} name='typologyname' className='py-2 px-5 border' placeholder='Nombre tipología' onChange={handleEditTypology} />
                         <input defaultValue={editTypology.type} name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleEditTypology} />
-                        <input defaultValue={editTypology.privatearea} name='privateArea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTypology} />
-                        <input defaultValue={editTypology.builtarea} name='builtArea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.privatearea} name='privatearea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleEditTypology} />
+                        <input defaultValue={editTypology.builtarea} name='builtarea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleEditTypology} />
                         <input defaultValue={editTypology.blueprints} name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleEditTypology} />
                         <input defaultValue={editTypology.revitmodel} name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleEditTypology} />
                         <input defaultValue={editTypology.video} name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleEditTypology} />
