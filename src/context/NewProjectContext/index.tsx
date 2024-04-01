@@ -1,4 +1,4 @@
-import { Dispatch, FC, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
+import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from "react";
 import { Typology } from "../../types/Tipology";
 import { Spaces } from "../../types/Spaces";
 
@@ -41,16 +41,6 @@ export const NewProjectContext = createContext<NewProjectContextProps>({} as New
 export const NewProjectProvider: FC<Props> = ({ children }) => {
 
     const [newProject, setNewProject] = useState<NewProject>(initialValue)
-
-    useEffect(() => {
-        const storedQuotation = localStorage.getItem('newProject');
-
-        if (storedQuotation) {
-
-            setNewProject(JSON.parse(storedQuotation));
-        }
-    }, [])
-
 
     return (
         <NewProjectContext.Provider value={{ newProject, setNewProject }}>

@@ -1,5 +1,5 @@
 
-export const AdminBudgetsApus = () => {
+export const BudgetsApus = () => {
     return (
         <article className="w-full">
             {/* <SearchBar lookingFor="APU" /> */}

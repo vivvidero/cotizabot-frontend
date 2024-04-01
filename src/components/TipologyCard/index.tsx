@@ -1,24 +1,41 @@
-import { FC, useContext, useEffect } from 'react'
+import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
 import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
 import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
-import { Typology } from '../../types/Tipology'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../api'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 
-interface Props {
-    typology: Typology
+
+
+interface TypologiesData {
+    typologyid: number;
+    projectid: number;
+    typologyname: string;
+    type: string;
+    privatearea: number;
+    builtarea: number;
+    image: string;
+    linkpdf: string;
+    linkdocument: string;
+    linkvideo: string;
 }
 
-export const AdminTipologyCard: FC<Props> = ({ typology }) => {
+interface Props {
+    typology: TypologiesData,
+    setTypologies: Dispatch<SetStateAction<TypologiesData[]>>
+}
+export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
 
     const { newProject, setNewProject } = useContext(NewProjectContext)
     const { setLoading } = useContext(LoadingContext)
+    const {projectid} = useParams()
+
 
     const navigate = useNavigate()
 
+    // Efecto para cargar el proyecto almacenado en el contexto al montar el componente
     useEffect(() => {
         const projectStorage = localStorage.getItem('newProject')
         if (projectStorage) {
@@ -30,10 +47,9 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                 }
             })
         }
-
     }, [])
 
-
+    // Manejador para editar una tipología
     const handleEdit = () => {
         setNewProject((prevState) => {
             return {
@@ -42,50 +58,36 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             }
         })
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology.typologyid }))
-        navigate('/tipology/edit-typology')
+        navigate(`${typology.typologyid}/edit-typology`)
     }
 
+    // Manejador para duplicar una tipología
     const handleDuplicate = () => {
-
         if (!typology.typologyid) {
             console.log("Falta ID de tipologia");
             return
         }
-
         api.post(`/typologies/${typology.typologyid}/duplicate`)
             .then((data) => {
                 localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.push(data.data?.typology) : [] }))
-                api.get(`/projects/${newProject.projectid}/typologies`)
+                api.get(`/projects/${projectid}/typologies`)
                     .then((data) => {
-                        setNewProject((prevState) => {
-                            return {
-                                ...prevState,
-                                tipologies: data.data,
-                                activeTypologyId: undefined
-                            }
-                        })
+                        setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
-
                     })
                     .then(() => setLoading(false))
             })
             .catch((err) => console.log(err)
             )
     }
-
+ // Manejador para eliminar una tipología
     const handleDelete = () => {
         api.delete(`/typologies/${typology.typologyid}`)
             .then(() => {
-                api.get(`/projects/${newProject.projectid}/typologies`)
+                api.get(`/projects/${projectid}/typologies`)
                     .then((data) => {
-                        setNewProject((prevState) => {
-                            return {
-                                ...prevState,
-                                tipologies: data.data,
-                                activeTypologyId: undefined
-                            }
-                        })
+                        setTypologies(data.data)
                         localStorage.setItem('newProject', JSON.stringify({ ...newProject, tipologies: newProject?.tipologies ? newProject?.tipologies.filter((typo) => typo.typologyid !== typology.typologyid) : [], activeTypologyId: undefined }))
                         localStorage.removeItem('newProjectSpaces')
                     })
@@ -95,6 +97,7 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             )
     }
 
+    // Manejador para ver el resumen de una tipología
     const handleSummary = () => {
         setNewProject((prevState) => {
             return {
@@ -103,13 +106,16 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
             }
         })
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology?.typologyid }))
-        navigate('/new-project/summary')
+        navigate(`/new-project/${projectid}/${typology?.typologyid}/summary`)
     }
+
+    console.log(typology);
+    
 
     return (
         <div className='rounded-3xl bg-white p-2 flex flex-col '>
             <div className='rounded-3xl overflow-hidden'>
-                <img src={typology.image || typologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
+                <img src={ typology.image ? typology.image : typologyPlaceholder} alt='Imagen Tipologgia' className='w-full h-40 object-contain' />
             </div>
             <div className='font-outfit text-base font-normal flex flex-col gap-2'>
                 <h4 className='text-xl'>
@@ -117,19 +123,19 @@ export const AdminTipologyCard: FC<Props> = ({ typology }) => {
                 </h4>
                 <div className='flex items-center justify-between'>
                     <p> Área Construida</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.builtarea} m2 </p>
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
                     <p> Área privada</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.privatearea} m2</p>
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
                     <p> Tipo</p>
-                    <div className='bg-honeydew px-2 rounded-full w-16 flex justify-center items-center'>
+                    <div className='bg-honeydew px-2 rounded-full flex justify-center items-center'>
                         <p>{typology.type}</p>
                     </div>
                 </div>

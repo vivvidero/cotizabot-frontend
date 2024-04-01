@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom"
 import { LinkButton } from ".."
 
-export const AdminBudgets = () => {
+export const Budgets = () => {
 
     const budgetsLinks = ['APUS', 'Referencias', 'Insumos', 'Cáculos de catidades']
     const location = useLocation()

@@ -2,9 +2,9 @@ import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import plus from '../../../assets/icons/Plus.png'
 import { SingleSpace, Spaces } from '../../../types/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
-import api from '../../../api'
-import { NewProjectContext } from '../../../context'
+import { createSpace } from '../../../api'
 import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
+import { useParams } from 'react-router-dom'
 
 interface ImagePreview {
     url: string,
@@ -26,17 +26,20 @@ interface Props {
     setImagePreview3D: Dispatch<SetStateAction<ImagePreview>>
     setComment: Dispatch<SetStateAction<boolean>>
 }
-
+/**
+ * Componente que muestra un botón para guardar y agregar una nueva tipología.
+ */
 export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, formDataSpaceTypo, setFormDataSpaceTypo, setImagePreviewactualstatus, setImagePreview3D, setComment }) => {
 
     const { setLoading, setError } = useContext(LoadingContext)
-    const { newProject } = useContext(NewProjectContext)
+    const { typologyid } = useParams()
 
+    /**Guarda y agrega una nueva tipología. **/
     const saveAndAddTipology = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setLoading(true)
 
-        if (!newProject.activeTypologyId) {
+        if (!typologyid) {
             console.log("NO HAY ID DE TIPOLOGIA");
             setLoading(false)
             return
@@ -54,18 +57,17 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
         }
 
         const jsonBlobSpace = new Blob([JSON.stringify(space)], { type: 'application/json' });
-        const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: newProject?.activeTypologyId })], { type: 'application/json' });
+        const jsonBlobTypologyId = new Blob([JSON.stringify({ typologyId: typologyid })], { type: 'application/json' });
 
         formDataSpaceTypo.append('space', jsonBlobSpace, 'space.json')
         formDataSpaceTypo.append('typologyId', jsonBlobTypologyId, 'typologyId.json')
 
-        // POST ESPACIO
         try {
-            api.post('/spaces', formDataSpaceTypo)
+            createSpace(formDataSpaceTypo)
                 .then((data) => {
                     console.log(data.data);
                     setSpace({
-                        spacetype: singleSpace?.name,
+                        spacetype: singleSpace?.spacetype,
                         roomnumber: singleSpace?.roomnumber,
                         spaceid: singleSpace?.spaceid
                     })
@@ -82,7 +84,6 @@ export const AddTipologyButton: FC<Props> = ({ setSpace, singleSpace, space, for
             console.log(error);
         }
     }
-
 
     return (
         <div className='font-medium my-4'>

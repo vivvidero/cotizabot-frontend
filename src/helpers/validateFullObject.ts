@@ -1,3 +1,9 @@
+/**
+ * Valida si un objeto tiene todos sus valores definidos y no son cadenas vacías.
+ * @param object Objeto a validar.
+ * @returns true si el objeto tiene todos sus valores definidos y no son cadenas vacías, false de lo contrario.
+ */
+
 interface Objeto {
     [key: string]: any;
 }

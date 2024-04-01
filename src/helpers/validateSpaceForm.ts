@@ -1,11 +1,16 @@
 import { SingleSpace } from "../types/Spaces";
 
+/**
+ * Valida si un formulario de espacio tiene todos los campos requeridos completos.
+ * @param space Objeto SingleSpace que representa el espacio a validar.
+ * @returns true si el formulario de espacio tiene todos los campos requeridos completos, false de lo contrario.
+ */
 export const validateSpaceForm = (space: SingleSpace) => {
 
     let isComplete;
 
     if (space.spacetype === 'kitchen') {
-        isComplete = !space.area || !space.spacetypology || !space.demolitions || !space.walls || !space.lowercabinetml || !space.cubboard || !space.islandorbar ? false : true
+        isComplete = !space.area || !space.spacetypology || !space.lowercabinetml || !space.cubboard ? false : true
     } else if (space.spacetype === 'clothes') {
         isComplete = !space.area || !space.spacetypology || !space.slidingdoor || !space.cubboard ? false : true
     } else if (space.spacetype === 'socialBathRoomWithoutShower') {
@@ -22,7 +27,6 @@ export const validateSpaceForm = (space: SingleSpace) => {
         isComplete = !space.area ? false : true
     }
 
-    console.log(isComplete);
 
 
     return isComplete

@@ -7,9 +7,9 @@ interface Props {
     value: string
 }
 
-export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
+export const EditCheckbox: FC<Props> = ({ label, name, value }) => {
 
-    const { setNewProject } = useContext(NewProjectContext)
+    const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -19,13 +19,13 @@ export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
                 [e.target.name]: e.target.value
             }
         })
-        
+        /* localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value })); */
     }
 
     return (
         <div className='w-full py-6 px-5 border bg-white'>
             <label>
-                <input className='mr-2' type='checkbox' name={name} value={value} onChange={handleProject} />
+                <input className='mr-2' type='checkbox' name={name} value={value} checked={newProject.type === value ? true : false} onChange={handleProject} />
                 {label}
             </label>
         </div>

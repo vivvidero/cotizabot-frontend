@@ -1,5 +1,5 @@
 export interface Spaces {
-    name: string,
+    spacetype: string,
     roomnumber: number,
     spaceid?: number,
     typology?: SingleSpace

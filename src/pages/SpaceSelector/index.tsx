@@ -1,46 +1,90 @@
 import { useContext, useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../Layout"
 import { AdminProgressBar, LinkButton, SpaceInputCheckbox, SubmitButton } from "../../components"
-import { NewProjectContext } from "../../context"
-import { useNavigate } from "react-router-dom"
+import { redirect, useNavigate, useParams } from "react-router-dom"
 import { Spaces } from "../../types/Spaces"
-import api from "../../api"
+import api, { fetchProjectById, fetchTypologyById } from "../../api"
 import { LoadingContext } from "../../context/LoadingContext"
+
+
+export interface Space {
+    spaceid: number;
+    typologyid: number;
+    spacetype: string;
+    roomnumber: string;
+    spacetypology: string;
+}
+
+export interface Typology {
+    typologyID: number;
+    projectName: string;
+    constructorName: string;
+    typologyname: string;
+    type: string;
+    privatearea: string;
+    builtarea: string;
+    image: string;
+}
+
 
 export const AdminSpaceSelector = () => {
 
-    const { newProject } = useContext(NewProjectContext);
     const { setLoading } = useContext(LoadingContext);
     const [spaces, setSpaces] = useState<Spaces[]>([])
+    const [infoProject, setInfoProject] = useState<string>('')
+    const [infoTypology, setInfoTypology] = useState<Typology>()
     const navigate = useNavigate();
+    const { projectid, typologyid } = useParams()
+
+
+    useEffect(() => {
+        if (projectid) {
+            fetchProjectById(projectid)
+                .then((data) => {
+                    setInfoProject(data.data.project.projectname)
+                    if (typologyid) {
+                        fetchTypologyById(typologyid)
+                            .then((data) => {
+                                setInfoTypology(data.data.typology)
+                                setSpaces(data.data.spaces)
+                            })
+                    }
+                })
+        } else {
+            redirect("/admin/projects")
+        }
+
+    }, [projectid, typologyid])
+
+    console.log(spaces);
+
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setLoading(true)
         try {
-            const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
-            if (localNewProjectSpaces !== null) {
-                const newProjectSpaces = JSON.parse(localNewProjectSpaces)
-                api.post(`/typologies/spaces/register`, { typologyId: newProject.activeTypologyId, spaceTypes: spaces })
-                    .then((data) => {
-                        for (let i = 0; i < newProjectSpaces.length; i++) {
-                            setSpaces((prevState) => {
-                                return {
-                                    ...prevState,
-                                    spaceId: data.data.spaceIds[i]
-                                }
-                            })
-                            newProjectSpaces[i].spaceId = data.data.spaceIds[i]
-                        }
-                        localStorage.setItem('newProjectSpaces', JSON.stringify(newProjectSpaces))
-                        console.log(data.data);
-                        setLoading(false)
-                        navigate('space-info');
-                    })
-            } else {
-                console.log('El valor de localNewProjectSpaces es nulo')
-                setLoading(false)
-            }
+            /*  const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
+             if (localNewProjectSpaces !== null) { */
+            /* const newProjectSpaces = JSON.parse(localNewProjectSpaces) */
+            api.post(`/typologies/spaces/register`, { typologyId: typologyid, spaceTypes: spaces })
+                .then((data) => {
+                    for (let i = 0; i < spaces.length; i++) {
+                        setSpaces((prevState) => {
+                            return {
+                                ...prevState,
+                                spaceId: data.data.spaceIds[i]
+                            }
+                        })
+                        /* newProjectSpaces[i].spaceId = data.data.spaceIds[i] */
+                    }
+
+                    setLoading(false)
+                    navigate('space-info');
+                })
+            /*  } else {
+                 console.log('El valor de localNewProjectSpaces es nulo')
+                 setLoading(false)
+             } */
 
         } catch (error) {
             console.log(error);
@@ -50,10 +94,7 @@ export const AdminSpaceSelector = () => {
 
     useEffect(() => {
         localStorage.removeItem('progressCounter')
-        const localNewProjectSpaces = localStorage.getItem('newProjectSpaces')
-        if (localNewProjectSpaces) {
-            setSpaces(JSON.parse(localNewProjectSpaces))
-        }
+
     }, [])
 
     return (
@@ -61,7 +102,7 @@ export const AdminSpaceSelector = () => {
             <AdminProgressBar progress={2} />
             <MiddleLayout>
                 <h2 className="font-outfit text-2xl text-vivvi">Selecciona los espacios del proyecto</h2>
-                <p> {newProject.projectname} {" > "} {/* {newProject.tipology.tipologyName} */} </p>
+                <p> {infoProject} {" > "} {infoTypology?.typologyname} </p>
                 <form className="flex flex-col gap-6 w-6/12 my-6 font-medium">
                     <SpaceInputCheckbox name={'kitchen'} singleSpace="Cocina" spaces={spaces} setSpaces={setSpaces} />
                     <SpaceInputCheckbox name={"clothes"} setSpaces={setSpaces} singleSpace="Ropas" spaces={spaces} />
@@ -77,7 +118,7 @@ export const AdminSpaceSelector = () => {
                         <SubmitButton handle={handleSubmit} bg="golden" >
                             Continuar
                         </SubmitButton>
-                        <LinkButton link="/" bg="">
+                        <LinkButton link={`/new-project/${projectid}`} bg="">
                             Cancelar
                         </LinkButton>
                     </div>

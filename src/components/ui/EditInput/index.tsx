@@ -2,12 +2,12 @@ import { ChangeEvent, FC, useContext } from 'react'
 import { NewProjectContext } from '../../../context'
 
 interface Props {
-    label: string
+    placeholder: string
     name: string
     value: string
 }
 
-export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
+export const EditInput: FC<Props> = ({ placeholder, name, value }) => {
 
     const { setNewProject } = useContext(NewProjectContext)
 
@@ -19,15 +19,9 @@ export const AdminCheckbox: FC<Props> = ({ label, name, value }) => {
                 [e.target.name]: e.target.value
             }
         })
-        
     }
 
     return (
-        <div className='w-full py-6 px-5 border bg-white'>
-            <label>
-                <input className='mr-2' type='checkbox' name={name} value={value} onChange={handleProject} />
-                {label}
-            </label>
-        </div>
+        <input className='py-6 px-5 border' type='text' placeholder={placeholder} name={name} defaultValue={value} onChange={handleProject} />
     )
 }

@@ -1,3 +1,8 @@
+/**
+ * Traduce el nombre de un espacio del inglés al español.
+ * @param space Nombre del espacio en inglés.
+ * @returns Nombre del espacio en español.
+ */
 export const translateSpace = (space: string): string => {
     switch (space) {
         case 'kitchen':

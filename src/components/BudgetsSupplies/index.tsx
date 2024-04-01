@@ -2,7 +2,7 @@ import { SearchBar, SupplieRow } from ".."
 
 
 
-export const AdminBudgetsSupplies = () => {
+export const BudgetsSupplies = () => {
     return (
         <article className="w-full">
             <SearchBar lookingFor={"Insumo"} />
