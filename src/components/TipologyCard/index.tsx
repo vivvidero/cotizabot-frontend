@@ -3,7 +3,7 @@ import copy from '../../assets/icons/copy.png'
 import del from '../../assets/icons/delete.png'
 import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
 import { useNavigate, useParams } from 'react-router-dom'
-import api from '../../api'
+import api from '../../api/projects'
 import { NewProjectContext } from '../../context'
 import { LoadingContext } from '../../context/LoadingContext'
 
@@ -108,8 +108,6 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology?.typologyid }))
         navigate(`/new-project/${projectid}/${typology?.typologyid}/summary`)
     }
-
-    console.log(typology);
     
 
     return (

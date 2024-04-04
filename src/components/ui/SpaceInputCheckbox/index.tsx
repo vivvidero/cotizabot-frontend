@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
-import { Spaces } from "../../../types/Spaces";
+import { Spaces } from "../../../types/Projects/Spaces";
 
 interface Props {
     options?: string[],

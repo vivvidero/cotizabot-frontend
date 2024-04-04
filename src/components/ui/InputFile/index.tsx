@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import addTipology from '../../../assets/icons/add-tipology.png'
-import { Typology } from '../../../types/Tipology';
+import { Typology } from '../../../types/Projects/Tipology';
 
 interface Props {
     setNewTipology: Dispatch<SetStateAction<Typology>>,

@@ -35,8 +35,8 @@ export const Login = () => {
                 <div className='flex flex-col items-center justify-around bg-white p-12 w-3/12 mt-40'>
                     <img src={logo} alt='logo' />
                     <form onSubmit={handleLogin} className='flex flex-col items-center my-4 w-full gap-5'>
-                        <input autoComplete='current-password' onChange={handleInputChange} name='email' placeholder='Email' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100 ' />
-                        <input onChange={handleInputChange} name='password' type='password' autoComplete='current-password' placeholder='Contraseña' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100' />
+                        <input required autoComplete='current-password' onChange={handleInputChange} name='email' placeholder='Email' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100 ' />
+                        <input required onChange={handleInputChange} name='password' type='password' autoComplete='current-password' placeholder='Contraseña' className='w-2/3 xl:w-full flex p-2 items-center rounded-full bg-gray-100' />
                         <button className='w-2/3 xl:w-full flex p-2 items-center justify-center rounded-full bg-vivvi text-base text-white my-4 focus:bg-dorado' disabled={loading}>
                             {/* Mostrar un spinner mientras se está cargando */}
                             {loading ? <Spinner /> : "Ingresar"}

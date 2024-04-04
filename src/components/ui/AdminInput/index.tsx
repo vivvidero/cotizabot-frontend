@@ -9,7 +9,7 @@ interface Props {
 
 export const AdminInput: FC<Props> = ({ placeholder, name }) => {
 
-  const { setNewProject, /* newProject */ } = useContext(NewProjectContext)
+  const { setNewProject } = useContext(NewProjectContext)
 
   const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -19,7 +19,6 @@ export const AdminInput: FC<Props> = ({ placeholder, name }) => {
         [e.target.name]: e.target.value
       }
     })
-    /* localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value })); */
   }
 
   return (

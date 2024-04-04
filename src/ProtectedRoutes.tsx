@@ -4,8 +4,9 @@ import { AuthContext } from './context'
 
 export const ProtectedRoutes = () => {
 
-    const {  token } = useContext(AuthContext)
+    const { token } = useContext(AuthContext)
 
+    
     if (!token) return <Navigate to={'/'} replace />
 
 

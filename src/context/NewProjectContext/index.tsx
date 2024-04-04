@@ -1,6 +1,6 @@
 import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from "react";
-import { Typology } from "../../types/Tipology";
-import { Spaces } from "../../types/Spaces";
+import { Typology } from "../../types/Projects/Tipology";
+import { Spaces } from "../../types/Projects/Spaces";
 
 export interface NewProject {
     projectname: string,
