@@ -5,8 +5,8 @@ import delOrange from '../../../assets/icons/Delete-orange.png'
 import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../../assets/icons/check.png'
-import { Typology } from '../../../types/Tipology'
-import  { createTypology } from '../../../api'
+import { Typology } from '../../../types/Projects/Tipology'
+import  { createTypology } from '../../../api/projects'
 import { LoadingContext } from '../../../context/LoadingContext'
 
 export const AdminNewTipology = () => {

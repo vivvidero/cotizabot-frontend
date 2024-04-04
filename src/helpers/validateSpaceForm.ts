@@ -1,4 +1,4 @@
-import { SingleSpace } from "../types/Spaces";
+import { SingleSpace } from "../types/Projects/Spaces";
 
 /**
  * Valida si un formulario de espacio tiene todos los campos requeridos completos.

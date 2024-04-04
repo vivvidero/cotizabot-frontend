@@ -1,16 +1,18 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { AdminProyectItem, LinkButton, ProjectsSkeleton } from "../.."
-import { fetchProjects, fetchProjectsPages } from "../../../api"
-import { Projects } from "../../../types/Projects"
+import { fetchProjects, fetchProjectsPages } from "../../../api/projects"
+import { Projects } from "../../../types/Projects/Projects"
 import { LoadingContext } from "../../../context/LoadingContext"
 import { MenuItem, Pagination, Select } from "@mui/material"
 import { NoDataBox } from "../../ui/NoDataBox"
+import { AuthContext } from "../../../context"
 
 export const ProjectsList = () => {
     // Estado para almacenar la lista de proyectos
     const [projects, setProjects] = useState<Projects[]>([])
     // Contexto de carga para mostrar indicador de carga
     const { loading, setLoading } = useContext(LoadingContext)
+    const { token } = useContext(AuthContext)
     // Estado para el tipo de proyectos a mostrar
     const [projectsType, setProjectType] = useState<string>("VIS")
 
@@ -28,7 +30,7 @@ export const ProjectsList = () => {
                     )
             })
             .then(() => setLoading(false))
-    }, [setLoading, page, projectsType])
+    }, [setLoading, page, projectsType, token])
 
     const handlePage = (_: ChangeEvent<unknown>, page: number) => {
         setPage(page)
@@ -66,7 +68,7 @@ export const ProjectsList = () => {
                         :
                         projects.length <= 0
                             ?
-                            <NoDataBox data={"Proyectos"} />
+                            <NoDataBox link={'/admin/projects/new'} data={"Proyectos"} />
                             :
                             projects.filter((project) => project.type === projectsType).map((project) => <AdminProyectItem key={project.projectid} project={project} setProjects={setProjects} />)
                 }

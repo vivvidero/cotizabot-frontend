@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react"
 import { SummaryTipologyCard } from ".."
 import { translateSpace } from "../../helpers/translateSpace"
-import { Space, Summary } from "../../types/Summary"
+import { Space, Summary } from "../../types/Projects/Summary"
 
 interface Props {
     space: Space

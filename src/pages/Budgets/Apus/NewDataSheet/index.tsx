@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { LoadingContext } from "../../../../context/LoadingContext"
 import { validateFullObject } from "../../../../helpers/validateFullObject"
 import { createDataSheet } from "../../../../api/apus"
+import { Spinner } from "../../../../components"
 
 const initialValue = {
     height: 0,
@@ -58,7 +59,7 @@ export const NewDataSheet = () => {
             }, 3500);
         }
 
-        navigate(`/admin/budgets/apus/create/${apuId}/dashboard`)
+
     }
 
 
@@ -104,7 +105,7 @@ export const NewDataSheet = () => {
                     }
                     <div className="flex gap-4">
                         <button className="flex items-center cursor-pointer justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-dorado text-vivvi border-vivvi" disabled={loading}>
-                            Continuar
+                            {loading ? <Spinner /> : "Continuar"}
                         </button>
                         <Link to={'/admin/budgets/apus'} className="flex items-center cursor-pointer justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-transparent text-vivvi border-vivvi" >
                             Cancelar

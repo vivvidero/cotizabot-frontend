@@ -1,10 +1,11 @@
 import axios from "axios";
-import { NewProject } from "../context";
-import { TypologiesData } from "../types/Typologies";
+import { NewProject } from "../../context";
+import { TypologiesData } from "../../types/Projects/Typologies";
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL
 })
+
 
 export const fetchProjects = async (page: number, projectsType: string) => {
     const response = await api.get(`/proyectos?page=${page}&type=${projectsType}`)
@@ -12,7 +13,7 @@ export const fetchProjects = async (page: number, projectsType: string) => {
 }
 
 export const fetchProjectsPages = async (projectsType: string) => {
-    const response = await api.get(`/projects/count?type=${projectsType}`)    
+    const response = await api.get(`/projects/count?type=${projectsType}`)
     return response.data.totalPages
 }
 

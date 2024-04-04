@@ -5,14 +5,14 @@ import { ApuInfo } from "../../../../types/apus/ApuInfo"
 import { validateFullObject } from "../../../../helpers/validateFullObject"
 import { LoadingContext } from "../../../../context/LoadingContext"
 import { Link, useNavigate } from "react-router-dom"
+import { Spinner } from "../../../../components"
 
 const initialValue = {
   name: '',
   unit: '',
-  category: ''
+  category: '',
+  subCategory: ''
 }
-
-const apuId = 1
 
 export const NewApu = () => {
 
@@ -28,8 +28,8 @@ export const NewApu = () => {
         .then((data) => {
           console.log(data.data);
           setLoading(false)
+          navigate(`/admin/budgets/apus/create/${data.data.id}/dashboard`)
         })
-        .then(()=> navigate(`${apuId}/data-sheet`) )
         .catch((err) => {
           console.log(err);
           setLoading(false)
@@ -41,8 +41,6 @@ export const NewApu = () => {
         setError('')
       }, 3500);
     }
-
-    navigate(`${apuId}/data-sheet`)
   }
 
   const handleNewApu = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
@@ -76,8 +74,13 @@ export const NewApu = () => {
             <option>Unidad</option>
             <option>ML</option>
           </select>
-          <label htmlFor="name">Categoria</label>
+          <label htmlFor="name">Categoría</label>
           <select className='py-6 px-5 border mb-8' name={"category"} onChange={handleNewApu} required>
+            <option></option>
+            <option>Pisos</option>
+          </select>
+          <label htmlFor="name">Subcategoría</label>
+          <select className='py-6 px-5 border mb-8' name={"subCategory"} onChange={handleNewApu} required>
             <option></option>
             <option>Pisos</option>
           </select>
@@ -90,7 +93,7 @@ export const NewApu = () => {
           }
           <div className="flex gap-4">
             <button className="flex items-center cursor-pointer justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-dorado text-vivvi border-vivvi" disabled={loading}>
-              Continuar
+              {loading ? <Spinner /> : "Continuar"}
             </button>
             <Link to={'/admin/budgets/apus'} className="flex items-center cursor-pointer justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-transparent text-vivvi border-vivvi" >
               Cancelar

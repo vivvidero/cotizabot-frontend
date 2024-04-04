@@ -1,31 +1,32 @@
-import { ChangeEvent, FC, useContext } from 'react'
-import { NewProjectContext } from '../../../context'
+import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react'
+import { Projects } from '../../../types/Projects/Projects'
 
 interface Props {
     label: string
     name: string
     value: string
+    defaultValue?: string,
+    setState: Dispatch<SetStateAction<Projects>>
 }
 
-export const EditCheckbox: FC<Props> = ({ label, name, value }) => {
+export const EditCheckbox: FC<Props> = ({ label, name, value, defaultValue, setState }) => {
 
-    const { setNewProject, newProject } = useContext(NewProjectContext)
 
     const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
-        setNewProject((prevState) => {
+        setState((prevState) => {
             return {
                 ...prevState,
                 [e.target.name]: e.target.value
             }
         })
-        /* localStorage.setItem('newProject', JSON.stringify({ ...newProject, [e.target.name]: e.target.value })); */
+
     }
 
     return (
         <div className='w-full py-6 px-5 border bg-white'>
             <label>
-                <input className='mr-2' type='checkbox' name={name} value={value} checked={newProject.type === value ? true : false} onChange={handleProject} />
+                <input className='mr-2' type='checkbox' name={name} value={value} checked={defaultValue === value ? true : false} onChange={handleProject} />
                 {label}
             </label>
         </div>

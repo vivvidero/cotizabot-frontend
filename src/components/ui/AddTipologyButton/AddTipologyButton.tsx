@@ -1,8 +1,8 @@
 import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import plus from '../../../assets/icons/Plus.png'
-import { SingleSpace, Spaces } from '../../../types/Spaces'
+import { SingleSpace, Spaces } from '../../../types/Projects/Spaces'
 import { LoadingContext } from '../../../context/LoadingContext'
-import { createSpace } from '../../../api'
+import { createSpace } from '../../../api/projects'
 import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
 import { useParams } from 'react-router-dom'
 

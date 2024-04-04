@@ -1,19 +1,18 @@
-import { ChangeEvent, FC, useContext } from 'react'
-import { NewProjectContext } from '../../../context'
+import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react'
+import { Projects } from '../../../types/Projects/Projects'
 
 interface Props {
     placeholder: string
     name: string
-    value: string
+    value: string,
+    setState: Dispatch<SetStateAction<Projects>>
 }
 
-export const EditInput: FC<Props> = ({ placeholder, name, value }) => {
-
-    const { setNewProject } = useContext(NewProjectContext)
+export const EditInput: FC<Props> = ({ placeholder, name, value, setState }) => {
 
     const handleProject = (e: ChangeEvent<HTMLInputElement>) => {
 
-        setNewProject((prevState) => {
+        setState((prevState) => {
             return {
                 ...prevState,
                 [e.target.name]: e.target.value

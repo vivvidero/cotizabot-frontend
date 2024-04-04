@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../../Layout"
 import { AdminProgressBar, LinkButton, SpaceInputCheckbox, SubmitButton } from "../../../components"
 import { redirect, useNavigate, useParams } from "react-router-dom"
-import { Spaces } from "../../../types/Spaces"
-import api, { fetchProjectById, fetchTypologyById } from "../../../api"
+import { Spaces } from "../../../types/Projects/Spaces"
+import api, { fetchProjectById, fetchTypologyById } from "../../../api/projects"
 import { LoadingContext } from "../../../context/LoadingContext"
 
 

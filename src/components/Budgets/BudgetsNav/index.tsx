@@ -13,7 +13,7 @@ export const BudgetsNav = () => {
                     <ul className='flex items-center gap-5 font-roboto text-xl font-normal text-cadet-gray'>
                         {budgetsLinks.map((link) => {
                             return (
-                                <NavLink to={link.toLowerCase()} className={({ isActive }) =>
+                                <NavLink key={link} to={link.toLowerCase()} className={({ isActive }) =>
                                     isActive
                                         ? "text-vivvi bg-dorado p-2 rounded font-[500]"
                                         : "text-cadet-gray font-[400]"

@@ -5,7 +5,7 @@ import { FormEvent, useContext } from 'react'
 import { NewProjectContext } from '../../../context/NewProjectContext'
 import { LoadingContext } from '../../../context/LoadingContext'
 import { validateFullObject } from '../../../helpers/validateFullObject'
-import { createProject } from '../../../api'
+import { createProject } from '../../../api/projects'
 
 export const AdminNewProject = () => {
 

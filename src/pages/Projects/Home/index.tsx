@@ -17,7 +17,7 @@ export const Admin = () => {
                         <hr />
                         <NavLink className={isActiveLink === 'budgets' ? "text-vivvi font-[500] underline"
                                 : "text-silver font-[300]"
-                        } to={'/admin/budgets/apus'}>Presupuestos</NavLink>
+                        } to={'/admin/budgets'}>Presupuestos</NavLink>
                     </ul>
                 </nav>
                 <Outlet />

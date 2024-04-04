@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useContext, useState } from 'react'
-import api from '../../../api'
-import { Projects } from '../../../types/Projects'
+import api from '../../../api/projects'
+import { Projects } from '../../../types/Projects/Projects'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
 import { EditProjectButton, NewTipologyModal } from '..'

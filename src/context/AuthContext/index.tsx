@@ -1,7 +1,9 @@
 import { Dispatch, FC, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from "react";
-import api from "../../api";
+import api from "../../api/projects";
 import { useToken } from "../../hooks";
 import { LoadingContext } from "../LoadingContext";
+import { login } from "../../api/login";
+import axios from "axios";
 
 export interface User {
     email: string,
@@ -41,6 +43,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     })
     const [error, setError] = useState<string>('')
 
+
     /**
          * Función para iniciar sesión.
          * @param user Usuario a autenticar
@@ -55,8 +58,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
             return
         }
         try {
-            const response = await api.post('/login', user)
-            console.log(response);
+            const response = await login(user)
+
             setToken(response.data.token)
             setNickName(response.data.user)
             localStorage.setItem('nickname', JSON.stringify(response.data.user))
@@ -92,6 +95,35 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         const nicknameStorage = localStorage.getItem('nickname')
         setNickName(nicknameStorage ? JSON.parse(nicknameStorage) : null)
     }, [])
+
+    
+
+    // Efecto para verificar si el token es valido y no esta vencido
+    useEffect(() => {
+        const verifyToken = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Token no encontrado');
+                }
+    
+                const response = await axios.post(`${api}/jwt-token`, { token });
+    
+                if (response.data.success) {
+                    return
+                } else {
+                    setToken(null)
+                    throw new Error('Token inválido');
+                }
+            } catch (error) {
+                setToken(null)
+            }
+            setLoading(false);
+        };
+
+        verifyToken();
+    }, [])
+
 
 
     return (

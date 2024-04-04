@@ -1,14 +1,14 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
 import { MainLayout, MiddleLayout } from '../../../Layout'
 import { InputInfoSpace, LinkButton, SelectInfoSpace, SubmitButton } from '../../../components'
-import  { fetchSpaceById, updateSpaceById } from '../../../api'
+import  { fetchSpaceById, updateSpaceById } from '../../../api/projects'
 import addTipology from '../../../assets/icons/add-tipology.png'
 import addComment from '../../../assets/icons/add-comment.png'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { LoadingContext } from '../../../context/LoadingContext'
 import { validateSpaceForm } from '../../../helpers/validateSpaceForm'
 import { translateSpace } from '../../../helpers/translateSpace'
-import { SingleSpace } from '../../../types/Spaces'
+import { SingleSpace } from '../../../types/Projects/Spaces'
 
 interface ImagePreview {
   url: string,

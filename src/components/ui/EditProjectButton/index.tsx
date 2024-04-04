@@ -3,7 +3,7 @@ import { FC, forwardRef, useContext, useState } from 'react';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import clsx from 'clsx';
 import { styled, css } from '@mui/system';
-import { Projects } from '../../../types/Projects';
+import { Projects } from '../../../types/Projects/Projects';
 import { useNavigate } from 'react-router-dom';
 import { NewProjectContext } from '../../../context';
 

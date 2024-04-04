@@ -3,7 +3,7 @@ import { MainLayout } from '../../../Layout'
 import { AdminProgressBar, LinkButton, ProjectBoxInfo, Spinner, TipologyCard, UsedComments } from '../../../components'
 import { LoadingContext } from '../../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
-import { fetchProjectById, fetchTypologiesByProjectId } from '../../../api'
+import { fetchProjectById, fetchTypologiesByProjectId } from '../../../api/projects'
 import noTypologies from '../../../assets/images/noprojects.png'
 
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { MainLayout, MiddleLayout } from "../../../Layout"
 import { LinkButton, SummarySpaceSection } from "../../../components"
-import  { fetchSummary } from "../../../api"
-import { Summary } from "../../../types/Summary"
+import  { fetchSummary } from "../../../api/projects"
+import { Summary } from "../../../types/Projects/Summary"
 import { redirect, useParams } from "react-router-dom"
 
 export const SummaryNewProject = () => {
