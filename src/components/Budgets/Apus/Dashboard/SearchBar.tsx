@@ -1,18 +1,14 @@
 import { SearchOutlined } from "@mui/icons-material";
 import { InputBase, styled } from "@mui/material";
-import { ChangeEvent } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useDebouncedCallback } from 'use-debounce';
+
 
 export default function SearchAppBar({ placeholder }: { placeholder: string }) {
 
-    const [searchParams, setSearchParams] = useSearchParams();
 
-    const handleSearch = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
+    /* const handleSearch = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
         setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
-    }, 300)
+    }, 300) */
 
-    console.log(Object.fromEntries(searchParams).search);
 
 
     return (
@@ -23,7 +19,7 @@ export default function SearchAppBar({ placeholder }: { placeholder: string }) {
             <StyledInputBase
                 placeholder={placeholder}
                 inputProps={{ 'aria-label': 'search' }}
-                onChange={handleSearch}
+                
                 name='search'
             />
         </Search>
