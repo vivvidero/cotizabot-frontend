@@ -1,5 +1,5 @@
-import news from '../../assets/icons/alerta.png'
-import wishList from '../../assets/icons/wishlist.png'
+import news from '../../../assets/icons/alerta.png'
+import wishList from '../../../assets/icons/wishlist.png'
 
 export const UsedComments = () => {
 

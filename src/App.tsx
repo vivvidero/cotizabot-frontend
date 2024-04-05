@@ -7,6 +7,9 @@ import { LoadingProvider } from './context/LoadingContext'
 import { NewApuProvider } from './context/NewApuContext'
 import { ApusList, ProjectsList } from './components'
 import { EditApu } from './pages/Budgets/Apus/EditApu'
+import { GeneralInfoTab } from './components/Budgets/GeneralInfoTab'
+import { ReferencesTab } from './components/Budgets/ReferencesTab'
+import { DataSheetTab } from './components/Budgets/DataSheetTab'
 
 function App() {
 
@@ -33,7 +36,12 @@ function App() {
                   <Route path='/new-project/:projectid/:typologyid/space-selector/space-info' element={<SpaceInfo />} />
                   <Route path='/new-project/:projectid/:typologyid/summary' element={<SummaryNewProject />} />
                   <Route path='/project/:projectid/typology/:typologyid/space/:spaceid/edit' element={<EditSpace />} />
-                  <Route path='/admin/budgets/apus/create' element={<NewApu />} />
+                  <Route path='/admin/budgets/apus/create' element={<NewApu />}>
+                    <Route path='general-info' element={<GeneralInfoTab />} />
+                    <Route path='references' element={<ReferencesTab />} />
+                    <Route path='data-sheet' element={<DataSheetTab />} />
+
+                  </Route>
                   <Route path='/admin/budgets/apus/create/:id/data-sheet' element={<NewDataSheet />} />
                   <Route path='/admin/budgets/apus/create/:id/dashboard' element={<ApusDashboard />} />
                   <Route path='/admin/apus/edit/:id' element={<EditApu />} />

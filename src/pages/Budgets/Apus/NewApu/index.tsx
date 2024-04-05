@@ -4,21 +4,18 @@ import { createApu } from "../../../../api/apus"
 import { ApuInfo } from "../../../../types/apus/ApuInfo"
 import { validateFullObject } from "../../../../helpers/validateFullObject"
 import { LoadingContext } from "../../../../context/LoadingContext"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { Spinner } from "../../../../components"
+import { ApuTabs } from "../../../../components/Budgets/ApuTabs"
+import { NewApuContext } from "../../../../context/NewApuContext"
 
-const initialValue = {
-  name: '',
-  unit: '',
-  category: '',
-  subCategory: ''
-}
+
 
 export const NewApu = () => {
 
   const navigate = useNavigate()
-  const [newApu, setNewApu] = useState<ApuInfo>(initialValue)
   const { loading, setLoading, setError, error } = useContext(LoadingContext)
+  const {newApu, setNewApu} = useContext(NewApuContext)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -55,13 +52,18 @@ export const NewApu = () => {
   return (
     <MainLayout>
       <MiddleLayout>
-        <div className="flex flex-col items-center text-vivvi gap-2">
-          <h2 className="font-outfit text-3xl">
+        <div className="flex justify-start w-full text-vivvi gap-2">
+          <h2 className="font-outfit text-3xl mx-12">
             Nuevo APU
           </h2>
-          <h3 className="font-roboto text-2xl">Datos generales</h3>
         </div>
-        <form className="my-8 flex flex-col w-1/2" onSubmit={handleSubmit}>
+
+        <ApuTabs />
+        {/* <form className="grid grid-cols-3 gap-6 p-8 w-full "> */}
+          <Outlet />
+        {/* </form> */}
+
+        {/* <form className="my-8 flex flex-col w-1/2" onSubmit={handleSubmit}>
           <label htmlFor="name">Nombre del APU</label>
           <input className='py-6 px-5 border mb-8' type='text' placeholder={"Nombre del APU"} name={"name"} onChange={handleNewApu} required />
           <label htmlFor="name">Unidad de médida</label>
@@ -100,7 +102,7 @@ export const NewApu = () => {
             </Link>
           </div>
 
-        </form>
+        </form> */}
       </MiddleLayout>
     </MainLayout>
   )

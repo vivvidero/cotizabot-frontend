@@ -1,11 +1,11 @@
 import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
-import copy from '../../assets/icons/copy.png'
-import del from '../../assets/icons/delete.png'
-import typologyPlaceholder from '../../assets/images/Rectangle 804.png'
+import copy from '../../../assets/icons/copy.png'
+import del from '../../../assets/icons/delete.png'
+import typologyPlaceholder from '../../../assets/images/Rectangle 804.png'
 import { useNavigate, useParams } from 'react-router-dom'
-import api from '../../api/projects'
-import { NewProjectContext } from '../../context'
-import { LoadingContext } from '../../context/LoadingContext'
+import api from '../../../api/projects'
+import { NewProjectContext } from '../../../context'
+import { LoadingContext } from '../../../context/LoadingContext'
 
 
 

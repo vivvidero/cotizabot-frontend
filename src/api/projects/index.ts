@@ -3,7 +3,7 @@ import { NewProject } from "../../context";
 import { TypologiesData } from "../../types/Projects/Typologies";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL
+    baseURL: import.meta.env.VITE_APUS_URL
 })
 
 

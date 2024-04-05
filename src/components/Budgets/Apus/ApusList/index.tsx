@@ -39,7 +39,7 @@ export const ApusList = () => {
     return (
         <article className="w-full flex flex-col gap-8">
             <div className='flex justify-between mt-6'>
-                <LinkButton link={"new-project"} bg="golden">
+                <LinkButton link={"/admin/budgets/apus/create/general-info"} bg="golden">
                     Nuevo APU
                 </LinkButton>
                 
@@ -61,7 +61,7 @@ export const ApusList = () => {
                             :
                             apusList.length <= 0
                                 ?
-                                <NoDataBox data={"APU"} link="create" />
+                                <NoDataBox data={"APU"} link="/admin/budgets/apus/create/general-info" />
                                 :
                                 apusList.map((apu) => {
                                     return (

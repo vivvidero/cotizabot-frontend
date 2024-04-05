@@ -2,8 +2,8 @@ import axios from "axios";
 import { ApuInfo } from "../../types/apus/ApuInfo";
 import { DataSheet } from "../../types/apus/DataSheet";
 
-const apusApi = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL
+export const apusApi = axios.create({
+    baseURL: import.meta.env.VITE_APUS_URL
 })
 
 export const fetchApus = async (page: number) => {

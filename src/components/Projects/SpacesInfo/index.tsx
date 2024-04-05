@@ -1,10 +1,10 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useEffect } from "react"
-import { SingleSpace, Spaces } from "../../types/Projects/Spaces"
-import { translateSpace } from "../../helpers/translateSpace";
-import addTipology from '../../assets/icons/add-tipology.png'
-import addComment from '../../assets/icons/add-comment.png'
-import { InputInfoSpace, SelectInfoSpace } from "..";
-import { AddTipologyButton } from "../ui/AddTipologyButton/AddTipologyButton";
+import { SingleSpace, Spaces } from "../../../types/Projects/Spaces"
+import { translateSpace } from "../../../helpers/translateSpace";
+import addTipology from '../../../assets/icons/add-tipology.png'
+import addComment from '../../../assets/icons/add-comment.png'
+import { InputInfoSpace, SelectInfoSpace } from "../..";
+import { AddTipologyButton } from "../../ui/AddTipologyButton/AddTipologyButton";
 
 interface ImagePreview {
     url: string,

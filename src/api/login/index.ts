@@ -11,3 +11,6 @@ export const login = async (user: User) => {
     const response = await api.post('/login', user)
     return response
 }
+
+
+export default api

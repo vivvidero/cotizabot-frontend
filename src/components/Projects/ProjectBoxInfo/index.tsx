@@ -1,11 +1,11 @@
 import { FC, useContext } from 'react'
-import projectIcon from '../../assets/icons/Icono-proyecto.png'
-import constructorIcon from '../../assets/icons/constructora.png'
-import locationIcon from '../../assets/icons/location.png'
-import checkIcon from '../../assets/icons/check-redondo.png'
-import { SubmitButton, TypologiesBoxInfoSkeleton } from '..'
+import projectIcon from '../../../assets/icons/Icono-proyecto.png'
+import constructorIcon from '../../../assets/icons/constructora.png'
+import locationIcon from '../../../assets/icons/location.png'
+import checkIcon from '../../../assets/icons/check-redondo.png'
+import { SubmitButton, TypologiesBoxInfoSkeleton } from '../..'
 import { useNavigate, useParams } from 'react-router-dom'
-import { LoadingContext } from '../../context/LoadingContext'
+import { LoadingContext } from '../../../context/LoadingContext'
 
 interface InfoProject {
     projectid: number;

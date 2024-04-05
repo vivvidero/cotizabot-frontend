@@ -1,13 +1,13 @@
 import { Dispatch, FC, SetStateAction, useContext } from 'react'
-import imageTipo from '../../assets/images/tipoImage.png'
-import edit from '../../assets/icons/Edit.png'
-import deleteIcon from '../../assets/icons/delete.png'
-import { SummaryInput } from '..';
-import { Summary, TypologyElement } from '../../types/Projects/Summary';
-import { NewProjectContext } from '../../context';
+import imageTipo from '../../../assets/images/tipoImage.png'
+import edit from '../../../assets/icons/Edit.png'
+import deleteIcon from '../../../assets/icons/delete.png'
+import { SummaryInput } from '../..';
+import { Summary, TypologyElement } from '../../../types/Projects/Summary';
+import { NewProjectContext } from '../../../context';
 import { useNavigate, useParams } from 'react-router-dom';
-import { LoadingContext } from '../../context/LoadingContext';
-import  { deleteSpaceById, fetchSummary } from '../../api/projects';
+import { LoadingContext } from '../../../context/LoadingContext';
+import  { deleteSpaceById, fetchSummary } from '../../../api/projects';
 
 interface Props {
     typology: TypologyElement

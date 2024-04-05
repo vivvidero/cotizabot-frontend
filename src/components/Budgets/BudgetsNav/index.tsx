@@ -3,6 +3,11 @@ import { LinkButton } from "../.."
 
 export const BudgetsNav = () => {
 
+    // SIN USO POR AHORA.
+
+    // BORRAR SI SE DEFINE NO USAR
+
+
     const budgetsLinks = ['APUS', 'Referencias', 'Insumos', 'Cáculos de catidades']
     const location = useLocation()
 
@@ -22,20 +27,11 @@ export const BudgetsNav = () => {
                         })}
                     </ul>
                 </nav>
-                {location.pathname === "/admin/budgets/apus"
-                    ?
+                {location.pathname === "/admin/budgets"
+                    &&
                     <LinkButton link="apus/create" bg="golden" >
                         Crear APU
                     </LinkButton>
-                    : location.pathname === "/admin/budgets/referencias"
-                        ?
-                        <LinkButton link="apus/new-reference" bg="golden" >
-                            Crear Referencia
-                        </LinkButton>
-                        :
-                        <LinkButton link="apus/new-supplie" bg="golden" >
-                            Crear Insumo
-                        </LinkButton>
                 }
             </div>
             <Outlet />
