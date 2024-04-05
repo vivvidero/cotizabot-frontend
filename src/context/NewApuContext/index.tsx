@@ -9,7 +9,7 @@ const initialValue = {
     spaces: [],
     category: '',
     subCategory: '',
-    price: 0,
+    price: '',
     references: [],
     dimension: '',
     finish: '',

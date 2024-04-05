@@ -14,7 +14,7 @@ export interface ApuInfo {
     recomendations?: string
 }
 
-interface References {
+export interface References {
     id?: number
     code?: string
     name?: string

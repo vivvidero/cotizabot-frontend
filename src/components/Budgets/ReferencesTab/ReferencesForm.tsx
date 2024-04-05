@@ -1,6 +1,7 @@
 import { ChangeEvent, useContext } from 'react'
 import { NewApuContext } from '../../../context/NewApuContext'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { References } from '../../../types/apus/ApuInfo';
 
 
 export const ReferencesForm = ({ formNumber }: { formNumber: number }) => {
@@ -8,7 +9,7 @@ export const ReferencesForm = ({ formNumber }: { formNumber: number }) => {
     const { setNewApu, newApu, apuFormData, setItemImages, itemImages, setInstalledItemImages, installedItemImages } = useContext(NewApuContext)
 
     const handleNewApu = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-        let referencesUpdated;
+        let referencesUpdated : References[];
         const existingReference = newApu.references.find(ref => ref.id === formNumber);
         
         if (!existingReference) {

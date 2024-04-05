@@ -6,7 +6,6 @@ import { AuthProvider, NewProjectProvider } from './context'
 import { LoadingProvider } from './context/LoadingContext'
 import { NewApuProvider } from './context/NewApuContext'
 import { ApusList, ProjectsList } from './components'
-import { EditApu } from './pages/Budgets/Apus/EditApu'
 import { GeneralInfoTab } from './components/Budgets/GeneralInfoTab'
 import { ReferencesTab } from './components/Budgets/ReferencesTab'
 import { DataSheetTab } from './components/Budgets/DataSheetTab'
@@ -44,7 +43,6 @@ function App() {
                   </Route>
                   <Route path='/admin/budgets/apus/create/:id/data-sheet' element={<NewDataSheet />} />
                   <Route path='/admin/budgets/apus/create/:id/dashboard' element={<ApusDashboard />} />
-                  <Route path='/admin/apus/edit/:id' element={<EditApu />} />
                   <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
                   <Route path='/admin/budgets/referencias/edit' element={<AdminEditReference />} />
                   <Route path='/admin/budgets/apus/new-supplie' element={<AdminNewSupplie />} />
