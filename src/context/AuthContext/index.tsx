@@ -107,7 +107,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
                     throw new Error('Token no encontrado');
                 }
     
-                const response = await axios.post(`${api}/jwt-token`, { token });
+                const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt-token`,  {token} );
     
                 if (response.data.success) {
                     return

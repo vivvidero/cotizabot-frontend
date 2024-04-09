@@ -128,21 +128,21 @@ export const ReferencesForm = ({ formNumber }: { formNumber: number }) => {
             <form className="grid grid-cols-3 gap-6 p-8 w-full" >
                 <div className="flex flex-col gap-2">
                     <label htmlFor="name">Código de la referencia</label>
-                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber].code} placeholder={"Código de la referencia"} name={"code"} onChange={handleNewApu} required />
+                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber]?.code} placeholder={"Código de la referencia"} name={"code"} onChange={handleNewApu} required />
                 </div>
                 <div className="flex flex-col gap-2">
 
                     <label htmlFor="name">Nombre</label>
-                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber].name} placeholder={"Nombre de la referencia"} name={"name"} onChange={handleNewApu} required />
+                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber]?.name} placeholder={"Nombre de la referencia"} name={"name"} onChange={handleNewApu} required />
                 </div>
                 <div className="flex flex-col gap-2">
 
                     <label htmlFor="name">Color</label>
-                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber].color} placeholder={"Color de la referencia"} name={"color"} onChange={handleNewApu} required />
+                    <input className='py-6 px-5 border ' type='text' defaultValue={newApu.references[formNumber]?.color} placeholder={"Color de la referencia"} name={"color"} onChange={handleNewApu} required />
                 </div>
                 <div className="flex flex-col gap-2">
                     <label htmlFor="name">Precio Tope</label>
-                    <input className='py-6 px-5 border ' type='number' defaultValue={newApu.references[formNumber].priceCeiling} placeholder={"Precio Tope de la referencia"} name={"priceCeiling"} onChange={handleNewApu} required />
+                    <input className='py-6 px-5 border ' type='number' defaultValue={newApu.references[formNumber]?.priceCeiling} placeholder={"Precio Tope de la referencia"} name={"priceCeiling"} onChange={handleNewApu} required />
                 </div>
 
                 <div></div>
