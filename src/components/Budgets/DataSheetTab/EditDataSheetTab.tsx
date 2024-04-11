@@ -1,19 +1,19 @@
 import { ChangeEvent, FormEvent, useContext } from 'react'
 import { ApusContext } from '../../../context/ApusContext'
 import { LoadingContext } from '../../../context/LoadingContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Spinner } from '../../ui'
-import {  createApu } from '../../../api/apus'
+import {  apuEdit } from '../../../api/apus'
 
-export const DataSheetTab = () => {
+export const EditDataSheetTab = () => {
 
-    const { newApu, setNewApu, apuFormData, dataSheetCheck, infoCheck, referencesCheck } = useContext(ApusContext)
+    const { apuFormData, setEditApu, editApu, editDataSheetCheck, editInfoCheck, editReferencesCheck } = useContext(ApusContext)
     const { loading, setError, setLoading } = useContext(LoadingContext)
     const navigate = useNavigate()
+    const apuId = useParams().apuId
 
-
-    const handleNewApu = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLTextAreaElement>) => {
-        setNewApu((prevState) => {
+    const handleEditApu = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLTextAreaElement>) => {
+        setEditApu((prevState) => {
             return {
                 ...prevState,
                 [e.target.name]: e.target.value
@@ -24,7 +24,11 @@ export const DataSheetTab = () => {
     const saveApu = (e: FormEvent) => {
         setLoading(true)
         e.preventDefault()
-        if (!dataSheetCheck) {
+        if (!apuId) {
+            navigate('/admin/budgets')
+            return
+        }
+        if (!editDataSheetCheck) {
             setError("Todos los campos son obligatorios")
             setTimeout(() => {
                 setError('')
@@ -32,18 +36,16 @@ export const DataSheetTab = () => {
             setLoading(false)
             return
         }
-        const jsonBlobApu = new Blob([JSON.stringify(newApu)], { type: 'application/json' });
+        const jsonBlobApu = new Blob([JSON.stringify(editApu)], { type: 'application/json' });
 
-        apuFormData.append('apuData', jsonBlobApu)
+        apuFormData.append('editApuData', jsonBlobApu)
 
         try {
-            createApu(apuFormData)
+            apuEdit(apuId, apuFormData)
                 .then((data) => {
                     console.log(data);
-
                     setLoading(false)
-                    navigate('/admin/budgets')
-                }
+                    navigate('/admin/budgets')}
                 )
         } catch (error) {
             setLoading(false)
@@ -53,23 +55,23 @@ export const DataSheetTab = () => {
 
     }
 
-    if (!infoCheck || !referencesCheck) {
-        navigate('/admin/budgets/apus/create/references')
+    if (!editInfoCheck || !editReferencesCheck) {
+        navigate(`/admin/budgets/apus/edit/${apuId}/references`)
     }
 
     return (
         <form className="grid grid-cols-3 gap-6 p-8 w-full" onSubmit={saveApu}>
             <div className="flex flex-col gap-2">
                 <label htmlFor="name">Dimensión</label>
-                <input className='py-6 px-5 border' defaultValue={newApu.dimension} type='text' placeholder={"Dimensión"} name={"dimension"} onChange={handleNewApu} required />
+                <input className='py-6 px-5 border' defaultValue={editApu.dimension} type='text' placeholder={"Dimensión"} name={"dimension"} onChange={handleEditApu} required />
             </div>
             <div className="flex flex-col gap-2">
                 <label htmlFor="name">Acabado</label>
-                <input className='py-6 px-5 border ' defaultValue={newApu.finish} type='text' placeholder={"Acabado"} name={"finish"} onChange={handleNewApu} required />
+                <input className='py-6 px-5 border ' defaultValue={editApu.finish} type='text' placeholder={"Acabado"} name={"finish"} onChange={handleEditApu} required />
             </div>
             <div className="flex flex-col gap-2">
                 <label htmlFor="name">Tipo de conexión (aplica para equipos)</label>
-                <select className='py-6 px-5 border ' defaultValue={newApu.conectionType} name={"conectionType"} onChange={handleNewApu} required>
+                <select className='py-6 px-5 border ' defaultValue={editApu.conectionType} name={"conectionType"} onChange={handleEditApu} required>
                     <option>No aplica</option>
                     <option>M3</option>
                     <option>Kg</option>
@@ -81,7 +83,7 @@ export const DataSheetTab = () => {
             </div>
             <div className="flex flex-col gap-2">
                 <label htmlFor="name">Recomendaciones</label>
-                <textarea className='py-6 px-5 border h-40' name='recomendations' defaultValue={newApu.recomendations} onChange={handleNewApu} />
+                <textarea className='py-6 px-5 border h-40' name='recomendations' defaultValue={editApu.recomendations} onChange={handleEditApu} />
             </div>
             <div></div>
             <div></div>

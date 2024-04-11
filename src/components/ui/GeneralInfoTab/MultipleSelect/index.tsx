@@ -6,11 +6,9 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import { NewApuContext } from '../../../../context/NewApuContext';
 import { translateSpace } from '../../../../helpers/translateSpace';
-
-
-
+import  { ApuInfo } from '../../../../types/apus/ApuInfo';
+import { EditApuInfo } from '../../../../types/apus/EditApusInfo';
 
 const names = [
     {
@@ -31,19 +29,40 @@ const names = [
     },
     {
         name: "Baño sin ducha",
-        value: "bathRoomWithoutShower"
+        value: "socialBathRoomWithoutShower"
+    },
+    {
+        name: "Estudio",
+        value: "study"
+    },
+    {
+        name: "Sala comedor",
+        value: "diningRoom"
+    },
+    {
+        name: "Hall",
+        value: "hall"
+    },
+    {
+        name: "Terraza / Patio",
+        value: "terraceYard"
+    },
+    {
+        name: "Balcón",
+        value: "balcony"
     }
 ];
 
-export default function MultipleSelectCheckmarks() {
-    const { newApu, setNewApu } = React.useContext(NewApuContext)
+export default function MultipleSelectCheckmarks({apu, setApu} : {apu: ApuInfo | EditApuInfo, setApu: React.Dispatch<React.SetStateAction<ApuInfo | EditApuInfo>>}) {
+
     const [selectedNames, setSelectedNames] = React.useState<string[]>([])
 
-    const handleChange = (event: SelectChangeEvent<typeof newApu.spaces>) => {
+    const handleChange = (event: SelectChangeEvent<typeof apu.spaces>) => {
         const {
             target: { value },
         } = event;
-        setNewApu((prevState) => {
+
+        setApu((prevState) => {
             return {
                 ...prevState,
                 spaces: typeof value === 'string' ? value.split(',') : value,
@@ -66,15 +85,15 @@ export default function MultipleSelectCheckmarks() {
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={newApu.spaces}
+                    value={apu.spaces}
                     onChange={handleChange}
                     renderValue={() => selectedNames.join(', ')}
                     className='h-[71px]'
-                    defaultValue={newApu.spaces}
+                    defaultValue={apu.spaces}
                 >
                     {names.map((name) => (
                         <MenuItem key={name.value} value={name.value}>
-                            <Checkbox name={name.name} checked={newApu.spaces.indexOf(name.value) > -1} />
+                            <Checkbox name={name.name} checked={apu.spaces.indexOf(name.value) > -1} />
                             <ListItemText primary={name.name} />
                         </MenuItem>
                     ))}

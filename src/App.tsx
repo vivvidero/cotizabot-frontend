@@ -1,14 +1,16 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Admin, AdminEditReference, AdminNewProject, AdminNewReference, AdminNewSupplie, AdminNewTipology, AdminSpaceSelector, ApusDashboard, EditProject, EditSpace, EditTypology, Login, NewApu, NewDataSheet, SpaceInfo, SummaryNewProject, Tipologies, } from './pages'
+import { Admin, AdminNewProject, AdminNewTipology, AdminSpaceSelector, EditApu, EditProject, EditSpace, EditTypology, Login, NewApu, SpaceInfo, SummaryNewProject, Tipologies, } from './pages'
 import { ProtectedRoutes } from './ProtectedRoutes'
 import { AuthProvider, NewProjectProvider } from './context'
 import { LoadingProvider } from './context/LoadingContext'
-import { NewApuProvider } from './context/NewApuContext'
 import { ApusList, ProjectsList } from './components'
 import { GeneralInfoTab } from './components/Budgets/GeneralInfoTab'
 import { ReferencesTab } from './components/Budgets/ReferencesTab'
 import { DataSheetTab } from './components/Budgets/DataSheetTab'
+import { ApusProvider } from './context/ApusContext'
+import { EditGeneralInfoTab } from './components/Budgets/GeneralInfoTab/EditGeneralInfoTab'
+import { EditReferencesTab } from './components/Budgets/ReferencesTab/EditReferencesTab'
 
 function App() {
 
@@ -16,7 +18,7 @@ function App() {
     <LoadingProvider>
       <AuthProvider>
         <NewProjectProvider>
-          <NewApuProvider>
+          <ApusProvider>
             <BrowserRouter>
               <Routes>
                 <Route path='/' element={<Login />} />
@@ -24,7 +26,6 @@ function App() {
                   <Route path='/admin' element={<Admin />}>
                     <Route path='projects' element={<ProjectsList />} />
                     <Route path='budgets' element={<ApusList />} />
-
                   </Route>
                   <Route path='/admin/projects/new-project' element={<AdminNewProject />} />
                   <Route path='/admin/projects/:projectid/edit-project' element={<EditProject />} />
@@ -39,17 +40,16 @@ function App() {
                     <Route path='general-info' element={<GeneralInfoTab />} />
                     <Route path='references' element={<ReferencesTab />} />
                     <Route path='data-sheet' element={<DataSheetTab />} />
-
                   </Route>
-                  <Route path='/admin/budgets/apus/create/:id/data-sheet' element={<NewDataSheet />} />
-                  <Route path='/admin/budgets/apus/create/:id/dashboard' element={<ApusDashboard />} />
-                  <Route path='/admin/budgets/apus/new-reference' element={<AdminNewReference />} />
-                  <Route path='/admin/budgets/referencias/edit' element={<AdminEditReference />} />
-                  <Route path='/admin/budgets/apus/new-supplie' element={<AdminNewSupplie />} />
+                  <Route path='/admin/budgets/apus/edit/:apuId' element={<EditApu />}>
+                    <Route path='general-info' element={<EditGeneralInfoTab />} />
+                    <Route path='references' element={<EditReferencesTab />} />
+                    <Route path='data-sheet' element={<DataSheetTab />} />
+                  </Route>
                 </Route>
               </Routes>
             </BrowserRouter>
-          </NewApuProvider>
+          </ApusProvider>
         </NewProjectProvider>
       </AuthProvider>
     </LoadingProvider>

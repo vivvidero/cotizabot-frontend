@@ -1,12 +1,12 @@
 import { ChangeEvent, useContext } from 'react'
-import { NewApuContext } from '../../../context/NewApuContext'
+import { ApusContext } from '../../../context/ApusContext'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { References } from '../../../types/apus/ApuInfo';
 
 
 export const ReferencesForm = ({ formNumber }: { formNumber: number }) => {
 
-    const { setNewApu, newApu, apuFormData, setItemImages, itemImages, setInstalledItemImages, installedItemImages } = useContext(NewApuContext)
+    const { setNewApu, newApu, apuFormData, setItemImages, itemImages, setInstalledItemImages, installedItemImages } = useContext(ApusContext)
 
     const handleNewApu = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         let referencesUpdated : References[];
@@ -103,23 +103,6 @@ export const ReferencesForm = ({ formNumber }: { formNumber: number }) => {
             });
         }
     }
-
-
-    /*     console.log(apuFormData.get('itemImage1'));
-        console.log(apuFormData.get('itemImage2'));
-        console.log(apuFormData.get('itemImage3'));
-        console.log(apuFormData.get('itemImage4'));
-        console.log(apuFormData.get('itemImage5'));
-        console.log(apuFormData.get('installedItemImage10'));
-        console.log(apuFormData.get('installedItemImage11'));
-        console.log(apuFormData.get('installedItemImage12'));
-        console.log(apuFormData.get('installedItemImage20'));
-        console.log(apuFormData.get('installedItemImage21'));
-        console.log(apuFormData.get('installedItemImage22'));
-        console.log(apuFormData.get('installedItemImage30'));
-        console.log(apuFormData.get('installedItemImage31'));
-        console.log(apuFormData.get('installedItemImage32')); */
-    
 
 
     return (

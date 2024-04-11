@@ -9,17 +9,20 @@ type TokenHook = {
 export const useToken = (): TokenHook => {
     const getToken = (): string | null => {
         const tokenString = localStorage.getItem('token');
-        const userToken: string | null = tokenString ? JSON.parse(tokenString) : null
+        const userToken: string | null = tokenString ? tokenString : null
         return userToken;
     }
 
     const [token, setToken] = useState<string | null>(getToken());
 
     const saveToken = (userToken: SetStateAction<string | null>): void => {
-            // Manejar el valor directo del estado
+        if (userToken) {
             setToken(userToken);
             localStorage.setItem('token', JSON.stringify(userToken));
-        
+        } else {
+            setToken(null);
+            localStorage.removeItem('token');
+        }
     }    
 
     return {

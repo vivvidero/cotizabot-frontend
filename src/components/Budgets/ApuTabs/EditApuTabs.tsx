@@ -3,15 +3,17 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useContext } from 'react';
 import { ApusContext } from '../../../context/ApusContext';
-export const ApuTabs = () => {
 
-    const {  infoCheck, dataSheetCheck, referencesCheck } = useContext(ApusContext)
+
+export const EditApuTabs = () => {
+
+    const {  editDataSheetCheck, editInfoCheck, editReferencesCheck } = useContext(ApusContext)
     
 
     return (
         <nav className='w-full grid grid-cols-3 h-16 text-center bg-white shadow-sm mt-4'>
             {
-                infoCheck
+                editInfoCheck
                     ?
                     <NavLink aria-disabled={'true'} to={'general-info'} className={({ isActive }) =>
                         isActive
@@ -29,7 +31,7 @@ export const ApuTabs = () => {
             }
 
             {
-                infoCheck
+                editInfoCheck
                     ?
                     <NavLink to={'references'} className={({ isActive }) =>
                         isActive
@@ -37,23 +39,23 @@ export const ApuTabs = () => {
                             : " font-[400]   w-full flex gap-2 justify-center items-center border border-platinum"
                     } >
                         {
-                            referencesCheck
+                            editReferencesCheck
                                 ?
                                 <CheckCircleIcon className='text-vivvi' />
                                 :
                                 <CheckCircleOutlineIcon className='text-vivvi' />
                         }
 
-                        <p>Crear referencias</p>
+                        <p>Editar referencias</p>
                     </NavLink>
                     :
                     <div className=" font-[400]   w-full flex gap-2 justify-center items-center border border-platinum">
                         <CheckCircleOutlineIcon className='text-vivvi' />
-                        <p>Crear referencias</p>
+                        <p>Editar referencias</p>
                     </div>
             }
             {
-                referencesCheck && infoCheck
+                editReferencesCheck && editInfoCheck
                     ?
                     <NavLink to={'data-sheet'} className={({ isActive }) =>
                         isActive
@@ -61,7 +63,7 @@ export const ApuTabs = () => {
                             : " font-[400]  w-full flex gap-2 justify-center items-center border border-platinum"
                     } >
                         {
-                            dataSheetCheck
+                            editDataSheetCheck
                                 ?
                                 <CheckCircleIcon className='text-vivvi' />
                                 :

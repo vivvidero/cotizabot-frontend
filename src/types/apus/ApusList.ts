@@ -8,6 +8,5 @@ export interface ApusTable {
     ref_materials_id: null;
     supplies_id: null;
     category: string;
-    references: any[];
-    supplies: any[];
+    
 }

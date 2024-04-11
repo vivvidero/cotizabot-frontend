@@ -1,4 +1,4 @@
-export interface ApuInfo {
+export interface EditApuInfo {
     id?: number
     code: string,
     name: string,
@@ -8,17 +8,21 @@ export interface ApuInfo {
     subCategory: string,
     price: string
     iva?: boolean
-    references: References[]
+    references: EditReferences[]
     dimension: string
     finish: string
     conectionType: string
     recomendations?: string
-} 
+}
 
-export interface References {
+export interface EditReferences {
     id?: number
     code?: string
     name?: string
     color?: string
     priceCeiling?: number
+    itemImage?: string
+    installedItemImage1?: string
+    installedItemImage2?: string
+    installedItemImage3?: string
 } 

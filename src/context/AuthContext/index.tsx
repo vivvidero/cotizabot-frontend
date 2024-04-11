@@ -1,5 +1,4 @@
 import { Dispatch, FC, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from "react";
-import api from "../../api/login";
 import { useToken } from "../../hooks";
 import { LoadingContext } from "../LoadingContext";
 import { login } from "../../api/login";
@@ -96,19 +95,19 @@ export const AuthProvider: FC<Props> = ({ children }) => {
         setNickName(nicknameStorage ? JSON.parse(nicknameStorage) : null)
     }, [])
 
-    
+
 
     // Efecto para verificar si el token es valido y no esta vencido
     useEffect(() => {
         const verifyToken = async () => {
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                return
+            }
             try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error('Token no encontrado');
-                }
-    
-                const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt-token`,  {token} );
-    
+                const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/jwt-token`, { token });
+
                 if (response.data.success) {
                     return
                 } else {

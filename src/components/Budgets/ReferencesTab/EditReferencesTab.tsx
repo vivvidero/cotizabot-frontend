@@ -1,22 +1,28 @@
 import { FormEvent, useContext } from "react"
 import { LoadingContext } from "../../../context/LoadingContext"
 import { Spinner } from "../.."
-import { Link, useNavigate } from "react-router-dom"
-import { ReferencesForm } from "./ReferencesForm"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { ApusContext } from "../../../context/ApusContext"
+import { EditReferenceForm } from "./EditReferenceForm"
 
 
 
-export const ReferencesTab = () => {
+export const EditReferencesTab = () => {
 
     const { loading, error, setError } = useContext(LoadingContext)
     const navigate = useNavigate()
-    const { referencesForms, setFeferencesForms, referencesCheck, infoCheck } = useContext(ApusContext)
+    const { editReferencesCheck, editInfoCheck, editApu, setEditApu } = useContext(ApusContext)
+    const apuId = useParams().apuId
 
     const addReference = () => {
-        if (referencesForms.length < 5) {
-            const updateArray = referencesForms.concat(referencesForms.length + 1)
-            setFeferencesForms(updateArray)
+        if (editApu.references.length < 5) {
+            setEditApu((prevState) => {
+                return {
+                    ...prevState,
+                    references: [...prevState.references, { id: editApu.references.length + 1 }]
+                }
+            }
+            )
         } else {
             setError("Alcanzaste el limite maximo de referencias")
             setTimeout(() => {
@@ -28,29 +34,28 @@ export const ReferencesTab = () => {
 
     const goToDataSheet = (e: FormEvent) => {
         e.preventDefault()
-        if (!referencesCheck) {
+        if (!editReferencesCheck) {
             setError("Todos los campos son obligatorios")
             setTimeout(() => {
-                setError('') 
+                setError('')
             }, 3000);
             return
         }
-        navigate('/admin/budgets/apus/create/data-sheet')
+        navigate(`/admin/budgets/apus/edit/${apuId}/data-sheet`)
     }
 
-    if (!infoCheck ) {
-        navigate('/admin/budgets/apus/create/general-info')
+    if (!editInfoCheck) {
+        navigate(`/admin/budgets/apus/edit/${apuId}/general-info`)
     }
 
     return (
         <>
-            {referencesForms.map((form) => <ReferencesForm key={form} formNumber={form} />)}
+            {editApu.references.map((reference, index) => <EditReferenceForm key={reference.id} formNumber={index} />)}
 
             <div className="flex gap-4 w-full px-8 mb-4">
                 <button onClick={addReference} className="flex items-center cursor-pointer justify-center gap-2 py-2 w-52 h-8 rounded-full text-base font-roboto font-[500] hover:scale-95 duration-200 border bg-dorado text-vivvi border-vivvi" disabled={loading}>
                     Agregar referencia
                 </button>
-
             </div>
             {
                 error

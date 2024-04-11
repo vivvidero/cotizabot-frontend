@@ -1,7 +1,6 @@
 export * from './ui'
 export * from './Projects/TipologyCard'
 export * from './Projects/ProjectsList'
-export * from './Budgets/BudgetsNav'
 export * from './Budgets/Apus/ApusList'
 export * from './Projects/SpacesInfo'
 export * from './Projects/SummarySpaceSection'

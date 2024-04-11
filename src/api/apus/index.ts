@@ -1,6 +1,4 @@
 import axios from "axios";
-import { ApuInfo } from "../../types/apus/ApuInfo";
-import { DataSheet } from "../../types/apus/DataSheet";
 
 export const apusApi = axios.create({
     baseURL: import.meta.env.VITE_APUS_URL
@@ -11,22 +9,20 @@ export const fetchApus = async (page: number) => {
     return response
 }
 
-export const createApu = async (newApu: ApuInfo) => {
-    const response = await apusApi.post('/apus', newApu)
+export const createApu = async (apuFormData: FormData) => {
+    const response = await apusApi.post('/apus', apuFormData)
+    return response
+}
+export const fetchApuById = async (id: string) => {
+    const response = await apusApi.get(`/apus/${id}`)
     return response
 }
 
-export const createDataSheet = async (dataSheet: DataSheet, apuId: string) => {
-    const response = await apusApi.post(`/apus/${apuId}/data-sheet`, { dataSheet: dataSheet })
-    return response
-}
-
-export const fetchApuDashBoard = async (id: string) => {
-    const response = await apusApi.get(`/apus/${id}/dashboard`)
-    return response
-}
-
-export const editApu = async (id: string, editedApu: ApuInfo) => {
+export const apuEdit = async (id: string, editedApu: FormData) => {
     const response = await apusApi.put(`/apus/${id}`, editedApu)
+    return response
+}
+export const deleteApu = async (id: number) => {
+    const response = await apusApi.delete(`/apus/${id}`)
     return response
 }

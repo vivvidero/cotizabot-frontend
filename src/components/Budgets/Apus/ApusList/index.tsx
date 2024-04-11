@@ -1,12 +1,14 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { NoDataBox } from "../../../ui/NoDataBox"
-import { fetchApus } from "../../../../api/apus"
+import { deleteApu, fetchApus } from "../../../../api/apus"
 import { LoadingContext } from "../../../../context/LoadingContext"
-import {  LinkButton } from "../../.."
-import { IconButton, Menu, Pagination } from "@mui/material"
+import { LinkButton } from "../../.."
+import { IconButton, Menu, MenuItem, Pagination } from "@mui/material"
 import { ApusTable } from "../../../../types/apus/ApusList"
 import { MoreVert } from "@mui/icons-material"
-
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { Link } from "react-router-dom"
 export const ApusList = () => {
 
     const [apusList, setApusList] = useState<ApusTable[]>([])
@@ -42,7 +44,7 @@ export const ApusList = () => {
                 <LinkButton link={"/admin/budgets/apus/create/general-info"} bg="golden">
                     Nuevo APU
                 </LinkButton>
-                
+
             </div>
             <Pagination count={totalPages} onChange={handlePage} />
             <div className="w-full font-medium font-roboto ">
@@ -78,15 +80,32 @@ export const ApusList = () => {
 
 const ApuItem = ({ apu }: { apu: ApusTable }) => {
 
-    const [dropdownOpen, setDropdownOpen] = useState<null | HTMLElement>(null);
+    const { setLoading } = useContext(LoadingContext)
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setDropdownOpen(event.currentTarget);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
-        setDropdownOpen(null);
+        setAnchorEl(null);
     };
+
+    const handleDeleteApu = () => {
+        setLoading(true)
+        deleteApu(apu.id)
+            .then((data) => {
+                console.log(data);
+                setLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false)
+            })
+        setAnchorEl(null)
+    }
+
     return (
         <div className="flex gap-1 w-full items-center">
             <button className="border border-black rounded-full w-4 h-4 flex justify-center items-center">+</button>
@@ -95,13 +114,12 @@ const ApuItem = ({ apu }: { apu: ApusTable }) => {
                 <div className="text-vivvi px-4"> {apu.name} </div>
                 <div className="text-vivvi px-4"> {apu.unit} </div>
                 <div className="text-vivvi px-4"> ${apu.total_value} </div>
-            </div> 
+            </div>
             <div className='col-span-1 flex flex-col items-center justify-end relative'>
                 <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={dropdownOpen ? 'long-menu' : undefined}
-                    aria-expanded={dropdownOpen ? 'true' : undefined}
+                    id="more"
+                    aria-controls={open ? 'long-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
                     aria-haspopup="true"
                     onClick={handleClick}>
                     <MoreVert />
@@ -109,20 +127,25 @@ const ApuItem = ({ apu }: { apu: ApusTable }) => {
                 <Menu
                     id="long-menu"
                     MenuListProps={{
-                        'aria-labelledby': 'long-button',
+                        'aria-labelledby': 'more',
                     }}
-                    anchorEl={dropdownOpen}
-                    open={Boolean(dropdownOpen)}
+                    anchorEl={anchorEl}
+                    open={open}
                     onClose={handleClose}
                 >
-                    {/*  <EditProjectButton project={project} />
-                                                    <MenuItem onClick={() => { handleDelete(); handleClose(); }}>Eliminar </MenuItem> */}
+                    <MenuItem onClick={handleClose} >
+                        <Link to={`/admin/budgets/apus/edit/${apu.id}/general-info`}>
+                            <EditOutlinedIcon />
+                        </Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleDeleteApu}>
+                        <DeleteOutlineOutlinedIcon />
+                    </MenuItem>
                 </Menu>
             </div>
         </div>
     )
 }
-
 
 const ApusListSkeleton = () => {
     return (
