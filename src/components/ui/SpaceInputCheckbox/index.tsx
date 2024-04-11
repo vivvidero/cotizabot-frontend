@@ -39,13 +39,13 @@ export const SpaceInputCheckbox: FC<Props> = ({ options, name, singleSpace, spac
 
 
     return (
-        <label className="p-4 bg-white flex justify-between">
-            <div>
+        <label className="p-4 bg-white flex justify-between items-center hover:bg-gray-200 cursor-pointer">
+            <div className="">
                 <input type="checkbox" name={name} onChange={handleSpaces} checked={spaces?.some(space => space.spacetype === name) || false} className="mr-2" /> {singleSpace}
             </div>
             {options && spaces?.some(space => space.spacetype === name)
                 &&
-                <select onChange={handleSpaceQuantity} name={name} defaultValue={spaces?.filter(space => space.spacetype === name).length}>
+                <select onChange={handleSpaceQuantity} name={name} className="w-12 h-6" defaultValue={spaces?.filter(space => space.spacetype === name).length}>
                     {options.map(option => <option key={option}> {option} </option>)}
                 </select>
             }

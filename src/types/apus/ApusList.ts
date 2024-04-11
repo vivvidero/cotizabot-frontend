@@ -3,10 +3,8 @@ export interface ApusTable {
     code: null;
     name: string;
     unit: string;
-    total_value: null;
-    data_sheet_id: number | null;
-    ref_materials_id: null;
-    supplies_id: null;
-    category: string;
-    
+    totalValue: null | number;
+    subCategory: string;
+    unitPrice: string;
+    references: string[];
 }

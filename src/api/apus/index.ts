@@ -10,7 +10,7 @@ export const fetchApus = async (page: number) => {
 }
 
 export const createApu = async (apuFormData: FormData) => {
-    const response = await apusApi.post('/apus', apuFormData)
+    const response = await apusApi.post('/create-apu', apuFormData)
     return response
 }
 export const fetchApuById = async (id: string) => {

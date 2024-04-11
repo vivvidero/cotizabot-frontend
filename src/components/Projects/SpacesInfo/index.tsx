@@ -57,7 +57,7 @@ export const SpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace
         })
     }, [progressCounter])
 
-// Maneja los cambios en los campos de entrada y select para el espacio
+    // Maneja los cambios en los campos de entrada y select para el espacio
     const handleSpace = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         setSpace((prevState) => {
             return {
@@ -118,7 +118,7 @@ export const SpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace
                                 <input id={`image3d`} name={'image3d'} type='file' onChange={handleImage} className='hidden' />
                             </div>
                         </div>
-                        <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden'>
+                        <div className='bg-white border border-platinum rounded-md flex flex-col justify-center items-center overflow-hidden h-52'>
                             <div className='p-2 flex flex-col items-center overflow-hidden'>
                                 <label htmlFor={`actualstatus`} className='flex flex-col items-center cursor-pointer'>
                                     <img src={imagePreviewactualstatus?.url ? imagePreviewactualstatus.url : addTipology} className={` ${imagePreviewactualstatus?.url ? 'w-full' : 'w-1/3'}`} />
@@ -145,13 +145,17 @@ export const SpacesInfo: FC<Props> = ({ spaces, progressCounter, space, setSpace
                         {
                             spaces[progressCounter]?.spacetype === 'kitchen'
                                 ?
-                                <SelectInfoSpace handle={handleSpace} options={["1", "2"]} value={space?.spacetypology} />
+                                <SelectInfoSpace handle={handleSpace} options={["Lineal", "En U", "En L", "En L con isla", "Lineal con peninsula", "En U con Isla"]} value={space?.spacetypology} />
                                 :
                                 spaces[progressCounter]?.spacetype === 'clothes'
                                     ?
-                                    <SelectInfoSpace handle={handleSpace} options={["1", "2"]} value={space?.spacetypology} />
+                                    <SelectInfoSpace handle={handleSpace} options={["Lineal", "En L", "Galeria"]} value={space?.spacetypology} />
                                     :
-                                    ''
+                                    spaces[progressCounter]?.spacetype === 'bathRoomWithShower'
+                                        ?
+                                        <SelectInfoSpace handle={handleSpace} options={["Lineal", "En L", "En U"]} value={space?.spacetypology} />
+                                        :
+                                        null
                         }
 
                         {/* AREA */}
