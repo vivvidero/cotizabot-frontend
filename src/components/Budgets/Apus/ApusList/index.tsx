@@ -4,12 +4,11 @@ import { deleteApu, fetchApus } from "../../../../api/apus"
 import { LoadingContext } from "../../../../context/LoadingContext"
 import { LinkButton } from "../../.."
 import { IconButton, Menu, MenuItem, Pagination } from "@mui/material"
-import { ApusTable } from "../../../../types/apus/ApusList"
+import { ApusTable, ReferencesTable } from "../../../../types/apus/ApusList"
 import { MoreVert } from "@mui/icons-material"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link } from "react-router-dom"
-import place from "../../../../assets/images/Logo-verde.png"
 
 export const ApusList = () => {
 
@@ -39,7 +38,6 @@ export const ApusList = () => {
         setPage(page)
     }
 
-    console.log(apusList);
 
 
     return (
@@ -75,7 +73,7 @@ export const ApusList = () => {
                                 :
                                 apusList.map((apu) => {
                                     return (
-                                        <ApuItem key={apu.id} apu={apu} setOpenApuId={setOpenApuId} openApuId={openApuId} />
+                                        <ApuItem key={apu.id} apu={apu} setOpenApuId={setOpenApuId} openApuId={openApuId} setApusList={setApusList} page={page} setTotalPages={setTotalPages} />
                                     )
                                 })
                     }
@@ -86,7 +84,7 @@ export const ApusList = () => {
 }
 
 
-const ApuItem = ({ apu, setOpenApuId, openApuId }: { apu: ApusTable, openApuId: null | number, setOpenApuId: Dispatch<SetStateAction<null | number>> }) => {
+const ApuItem = ({ apu, setOpenApuId, openApuId, setApusList, page, setTotalPages }: { apu: ApusTable, openApuId: null | number, setOpenApuId: Dispatch<SetStateAction<null | number>>, setApusList: Dispatch<SetStateAction<ApusTable[]>>, page: number, setTotalPages: Dispatch<SetStateAction<number>> }) => {
 
     const { setLoading } = useContext(LoadingContext)
 
@@ -111,9 +109,17 @@ const ApuItem = ({ apu, setOpenApuId, openApuId }: { apu: ApusTable, openApuId: 
     const handleDeleteApu = () => {
         setLoading(true)
         deleteApu(apu.id)
-            .then((data) => {
-                console.log(data);
-                setLoading(false)
+            .then(() => {
+                fetchApus(page)
+                    .then((data) => {
+                        setApusList(data.data.apus)
+                        setTotalPages(data.data.totalPages)
+                        setLoading(false)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        setLoading(false)
+                    })
             })
             .catch((err) => {
                 console.log(err)
@@ -122,15 +128,18 @@ const ApuItem = ({ apu, setOpenApuId, openApuId }: { apu: ApusTable, openApuId: 
         setAnchorEl(null)
     }
 
+    console.log(apu);
+
+
     return (
         <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-7 w-full items-center border border-platinum p-2 bg-white text-vivvi overflow-hidden rounded-lg grow hover:bg-honeydew px-8">
-                <button onClick={() => handleOpenApu(apu.id)} className="border border-black rounded-full w-4 h-4 flex justify-center items-center absolute">+</button>
-                <div className="flex ml-8 items-center col-span-1"> {apu.code} </div>
+            <div className="grid grid-cols-7 w-full items-center border border-platinum p-2 bg-white text-vivvi overflow-hidden rounded-lg grow hover:bg-honeydew pr-8">
+                <button onClick={() => handleOpenApu(apu.id)} className="border border-black rounded-full w-6 h-6 flex justify-center items-center absolute"> {openApuId === apu.id ? "-" : "+"} </button>
+                <div className="flex ml-12 items-center col-span-1"> {apu.code} </div>
                 <div className="flex justify-center col-span-2 items-center"> {apu.subCategory} </div>
                 <div className="flex justify-center col-span-1"> {apu.name} </div>
                 <div className="flex justify-center col-span-2"> {apu.unit} </div>
-                <div className="flex justify-center col-span-1">
+                <div className="flex justify-center col-span-1 ml-14">
                     ${apu.unitPrice}
                 </div>
                 <div className='flex justify-center items-center absolute right-12'>
@@ -164,19 +173,11 @@ const ApuItem = ({ apu, setOpenApuId, openApuId }: { apu: ApusTable, openApuId: 
             </div>
             {openApuId === apu.id
                 ?
-                <div className="grid grid-cols-7 w-full items-center">
-                    <div className="col-span-1 flex items-center justify-evenly">
-                        <div className="mr-4">
-                            <img src={place} alt="apu image" className="w-8" />
-                        </div>
-                        <p> {apu.name} </p>
-                    </div>
-                    <p className="col-span-2 text-center"> {apu.unit} </p>
-                    <p className="col-span-1 text-center"> ${apu.unitPrice} </p>
-                    <p className="col-span-2 text-center"> ${apu.unitPrice} </p>
-                    <p className="col-span-1 text-center"> ${apu.unitPrice} </p>
-
-                </div>
+                apu.references.map((reference) => {
+                    return (
+                        <ApuReference key={reference.id} reference={reference} apu={apu} />
+                    )
+                })
                 :
                 null
             }
@@ -186,6 +187,29 @@ const ApuItem = ({ apu, setOpenApuId, openApuId }: { apu: ApusTable, openApuId: 
 
     )
 }
+
+const ApuReference = ({ reference, apu }: { reference: ReferencesTable, apu: ApusTable }) => {
+
+    console.log(reference);
+    
+
+    return (
+        <div className="grid grid-cols-7 w-full items-center">
+            <div className="col-span-1 flex items-center">
+                <div className="mr-4">
+                    <img src={reference.itemImage} alt="apu image" className="w-12 h-12 object-cover rounded-md overflow-hidden" />
+                </div>
+                <p> {reference.code} </p>
+            </div>
+            <p className="col-span-2 text-center"> {apu.subCategory} </p>
+            <p className="col-span-1 text-center"> {reference.name} </p>
+            <p className="col-span-2 text-center"> {reference.color} </p>
+            <p className="col-span-1 text-center"> ${reference.priceCeiling} </p>
+
+        </div>
+    )
+}
+
 
 const ApusListSkeleton = () => {
     return (
