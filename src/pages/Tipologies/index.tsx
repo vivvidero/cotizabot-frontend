@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '../../Layout'
-import { AdminProgressBar, LinkButton, ProjectBoxInfo, Spinner, TipologyCard, UsedComments } from '../../components'
+import { AdminProgressBar, LinkButton, ProjectBoxInfo, Spinner, TipologyCard } from '../../components'
 import { LoadingContext } from '../../context/LoadingContext'
 import { useParams } from 'react-router-dom'
 import { fetchProjectById, fetchTypologiesByProjectId } from '../../api'
@@ -80,9 +80,9 @@ export const Tipologies = () => {
                         )
                     ) : null}
                 </div>
-                {
+              {/*   {
                     infoProject?.type === "Usado" && <UsedComments />
-                }
+                } */}
             </article>
         </MainLayout>
     );

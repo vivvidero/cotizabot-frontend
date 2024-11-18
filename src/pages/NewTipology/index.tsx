@@ -1,7 +1,6 @@
 import { MainLayout } from '../../Layout'
 import { AdminProgressBar, LinkButton, NewTipologyModal, SubmitButton } from '../../components'
-import addTipology from '../../assets/icons/add-tipology.png'
-import delOrange from '../../assets/icons/Delete-orange.png'
+
 import { ChangeEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import check from '../../assets/icons/check.png'
@@ -18,13 +17,13 @@ export const AdminNewTipology = () => {
         type: '',
         privatearea: '',
         builtarea: '',
-        blueprints: '',
+        /* blueprints: '',
         revitmodel: '',
         video: '',
-        image: ''
+        image: '' */
     })
-    const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
-    const [imagePreview, setImagePreview] = useState<string>('');
+    /* const [formDataTypo, setFormDataTypo] = useState<FormData>(new FormData())
+    const [imagePreview, setImagePreview] = useState<string>(''); */
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -37,7 +36,7 @@ export const AdminNewTipology = () => {
         })
     }
     /*   */
-    const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
+    /* const handleTypologyImage = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
 
         if (!file) {
@@ -54,7 +53,7 @@ export const AdminNewTipology = () => {
             };
             reader.readAsDataURL(file);
         }
-    }
+    } */
     /**
        * Guarda la nueva tipología en el servidor.
        */
@@ -88,16 +87,17 @@ export const AdminNewTipology = () => {
         // Continuar con el proceso de guardar la tipología si todos los campos están completos y hay un ID de proyecto
         const jsonBlob = new Blob([JSON.stringify(newTypology)], { type: 'application/json' });
         const jsonBlobProjectId = new Blob([JSON.stringify({ projectId: projectid })], { type: 'application/json' });
+        const formDataTypo = new FormData();
         formDataTypo.append('datos', jsonBlob, 'datos.json');
         formDataTypo.append('projectId', jsonBlobProjectId, 'projectId.json');
 
         try {
             createTypology(formDataTypo)
-                .then((data) => {
+                .then(() => {
                     setIsModalOpen(true);
                     setLoading(false);
                     setTimeout(() => {
-                        navigate(`/new-project/${projectid}/${data.data.result.typologyid}/space-selector`);
+                        navigate(`/new-project/${projectid}`);
                     }, 3000);
                 });
         } catch (error) {
@@ -110,7 +110,7 @@ export const AdminNewTipology = () => {
     /**
    * Elimina la vista previa de la imagen seleccionada para la tipología.
    */
-    const deleteImagePreview = () => {
+    /* const deleteImagePreview = () => {
         setNewTypology((prevState) => {
             return {
                 ...prevState,
@@ -118,7 +118,7 @@ export const AdminNewTipology = () => {
             }
         })
         setImagePreview('')
-    }
+    } */
 
     return (
         <MainLayout>
@@ -131,16 +131,16 @@ export const AdminNewTipology = () => {
                         <input name='type' className='py-2 px-5 border' placeholder='Tipo' onChange={handleNewTipology} />
                         <input name='privatearea' type='number' className='py-2 px-5 border' placeholder='Área privada' onChange={handleNewTipology} />
                         <input name='builtarea' type='number' className='py-2 px-5 border' placeholder='Área construida' onChange={handleNewTipology} />
-                        <input name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleNewTipology} />
+                        {/* <input name='blueprints' type='string' className='py-2 px-5 border' placeholder='Cargar planos .pdf' onChange={handleNewTipology} />
                         <input name='revitmodel' type='string' className='py-2 px-5 border' placeholder='Cargar modelo Revit' onChange={handleNewTipology} />
-                        <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} />
+                        <input name='video' type='string' className='py-2 px-5 border' placeholder='Cargar video de la vivienda' onChange={handleNewTipology} /> */}
                     </form>
                     {/* Mostrar el mensaje de error si existe */}
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                 </aside>
                 <div className='w-3/4 flex flex-col justify-center items-center px-10'>
                     <div className='bg-white rounded-3xl w-full h-4/5 flex flex-col justify-center items-center overflow-hidden p-40 relative ' >
-                        {
+                        {/* {
                             !imagePreview ?
                                 <div className='py-2 px-5 flex flex-col items-center'>
                                     <label htmlFor='image' className='mt-4 flex flex-col items-center cursor-pointer'>
@@ -156,7 +156,7 @@ export const AdminNewTipology = () => {
                                     </div>
                                 </>
                         }
-                        <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' />
+                        <input type='file' id='image' name='image' onChange={handleTypologyImage} className='hidden' /> */}
                     </div>
                     <div className='flex w-full gap-5 justify-end items-center mt-9'>
                         <SubmitButton bg={'golden'} handle={handleSaveTypology}>

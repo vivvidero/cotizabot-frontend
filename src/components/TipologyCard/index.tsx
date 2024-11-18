@@ -98,7 +98,7 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
     }
 
     // Manejador para ver el resumen de una tipología
-    const handleSummary = () => {
+   /*  const handleSummary = () => {
         setNewProject((prevState) => {
             return {
                 ...prevState,
@@ -107,9 +107,7 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
         })
         localStorage.setItem('newProject', JSON.stringify({ ...newProject, activeTypologyId: typology?.typologyid }))
         navigate(`/new-project/${projectid}/${typology?.typologyid}/summary`)
-    }
-
-    console.log(typology);
+    } */
     
 
     return (
@@ -151,7 +149,7 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
                     <img src={del} className='w-full' />
                 </button>
             </div>
-            <div className='mb-1'>
+            {/* <div className='mb-1'>
                 <button className='border border-vivvi px-6 rounded-full h-8 w-full hover:bg-dorado transition-all duration-300' onClick={handleEdit}>
                     Advertencia tecnica
                 </button>
@@ -160,7 +158,7 @@ export const TipologyCard: FC<Props> = ({ typology, setTypologies }) => {
                 <button className='border border-vivvi px-6 rounded-full h-8 w-full hover:bg-dorado transition-all duration-300' onClick={handleSummary}>
                     Ir a Resumen
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }

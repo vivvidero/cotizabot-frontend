@@ -4,9 +4,9 @@ export interface Typology {
     type: string,
     privatearea: string,
     builtarea: string,
-    blueprints: string,
+    /* blueprints: string,
     revitmodel: string,
     video: string,
-    image: string
+    image: string */
     typologyid?: number
 }
